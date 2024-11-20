@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils'
 import { Inter } from 'next/font/google' 
 import {Toaster} from '../components/ui/toaster'
 import '@/styles/globals.css'
+import Providers from '@/components/Providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,6 +27,7 @@ export default function RootLayout({
         inter.className
       )}>
       <body className='min-h-screen pt-12 bg-slate-50 antialiased'>
+        <Providers>
         {/*@ts-expect-error server component*/}
             <Navbar />
             
@@ -34,6 +36,7 @@ export default function RootLayout({
             {children}
           </div>
         <Toaster/>
+        </Providers>
        </body>
     </html>
   )
