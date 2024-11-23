@@ -16,6 +16,7 @@ export async function POST(req: Request) {
 
     // reaching the body of the request using json function
     const body = await req.json();
+    
     //using the SubredditValidator we received the name of the user
     //from the body using parse function
     const { name } = SubredditValidator.parse(body);

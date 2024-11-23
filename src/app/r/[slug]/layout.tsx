@@ -42,7 +42,7 @@ const Layout = async ({
           },
         },
       });
-  
+
   //creation of subscription logic
   const isSubsribed = !!subscription;
 
@@ -57,7 +57,6 @@ const Layout = async ({
     },
   });
 
-  
   return (
     <div className="sm-container max-w-7xl mx-auto h-full pt-12">
       {/* TODO :Button to take us back*/}
@@ -94,7 +93,11 @@ const Layout = async ({
             ) : null}
 
             {subreddit.creatorId !== session?.user.id ? (
-              <SubscribeLeaveToggle subredditId={subreddit.id} />
+              <SubscribeLeaveToggle
+                subredditName={subreddit.name}
+                subredditId={subreddit.id}
+                isSubscribed={isSubsribed}
+              />
             ) : null}
           </dl>
         </div>
