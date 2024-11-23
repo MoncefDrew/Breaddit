@@ -10,7 +10,7 @@ export default function Home() {
         {/* feed */}
 
         {/* Subreddit info */}
-        <div className="overflow-hiiden rounded-lg h-fit border border-gray-200 order-first">
+        <div className="overflow-hidden rounded-lg h-fit border border-gray-200 order-first">
           <div className="bg-emerald-100 px-6 py-4">
             <p className="font semi-bold py-4 flex items-center gap-1.5">
               <HomeIcon className="w-4 h-4" />

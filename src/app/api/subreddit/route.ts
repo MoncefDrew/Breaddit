@@ -31,7 +31,7 @@ export async function POST(req: Request) {
       return new Response("Subbreddit already exists", { status: 409 });
     }
 
-    // creating a new subreddit and injecting it into the db
+    // create subreddit and associate it with the user
     const subreddit = await db.subreddit.create({
       data: {
         name,
@@ -39,19 +39,19 @@ export async function POST(req: Request) {
       },
     });
 
-    // injection of the subreddit creator into his subreddit subscriptions
+    // creator also has to be subscribed
     await db.subscription.create({
-        data:{
-            userId: session.user.id,
-            subredditId: subreddit.id
-        }
-    })
-  
-} catch (error) {
-    if(error instanceof z.ZodError){
-        return new Response(error.message,{status:422})
+      data: {
+        userId: session.user.id,
+        subredditId: subreddit.id,
+      },
+    });
+    return new Response(subreddit.name);
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return new Response(error.message, { status: 422 });
     }
 
-    return new Response('Could not create subreddit', {status:500})
+    return new Response("Could not create subreddit", { status: 500 });
   }
 }
