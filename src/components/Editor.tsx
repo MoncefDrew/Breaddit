@@ -1,7 +1,7 @@
 "use client";
 
 import EditorJS from "@editorjs/editorjs";
-import { FC, useCallback, useRef } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
@@ -37,6 +37,14 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
 
   const ref = useRef<EditorJS>();
 
+  const [isMounted, SetIsMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      SetIsMounted(true);
+    }
+  }, []);
+
   //doing a dynamic imports to javascript plugins
   //we usually do that cuz editor.js and its plugins are likely large libraries.
   const initializeEditor = useCallback(async () => {
@@ -51,6 +59,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
     const ImageTool = (await import("@editorjs/image")).default;
 
     if (!ref.current) {
+      //editor {holder ,onReady() ,placeholder ,inlinetoolbar ,data ,tools}
       const editor = new EditorJS({
         holder: "editor",
         onReady() {
@@ -58,7 +67,9 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
         },
         placeholder: "Type here to write your post...",
         inlineToolbar: true,
+
         data: { blocks: [] },
+        //tools{header ,linkTool ,image,list ,code, table, inlinecode, embed}
         tools: {
           header: Header,
           linkTool: {
@@ -72,7 +83,7 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
             config: {
               uploader: {
                 async uploadByFile(file: File) {
-                  // upload to uploadthing
+                  // upload to uploadthing to make the uploading very easy
                   const [res] = await uploadFiles([file], "imageUploader");
 
                   return {
@@ -94,6 +105,23 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
       });
     }
   }, []);
+
+  useEffect(() => {
+    const init = async () => {
+      await initializeEditor()
+      
+      setTimeout(() => {
+        //set to focus
+
+
+      })
+    }
+
+    if(isMounted){
+      init()
+      return ()=>{}
+    }
+  }, [isMounted, initializeEditor]);
   return (
     <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
       <form id="submit-post-form" className="w-fit" onSubmit={() => {}}>
@@ -101,7 +129,8 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
           <TextareaAutosize
             placeholder="Title"
             className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
-          ></TextareaAutosize>
+          />
+          <div id='editor' className="min-h-[500px]"/>
         </div>
       </form>
     </div>
@@ -109,3 +138,6 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
 };
 
 export default Editor;
+function uploadFiles(arg0: File[], arg1: string): [any] | PromiseLike<[any]> {
+  throw new Error("Function not implemented.");
+}
