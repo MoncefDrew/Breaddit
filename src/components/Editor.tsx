@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
 import { PostCreationRequest, PostValidator } from "@/lib/validators/post";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { uploadFiles } from "@/lib/uploadthing";
 
 interface EditorProps {
   subredditId: string;
@@ -82,16 +83,18 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
             class: ImageTool,
             config: {
               uploader: {
-                async uploadByFile(file: File) {
-                  // upload to uploadthing to make the uploading very easy
-                  const [res] = await uploadFiles([file], "imageUploader");
 
+//! took me 1 hour to resolve it                
+                async uploadByFile(file: File) {
+                  const [res] = await uploadFiles('imageUploader',{
+                    files : [file],
+                  })
                   return {
                     success: 1,
                     file: {
-                      url: res.fileUrl,
+                      url: res.ufsUrl,
                     },
-                  };
+                  }
                 },
               },
             },
@@ -138,6 +141,3 @@ const Editor: FC<EditorProps> = ({ subredditId }) => {
 };
 
 export default Editor;
-function uploadFiles(arg0: File[], arg1: string): [any] | PromiseLike<[any]> {
-  throw new Error("Function not implemented.");
-}
