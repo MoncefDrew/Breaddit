@@ -1,7 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
-import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
+import { INFINITE_SCROLL_PAGINATION_RESULTS } from "@/config";
 import MiniCreatePost from "@/components/MiniCreatePost";
 import PostFeed from "@/components/PostFeed";
  
@@ -31,7 +31,7 @@ const page = async ({ params }: pageProps) => {
                 subreddit: true,
         },
 
-        take: INFINITE_SCROLLING_PAGINATION_RESULTS,
+        take: INFINITE_SCROLL_PAGINATION_RESULTS,
       },
     },
   });
@@ -44,7 +44,7 @@ const page = async ({ params }: pageProps) => {
       </h1>
       <MiniCreatePost session={session}/>
       {/* infinite scrolling */}
-      <PostFeed  />
+      <PostFeed initialPosts={subreddit.posts} subredditName={subreddit.name} />
     </>
   );
 };
