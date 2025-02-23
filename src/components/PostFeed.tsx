@@ -61,11 +61,11 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
         if (index == posts.length - 1) {
           return (
             <li key={index} ref={ref}>
-              <Post post={post} subredditName={post.subreddit.name}/>
+              <Post commentAmt={post.comments.length} post={post} subredditName={post.subreddit.name}/>
             </li>
           );
         } else {
-          return <Post post={post} subredditName={post.subreddit.name}/>
+          return <Post  commentAmt={post.comments.length} post={post} subredditName={post.subreddit.name}/>
         }
       })}
     </ul>

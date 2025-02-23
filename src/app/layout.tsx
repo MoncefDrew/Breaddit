@@ -4,12 +4,12 @@ import { IBM_Plex_Sans } from 'next/font/google'
 import { Toaster } from '../components/ui/toaster'
 import '@/styles/globals.css'
 import Providers from '@/components/Providers'
+import { Inter } from 'next/font/google'
+import '@/styles/globals.css'
 
-const ibmPlexSans = IBM_Plex_Sans({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
-  variable: '--font-sans',
-})
+
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'Breadit',
@@ -25,12 +25,11 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang='en'
-      className={cn(
-        'bg-white text-slate-900 antialiased light',
-        ibmPlexSans.variable
-      )}
-    >
+    lang='en'
+    className={cn(
+      'bg-white text-slate-900 antialiased light',
+      inter.className
+    )}>
       <body className='min-h-screen pt-12 bg-slate-50 antialiased'>
         <Providers>
           {/*@ts-expect-error server component*/}

@@ -1,20 +1,25 @@
+
 import { formatTimeToNow } from "@/lib/utils";
 import { User, Vote,Post } from "@prisma/client";
-import { FC } from "react";
+import { MessageSquare } from "lucide-react";
+import { FC, useRef } from "react";
+import EditorOutput from "./EditorOutput";
 
 interface PostProps {
     post: Post & {
       author: User
       votes: Vote[],
-      
     },
+    commentAmt:number,
     subredditName:string}
     
 
 const Post: FC<PostProps> = ({
     post,
     subredditName,
+    commentAmt
 }) => {
+  const pRef = useRef<HTMLDivElement>(null)
   return (
     <div className="rounded-md bg-white shadow">
       <div className="px-6 py-4 flex justify-between">
@@ -26,6 +31,7 @@ const Post: FC<PostProps> = ({
                   className="underline text-zinc-900 text-sm underline-offset-2"
                   href={`/r/${subredditName}`}
                 >
+                  
                   r/{subredditName}
                 </a>
                 <span className="px-1">•</span>
@@ -39,7 +45,20 @@ const Post: FC<PostProps> = ({
               {post.title}
             </h1>
           </a>
+
+          <div className="relative text-sm max-h-40 w-full overflow-clip" 
+          ref={pRef}>
+          <EditorOutput content={post.content} />
+
+            {pRef.current?.clientHeight === 160 ?(<div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent"/>): null}
+          </div>
         </div>
+      </div>
+
+      <div className="bg-gray-50 z-20 text-sm p-4 sm:px-6">
+      <a className="w-fit flex items-center gap-2"  href={`/r/${subredditName}/post/${post.id}`}>
+            <MessageSquare className="p-4 w-4"/> {commentAmt} comments 
+          </a>
       </div>
     </div>
   );
