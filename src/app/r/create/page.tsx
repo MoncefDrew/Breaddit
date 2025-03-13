@@ -11,7 +11,7 @@ import { toast, useToast } from "@/hooks/use-toast";
 import { error } from "console";
 import { useCustomToast } from "@/hooks/use-custom-toast";
 
-const page = () => {
+export default function Page() {
   const [input, setInput] = useState<string>("");
 
   // we used useRouter to navigate between different pages
@@ -109,4 +109,3 @@ const page = () => {
   );
 };
 
-export default page;
