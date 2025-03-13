@@ -16,9 +16,7 @@ interface PostFeedProps {
 }
 
 const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
-  
   const lastPostRef = useRef<HTMLElement>(null)
-
   const { ref, entry } = useIntersection({
     root: lastPostRef.current,
     threshold: 1,
@@ -44,7 +42,6 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
     }
   )
 
-  
   useEffect(() => {
     if (entry?.isIntersecting) {
       fetchNextPage() // Load more posts when the last post comes into view
