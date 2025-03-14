@@ -39,8 +39,12 @@ const Post: FC<PostProps> = ({
           initialVotesAmt={_votesAmt}
           initialVote={_currentVote?.type}
         />
-        <UserAvatar user={post.author} />
-
+        <UserAvatar
+          user={{
+            name: post?.author.name || null,
+            image: post?.author.image || null,
+          }}
+        />
         <div className="w-0 flex-1">
           <div className="max-h-40 mt-1 text-xs text-gray-500 flex-col">
             {subredditName ? (
