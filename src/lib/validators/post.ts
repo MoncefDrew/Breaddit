@@ -11,4 +11,14 @@ export const PostValidator= z.object({
     content:z.any(),
 })
 
+//in the edit post validator we don't need the subreddit id since the post is already existing
+export const EditPostValidator = z.object({
+    title:z
+    .string()
+    .min(3, {message:'Title must be longer than 3 characters'})
+    .max(128, {message: 'Title must be at least 128 characters'}),
+    content:z.any(),
+
+})
+
 export type PostCreationRequest = z.infer<typeof PostValidator>
