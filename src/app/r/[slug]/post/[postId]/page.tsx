@@ -99,7 +99,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
 
           <EditorOutput content={post?.content ?? cachedPost.content} />
           {/* delete button*/}
-          {session?.user.id === post?.author.id ? (
+          {session?.user  && (session?.user.id === post?.author.id) ? (
               <div className="flex items-end justify-end gap-5">
                 <DeletePostButton postId={post?.id} /> 
                 {/* @ts-ignore */}
