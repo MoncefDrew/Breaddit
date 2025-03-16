@@ -54,7 +54,7 @@ const CreateComment: FC<CreateCommentProps> = ({ postId, replyToId }) => {
 
   return (
     <div className='grid w-full gap-1.5'>
-      <Label htmlFor='comment'>Your comment</Label>
+      <Label htmlFor='comment' className='text-[#D7DADC]'>Your comment</Label>
       <div className='mt-2'>
         <Textarea
           id='comment'
@@ -62,13 +62,15 @@ const CreateComment: FC<CreateCommentProps> = ({ postId, replyToId }) => {
           onChange={(e) => setInput(e.target.value)}
           rows={1}
           placeholder='What are your thoughts?'
+          className='bg-[#272729] border-[#343536] text-[#D7DADC] placeholder:text-[#818384] focus:border-[#343536] focus:ring-0'
         />
 
         <div className='mt-2 flex justify-end'>
           <Button
             isLoading={isLoading}
             disabled={input.length === 0}
-            onClick={() => comment({ postId, text: input, replyToId })}>
+            onClick={() => comment({ postId, text: input, replyToId })}
+            className='bg-[#FF4500] hover:bg-[#FF5414] text-white'>
             Post
           </Button>
         </div>

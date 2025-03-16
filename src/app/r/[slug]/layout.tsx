@@ -61,7 +61,7 @@ const Layout = async ({
   })
 
   return (
-    <div className='sm:container max-w-7xl mx-auto h-full pt-12'>
+    <div className='sm:container max-w-7xl mx-auto h-full pt-12 bg-[#030303]'>
       <div>
         <ToFeedButton />
 
@@ -69,28 +69,28 @@ const Layout = async ({
           <ul className='flex flex-col col-span-2 space-y-6'>{children}</ul>
 
           {/* info sidebar */}
-          <div className='overflow-hidden h-fit rounded-lg border border-gray-200 order-first md:order-last'>
-            <div className='px-6 py-4'>
-              <p className='font-semibold py-3'>About r/{subreddit.name}</p>
+          <div className='overflow-hidden h-fit rounded-lg border border-[#343536] order-first md:order-last bg-[#1A1A1B] shadow-md'>
+            <div className='px-6 py-4 bg-[#272729]'>
+              <p className='font-semibold py-3 text-[#D7DADC]'>About r/{subreddit.name}</p>
             </div>
-            <dl className='divide-y divide-gray-100 px-6 py-4 text-sm leading-6 bg-white'>
+            <dl className='divide-y divide-[#343536] px-6 py-4 text-sm leading-6'>
               <div className='flex justify-between gap-x-4 py-3'>
-                <dt className='text-gray-500'>Created</dt>
-                <dd className='text-gray-700'>
+                <dt className='text-[#818384]'>Created</dt>
+                <dd className='text-[#D7DADC]'>
                   <time dateTime={subreddit.createdAt.toDateString()}>
                     {format(subreddit.createdAt, 'MMMM d, yyyy')}
                   </time>
                 </dd>
               </div>
               <div className='flex justify-between gap-x-4 py-3'>
-                <dt className='text-gray-500'>Members</dt>
+                <dt className='text-[#818384]'>Members</dt>
                 <dd className='flex items-start gap-x-2'>
-                  <div className='text-gray-900'>{memberCount}</div>
+                  <div className='text-[#D7DADC]'>{memberCount}</div>
                 </dd>
               </div>
               {subreddit.creatorId === session?.user?.id ? (
                 <div className='flex justify-between gap-x-4 py-3'>
-                  <dt className='text-gray-500'>You created this community</dt>
+                  <dt className='text-[#818384]'>You created this community</dt>
                 </div>
               ) : null}
 
@@ -101,14 +101,29 @@ const Layout = async ({
                   subredditName={subreddit.name}
                 />
               ) : null}
-              <Link
-                className={buttonVariants({
-                  variant: 'outline',
-                  className: 'w-full mb-6',
-                })}
-                href={`r/${slug}/submit`}>
+
+              {session?.user? <Link
+                href={`r/${slug}/submit`}
+                style={{ 
+                  backgroundColor: '#FF4500',
+                  color: 'white',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  width: '100%',
+                  marginBottom: '1.5rem',
+                  marginTop: '1rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: '0.375rem',
+                  padding: '0.5rem 1rem',
+                  transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
+                  outline: 'none',
+                }}
+                >
                 Create Post
-              </Link>
+              </Link> : null}
+              
             </dl>
           </div>
         </div>

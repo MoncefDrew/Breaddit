@@ -1,26 +1,22 @@
 import { User } from "next-auth";
 import { FC } from "react";
-import { Avatar } from "./ui/Avatar";
-import { AvatarFallback, AvatarProps, Image } from "@radix-ui/react-avatar";
-import { Icon } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/Avatar";
+import { AvatarProps } from "@radix-ui/react-avatar";
 import { Icons } from "./Icons";
 
-interface UserAvatarProps extends AvatarProps{
+interface UserAvatarProps extends AvatarProps {
   user: Pick<User, "name" | "image">;
 }
 
-const UserAvatar: FC<UserAvatarProps> = ({ user, ...Props}) => {
+const UserAvatar: FC<UserAvatarProps> = ({ user, ...props }) => {
   return (
-    <Avatar {...Props}>
+    <Avatar {...props}>
       {user.image ? (
-        //if image exists it generates the avatar with square size
-        <div>
-          <Image
-            src={user.image}
-            alt="profile picture"
-            referrerPolicy="no-referrer"
-          />
-        </div>
+        <AvatarImage 
+          src={user.image}
+          alt={`${user.name || 'User'}'s profile picture`}
+          referrerPolicy="no-referrer"
+        />
       ) : (
         <AvatarFallback>
           <span className="sr-only">{user?.name}</span>

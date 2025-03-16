@@ -43,7 +43,7 @@ const CommentsSection = async ({ postId }: CommentsSectionProps) => {
 
   return (
     <div className='flex flex-col gap-y-4 mt-4'>
-      <hr className='w-full h-px my-6' />
+      <hr className='w-full h-px my-6 border-[#343536]' />
 
       <CreateComment postId={postId} />
 
@@ -92,7 +92,7 @@ const CommentsSection = async ({ postId }: CommentsSectionProps) => {
                     return (
                       <div
                         key={reply.id}
-                        className='ml-2 py-2 pl-4 border-l-2 border-zinc-200'>
+                        className='ml-2 py-2 pl-4 border-l-2 border-[#343536]'>
                         <PostComment
                           comment={reply}
                           currentVote={replyVote}

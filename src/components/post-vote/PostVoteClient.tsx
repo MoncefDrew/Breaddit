@@ -84,16 +84,17 @@ const PostVoteClient = ({
         onClick={() => vote('UP')}
         size='sm'
         variant='ghost'
-        aria-label='upvote'>
+        aria-label='upvote'
+        className='hover:bg-[#272729]'>
         <ArrowBigUp
-          className={cn('h-5 w-5 text-zinc-700', {
-            'text-emerald-500 fill-emerald-500': currentVote === 'UP',
+          className={cn('h-5 w-5 text-[#818384]', {
+            'text-[#FF4500] fill-[#FF4500]': currentVote === 'UP',
           })}
         />
       </Button>
 
       {/* score */}
-      <p className='text-center py-2 font-medium text-sm text-zinc-900'>
+      <p className='text-center py-2 font-medium text-sm text-[#D7DADC]'>
         {votesAmt}
       </p>
 
@@ -101,14 +102,12 @@ const PostVoteClient = ({
       <Button
         onClick={() => vote('DOWN')}
         size='sm'
-        className={cn({
-          'text-emerald-500': currentVote === 'DOWN',
-        })}
         variant='ghost'
-        aria-label='downvote'>
+        aria-label='downvote'
+        className='hover:bg-[#272729]'>
         <ArrowBigDown
-          className={cn('h-5 w-5 text-zinc-700', {
-            'text-red-500 fill-red-500': currentVote === 'DOWN',
+          className={cn('h-5 w-5 text-[#818384]', {
+            'text-[#7193FF] fill-[#7193FF]': currentVote === 'DOWN',
           })}
         />
       </Button>

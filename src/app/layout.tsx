@@ -7,8 +7,6 @@ import Providers from '@/components/Providers'
 import { Inter } from 'next/font/google'
 import '@/styles/globals.css'
 
-
-
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
@@ -27,15 +25,15 @@ export default function RootLayout({
     <html
     lang='en'
     className={cn(
-      'bg-white text-slate-900 antialiased light',
+      'bg-[#1A1A1B] text-gray-200 antialiased dark',
       inter.className
     )}>
-      <body className='min-h-screen pt-12 bg-slate-50 antialiased'>
+      <body className='min-h-screen bg-[#030303] antialiased'>
         <Providers>
           {/*@ts-expect-error server component*/}
           <Navbar />
           {authModal}
-          <div className='container max-w-7xl mx-auto h-full pt-12'>
+          <div className='container max-w-7xl mx-auto h-full pt-24'>
             {children}
           </div>
           <Toaster />

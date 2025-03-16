@@ -4,11 +4,11 @@ import EditorJS from "@editorjs/editorjs";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import TextareaAutosize from "react-textarea-autosize";
-import { EditPostValidator, PostValidator } from "@/lib/validators/post";
+import { EditPostValidator } from "@/lib/validators/post";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import axios from "axios";
 import { z } from "zod";
 import { uploadFiles } from "@/lib/uploadthing";
@@ -47,7 +47,6 @@ export const EditPostEditor: FC<EditPostEditorProps> = ({
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const _titleRef = useRef<HTMLTextAreaElement | null>(null);
   const router = useRouter();
-  const pathname = usePathname();
 
   const { mutate: updatePost } = useMutation({
     mutationFn: async ({ title, content }: FormData) => {

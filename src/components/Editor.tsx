@@ -78,8 +78,99 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
     },
   })
 
-  
-
+  // Add dark mode CSS to the document
+  useEffect(() => {
+    // Add custom CSS for dark mode editor
+    const style = document.createElement('style');
+    style.innerHTML = `
+      .codex-editor {
+        color: #D7DADC !important;
+      }
+      .ce-block--selected .ce-block__content {
+        background: #272729 !important;
+      }
+      .ce-toolbar__plus, .ce-toolbar__settings-btn {
+        background-color: #272729 !important;
+        color: #D7DADC !important;
+        border-color: #343536 !important;
+      }
+      .ce-toolbar__plus:hover, .ce-toolbar__settings-btn:hover {
+        background-color: #343536 !important;
+      }
+      .ce-popover {
+        background-color: #1A1A1B !important;
+        border-color: #343536 !important;
+        color: #D7DADC !important;
+      }
+      .ce-popover-item {
+        color: #D7DADC !important;
+      }
+      .ce-popover-item:hover {
+        background-color: #272729 !important;
+      }
+      .ce-popover-item__icon {
+        color: #818384 !important;
+        background-color: #272729 !important;
+      }
+      .ce-popover__search {
+        background-color: #272729 !important;
+        border-color: #343536 !important;
+        color: #D7DADC !important;
+      }
+      .cdx-search-field {
+        background-color: #272729 !important;
+        border-color: #343536 !important;
+        color: #D7DADC !important;
+      }
+      .ce-inline-tool {
+        color: #D7DADC !important;
+      }
+      .ce-inline-toolbar {
+        background-color: #1A1A1B !important;
+        border-color: #343536 !important;
+      }
+      .ce-conversion-toolbar {
+        background-color: #1A1A1B !important;
+        border-color: #343536 !important;
+      }
+      .ce-conversion-tool {
+        color: #D7DADC !important;
+      }
+      .ce-conversion-tool:hover {
+        background-color: #272729 !important;
+      }
+      .ce-conversion-tool__icon {
+        background-color: #272729 !important;
+      }
+      .cdx-settings-button {
+        color: #D7DADC !important;
+      }
+      .ce-toolbar__plus-close, .ce-toolbar__close {
+        color: #D7DADC !important;
+      }
+      .cdx-input {
+        background-color: #272729 !important;
+        border-color: #343536 !important;
+        color: #D7DADC !important;
+      }
+      .ce-code__textarea {
+        background-color: #272729 !important;
+        color: #D7DADC !important;
+        border-color: #343536 !important;
+      }
+      .cdx-list__item {
+        color: #D7DADC !important;
+      }
+      .cdx-block {
+        color: #D7DADC !important;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    return () => {
+      document.head.removeChild(style);
+    };
+  }, []);
 
   //doing a dynamic imports to javascript plugins
   //we usually do that cuz editor.js and its plugins are likely large libraries.
@@ -103,7 +194,6 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
         },
         placeholder: "Type here to write your post...",
         inlineToolbar: true,
-
         data: { blocks: [] },
         //tools{header ,linkTool ,image,list ,code, table, inlinecode, embed}
         tools: {
@@ -199,7 +289,7 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
 
   
   return (
-    <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+    <div className="w-full p-4 bg-[#1A1A1B]">
       <form
         id='subreddit-post-form'
         className='w-fit'
@@ -213,12 +303,12 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
             }}
             {...rest}
             placeholder='Title'
-            className='w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none'
+            className='w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none text-[#D7DADC] placeholder:text-[#818384]'
           />
-          <div id='editor' className='min-h-[500px]' />
-          <p className='text-sm text-gray-500'>
+          <div id='editor' className='min-h-[500px] text-[#D7DADC]' />
+          <p className='text-sm text-[#818384]'>
             Use{' '}
-            <kbd className='rounded-md border bg-muted px-1 text-xs uppercase'>
+            <kbd className='rounded-md border border-[#343536] bg-[#272729] px-1 text-xs uppercase text-[#D7DADC]'>
               Tab
             </kbd>{' '}
             to open the command menu.
