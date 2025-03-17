@@ -104,22 +104,7 @@ const Layout = async ({
 
               {session?.user? <Link
                 href={`r/${slug}/submit`}
-                style={{ 
-                  backgroundColor: '#FF4500',
-                  color: 'white',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  width: '100%',
-                  marginBottom: '1.5rem',
-                  marginTop: '1rem',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: '0.375rem',
-                  padding: '0.5rem 1rem',
-                  transition: 'background-color 150ms cubic-bezier(0.4, 0, 0.2, 1)',
-                  outline: 'none',
-                }}
+                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-300 focus-visible:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none border border-transparent active:border-white active:border-2 active:translate-y-0.5 h-10 py-2 px-4 w-full mt-3 mb-6 bg-[#2D2D2D] text-[#D7DADC] hover:bg-[#3D3D3D]"
                 >
                 Create Post
               </Link> : null}

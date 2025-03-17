@@ -47,7 +47,7 @@ const Post: FC<PostProps> = ({
                 name: post?.author.name || null,
                 image: post?.author.image || null,
               }}
-              className="h-5 w-5 mr-2"
+              className="h-6 w-6 mr-2"
             />
             
             {subredditName ? (
@@ -62,7 +62,7 @@ const Post: FC<PostProps> = ({
               </>
             ) : null}
             <span>Posted by </span>
-            <span className="hover:text-[#D7DADC] hover:underline ml-1">
+            <span className="hover:text-[#e9ebec] hover:underline ml-1">
               u/{post.author.username}
             </span>
             <span className="px-1">•</span>

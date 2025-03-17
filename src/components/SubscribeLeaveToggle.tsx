@@ -96,15 +96,16 @@ const SubscribeLeaveToggle = ({
 
   return isSubscribed ? (
     <Button
-      isLoading={isSubLoading}
+      isLoading={isUnsubLoading}
       onClick={() => unsubscribe()}
-      className="w-full mt-1 mb-4"
+      className="w-full mt-1 mb-4 bg-[#2D2D2D] text-[#D7DADC] hover:bg-[#3D3D3D] border-transparent"
     >
       Leave community
     </Button>
   ) : (
     <Button
-      className="w-full mt-1 mb-4"
+      variant="reddit"
+      className="w-full mt-1 mb-4 font-medium"
       isLoading={isSubLoading}
       onClick={() => subscribe()}
     >
