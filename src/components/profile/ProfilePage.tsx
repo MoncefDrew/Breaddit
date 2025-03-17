@@ -1,12 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import CoverImage from './CoverImage'
-import ProfilePicture from './ProfilePicture'
-import BioSection from './BioSection'
-import { Button } from '../ui/Button'
-import { useToast } from '@/hooks/use-toast'
-import axios from 'axios'
+import ProfileHeader from './ProfileHeader'
+import ProfileAboutCard from './ProfileAboutCard'
+import ModeratorCard from './ModeratorCard'
+import ProfileTabs from './ProfileTabs'
 
 interface ProfilePageProps {
   user: {
@@ -16,49 +14,59 @@ interface ProfilePageProps {
     coverImage?: string | null
     bio?: string | null
   }
+  isOwnProfile?: boolean
+  initialPosts?: any[]
+  initialComments?: any[]
 }
 
-const ProfilePage = ({ user }: ProfilePageProps) => {
+const ProfilePage = ({ 
+  user, 
+  isOwnProfile = false, 
+  initialPosts = [], 
+  initialComments = [] 
+}: ProfilePageProps) => {
   const [profileData, setProfileData] = useState({
     profilePicture: user.profilePicture || null,
     coverImage: user.coverImage || null,
     bio: user.bio || null,
   })
   
-
- 
-
+  const handleBioUpdate = (newBio: string) => {
+    setProfileData(prev => ({
+      ...prev,
+      bio: newBio
+    }));
+  };
+  
   return (
-    <div className="bg-[#030303] text-[#D7DADC]">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-[#1A1A1B] rounded-md shadow-md overflow-hidden">
-          {/* Cover Image */}
-          <CoverImage 
-            coverImage={profileData.coverImage} 
+    <div className="text-[#D7DADC] pt-4 pb-8">
+      <ProfileHeader 
+        username={user.username}
+        profilePicture={profileData.profilePicture}
+        isOwnProfile={isOwnProfile}
+        userId={user.id}
+      />
+      
+      <div className="flex gap-4 flex-col md:flex-row">
+        <div className="flex-1 order-2 md:order-1 max-w-[750px]">
+          <ProfileTabs 
+            username={user.username} 
+            initialPosts={initialPosts}
+            initialComments={initialComments} 
+          />
+        </div>
+        
+        <div className="w-full md:w-80 flex-shrink-0 order-1 md:order-2">
+          <ProfileAboutCard 
+            username={user.username}
+            coverImage={profileData.coverImage}
+            bio={profileData.bio}
+            isOwnProfile={isOwnProfile}
+            userId={user.id}
+            onBioUpdate={handleBioUpdate}
           />
           
-          {/* Profile Info Section */}
-          <div className="pt-14 px-6 pb-6">
-            {/* Profile Picture */}
-            <ProfilePicture 
-              imageUrl={profileData.profilePicture} 
-              username={user.username}
-            />
-            
-            <div className="flex flex-col ml-36">
-              <h1 className="text-2xl font-bold text-[#D7DADC]">
-                {user.username}
-              </h1>
-              <p className="text-sm text-[#818384]">u/{user.username}</p>
-            </div>
-            
-            {/* Bio Section */}
-            <BioSection 
-              bio={profileData.bio} 
-            />
-            
-            
-          </div>
+          <ModeratorCard username={user.username} />
         </div>
       </div>
     </div>

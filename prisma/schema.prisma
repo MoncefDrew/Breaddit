@@ -53,8 +53,10 @@ model User {
   votes             Vote[]
 
   username String? @unique
+  image    String?
+  cover    String?
+  bio      String? @db.Text
 
-  image       String?
   accounts    Account[]
   sessions    Session[]
   Post        Post[]

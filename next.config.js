@@ -5,7 +5,8 @@ const nextConfig = {
       'uploadthing.com', 
       'lh3.googleusercontent.com', 
       'ufs.sh', // Allow UploadThing's CDN
-      'vliep294nu.ufs.sh' // Specific subdomain if needed
+      'vliep294nu.ufs.sh', // Specific subdomain if needed
+      'utfs.io' // Allow UploadThing's new CDN domain
     ],
   },
   experimental: {

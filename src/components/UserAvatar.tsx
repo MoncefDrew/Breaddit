@@ -20,7 +20,7 @@ const UserAvatar: FC<UserAvatarProps> = ({ user, ...props }) => {
       ) : (
         <AvatarFallback>
           <span className="sr-only">{user?.name}</span>
-          <Icons.user className="h-4 w-4"/>
+          <Icons.user className="h-4 w-4 border-2 border-y-neutral-400 rounded-full"/>
         </AvatarFallback>
       )}
     </Avatar>
