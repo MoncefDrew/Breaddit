@@ -120,12 +120,12 @@ const ProfileHeader = ({
             alt="Profile picture"
             width={80}
             height={80}
-            className="rounded-full object-cover w-20 h-20"
+            className="rounded-full object-cover w-20 h-20 border-2 border-[#343536] ring-1 ring-[#444444]"
             style={{ objectFit: 'cover' }}
             priority
           />
         ) : (
-          <div className="w-20 h-20 rounded-full bg-[#272729]" />
+          <div className="w-20 h-20 rounded-full bg-[#272729] border-2 border-[#343536] ring-1 ring-[#444444]" />
         )}
         
         {isOwnProfile && (

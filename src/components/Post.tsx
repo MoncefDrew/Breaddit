@@ -53,7 +53,7 @@ const Post: FC<PostProps> = ({
             {subredditName ? (
               <>
                 <a
-                  className="font-medium text-[#24A0ED] hover:text-[#3AABF0] hover:underline"
+                  className="font-medium text-[#24A0ED] text-sm hover:text-[#3AABF0] hover:underline"
                   href={`/r/${subredditName}`}
                 >
                   r/{subredditName}
@@ -62,7 +62,7 @@ const Post: FC<PostProps> = ({
               </>
             ) : null}
             <span>Posted by </span>
-            <Link href={`/u/${post.author.username}`} className="hover:text-[#e9ebec] hover:underline ml-1">
+            <Link href={`/u/${post.author.username}`} className="text-sm hover:text-[#e9ebec] hover:underline ml-1">
               u/{post.author.username}
             </Link>
             <span className="px-1">•</span>

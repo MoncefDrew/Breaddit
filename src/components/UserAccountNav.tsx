@@ -1,6 +1,5 @@
 "use client";
 import { FC } from "react";
-import { User } from "next-auth";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -12,8 +11,15 @@ import {
 import UserAvatar from "./UserAvatar";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
+
 interface UserAccountNavProps {
-  user: Pick<User, "name" | "image" | "email">;
+  user: {
+    name?: string | null;
+    image?: string | null;
+    email?: string | null;
+    id: string;
+    username?: string;
+  };
 }
 
 const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
@@ -49,6 +55,10 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
           <DropdownMenuSeparator className="bg-[#343536]" />
 
           <DropdownMenuItem asChild className="focus:bg-[#272729] focus:text-[#D7DADC]">
+            <Link href={`/u/${user.username}`} className="text-[#D7DADC] hover:text-white">My Profile</Link>
+          </DropdownMenuItem>
+
+          <DropdownMenuItem asChild className="focus:bg-[#272729] focus:text-[#D7DADC]">
             <Link href="/" className="text-[#D7DADC] hover:text-white">Feed</Link>
           </DropdownMenuItem>
 
@@ -63,11 +73,8 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
           <DropdownMenuSeparator className="bg-[#343536]" />
 
           <DropdownMenuItem
-            onSelect={(event) => {
-              event.preventDefault();
-              signOut({
-                callbackUrl: `${window.location.origin}/sign-in`,
-              });
+            onClick={() => {
+              signOut({ callbackUrl: `${window.location.origin}/sign-in` });
             }}
             className="cursor-pointer text-[#D7DADC] hover:text-white focus:bg-[#272729] focus:text-[#D7DADC]"
           >

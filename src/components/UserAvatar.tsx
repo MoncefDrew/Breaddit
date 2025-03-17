@@ -10,7 +10,7 @@ interface UserAvatarProps extends AvatarProps {
 
 const UserAvatar: FC<UserAvatarProps> = ({ user, ...props }) => {
   return (
-    <Avatar {...props}>
+    <Avatar className="border border-[#343536] ring-1 ring-[#444444]" {...props}>
       {user.image ? (
         <AvatarImage 
           src={user.image}
@@ -20,7 +20,7 @@ const UserAvatar: FC<UserAvatarProps> = ({ user, ...props }) => {
       ) : (
         <AvatarFallback>
           <span className="sr-only">{user?.name}</span>
-          <Icons.user className="h-4 w-4 border-2 border-y-neutral-400 rounded-full"/>
+          <Icons.user className="h-4 w-4"/>
         </AvatarFallback>
       )}
     </Avatar>

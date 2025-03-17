@@ -2,7 +2,6 @@ import { authOptions } from '@/lib/auth'
 import { getServerSession } from 'next-auth'
 import Link from 'next/link'
 import { Icons } from './Icons'
-import { buttonVariants } from './ui/Button'
 import UserAccountNav from './UserAccountNav'
 import SearchBar from './SearchBar'
 
@@ -23,7 +22,7 @@ const Navbar = async () => {
         {/* actions */}
         <div className="relative z-50">
           {session?.user ? (
-            <UserAccountNav user={session.user} />
+            <UserAccountNav user={session?.user} />
           ) : (
             <Link 
               href='/sign-in' 

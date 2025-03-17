@@ -11,7 +11,7 @@ export default async function Home() {
 
   return (
     <>
-      <h1 className="font-bold text-3xl md:text-4xl text-gray-200">Your feed</h1>
+      <h1 className="font-bold text-3xl md:text-4xl text-gray-200 mt-10">Your feed</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-4 md:gap-x-4 py-6">
         {/*@ts-expect-error server compoennt */}
         

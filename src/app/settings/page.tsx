@@ -1,9 +1,7 @@
-import { redirect } from 'next/navigation'
 import { UserNameForm } from '@/components/UserNameForm'
-import { authOptions, getAuthSession } from '@/lib/auth'
-import ProfilePage from '@/components/profile/ProfilePage'
-import { db } from '@/lib/db'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
+import { useCustomToast } from '@/hooks/use-custom-toast';
+import { getAuthSession } from '@/lib/auth';
+
 
 export const metadata = {
   title: 'Settings',
@@ -12,8 +10,13 @@ export const metadata = {
 
 export default async function SettingsPage() {
   const session = await getAuthSession();
+  const {loginToast} = useCustomToast()
 
 
+  if(!session?.user) {
+    return loginToast()
+  }
+  
   return (
     <div className='min-h-screen bg-[#030303] text-[#D7DADC]'>
       <div className='max-w-4xl mx-auto py-6 sm:py-8 md:py-12 px-4 sm:px-6'>
