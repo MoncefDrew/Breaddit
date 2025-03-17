@@ -1,7 +1,6 @@
 import { UserNameForm } from '@/components/UserNameForm'
-import { useCustomToast } from '@/hooks/use-custom-toast';
 import { getAuthSession } from '@/lib/auth';
-
+import { redirect } from 'next/navigation';
 
 export const metadata = {
   title: 'Settings',
@@ -10,11 +9,9 @@ export const metadata = {
 
 export default async function SettingsPage() {
   const session = await getAuthSession();
-  const {loginToast} = useCustomToast()
-
 
   if(!session?.user) {
-    return loginToast()
+    redirect('/sign-in');
   }
   
   return (

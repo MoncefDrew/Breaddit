@@ -22,7 +22,13 @@ const Navbar = async () => {
         {/* actions */}
         <div className="relative z-50">
           {session?.user ? (
-            <UserAccountNav user={session?.user} />
+            <UserAccountNav user={{
+              name: session.user.name,
+              image: session.user.image,
+              email: session.user.email,
+              id: session.user.id,
+              username: session.user.username || ''
+            }} />
           ) : (
             <Link 
               href='/sign-in' 
