@@ -10,6 +10,11 @@ import { FC, useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import UserCommentItem from './UserCommentItem'
 
+interface CommentVote {
+  type: 'UP' | 'DOWN'
+  userId: string
+}
+
 interface UserCommentFeedProps {
   username: string
   initialComments: any[]
@@ -61,14 +66,14 @@ const UserCommentFeed: FC<UserCommentFeedProps> = ({ username, initialComments =
   return (
     <div className="space-y-4">
       {comments.map((comment, index) => {
-        const votesAmt = comment.votes.reduce((acc, vote) => {
+        const votesAmt = comment.votes.reduce((acc: number, vote: CommentVote) => {
           if (vote.type === 'UP') return acc + 1
           if (vote.type === 'DOWN') return acc - 1
           return acc
         }, 0)
 
         const currentVote = comment.votes.find(
-          (vote) => vote.userId === session?.user.id
+          (vote: CommentVote) => vote.userId === session?.user.id
         )
 
         if (index === comments.length - 1) {
