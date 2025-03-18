@@ -25,15 +25,15 @@ export default function RootLayout({
     <html
       lang='en'
       className={cn(
-        'bg-surface text-primary antialiased dark',
+        'antialiased dark',
         inter.className
       )}>
-      <body className='min-h-screen bg-background antialiased'>
+      <body className='min-h-screen bg-zinc-950 antialiased'>
         <Providers>
           {/*@ts-expect-error server component*/}
           <Navbar />
           {authModal}
-          <div className='w-full max-w-7xl mx-auto h-full pt-6 md:pt-12 md:px-6'>
+          <div className='w-full max-w-7xl mx-auto h-full pt-6 md:pt-12 md:px-6 bg-zinc-950'>
             {children}
           </div>
           <Toaster />

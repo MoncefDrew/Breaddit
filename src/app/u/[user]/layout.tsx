@@ -1,4 +1,3 @@
-import ToFeedButton from "@/components/ToFeedButton";
 import { ReactNode } from "react";
 
 const Layout = async ({
@@ -9,7 +8,7 @@ const Layout = async ({
   params: { user: string };
 }) => {
   return (
-    <div className="sm:container max-w-7xl mx-auto h-full pt-8 bg-background">
+    <div className="sm:container max-w-7xl mx-auto h-full pt-8 bg-zinc-950">
       <div className="px-4">
         {children}
       </div>

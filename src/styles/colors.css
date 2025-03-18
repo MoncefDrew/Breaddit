@@ -1,4 +1,16 @@
 :root {
+  /* Old Reddit Colors 
+   * Main background: #1A1A1B (dark gray/black)
+   * Secondary background: #272729 (slightly lighter gray)
+   * Hover background: #343536 (medium gray)
+   * Primary text: #D7DADC (light gray/white)
+   * Secondary/muted text: #818384 (medium gray)
+   * Reddit orange: #FF4500
+   * Upvote: #FF4500 (orange)
+   * Downvote: #7193FF (blue)
+   * Primary border: #343536 (medium gray)
+   */
+  
   /* Brand Colors */
   --color-reddit: #FF4500;
   --color-reddit-hover: #FF5414;
@@ -26,46 +38,46 @@
   --color-input-light: hsl(214.3 31.8% 91.4%);
   --color-ring-light: hsl(215 20.2% 65.1%);
   
-  /* Dark Theme Colors */
-  --color-primary-dark: #FFFFFF;
-  --color-primary-foreground-dark: hsl(222.2 47.4% 1.2%);
+  /* Dark Theme Colors (Old Reddit Theme) */
+  --color-primary-dark: #D7DADC;
+  --color-primary-foreground-dark: #1A1A1B;
   
-  --color-secondary-dark: hsl(225, 3%, 30%);
-  --color-secondary-foreground-dark: #FFFFFF;
+  --color-secondary-dark: #272729;
+  --color-secondary-foreground-dark: #D7DADC;
   
-  --color-background-dark: #15202B;
-  --color-foreground-dark: #FFFFFF;
+  --color-background-dark: #1A1A1B;
+  --color-foreground-dark: #D7DADC;
   
-  --color-muted-dark: #1C2732;
-  --color-muted-foreground-dark: #8B98A5;
+  --color-muted-dark: #1A1A1B;
+  --color-muted-foreground-dark: #818384;
   
-  --color-accent-dark: hsl(216 34% 17%);
-  --color-accent-foreground-dark: hsl(210 40% 98%);
+  --color-accent-dark: #272729;
+  --color-accent-foreground-dark: #D7DADC;
   
   --color-destructive-dark: hsl(0 63% 31%);
-  --color-destructive-foreground-dark: hsl(210 40% 98%);
+  --color-destructive-foreground-dark: #D7DADC;
   
-  --color-border-dark: hsl(216 34% 17%);
-  --color-input-dark: hsl(216 34% 17%);
-  --color-ring-dark: hsl(216 34% 17%);
+  --color-border-dark: #343536;
+  --color-input-dark: #272729;
+  --color-ring-dark: #343536;
   
   /* Custom UI Colors */
   --color-upvote: #FF4500;
   --color-downvote: #7193FF;
-  --color-link: #1D9BF0;
-  --color-link-hover: #3AABF0;
-  --color-text-muted: #8B98A5;
-  --color-surface-dark: #15202B;
-  --color-surface-dark-hover: #1C2732;
-  --color-border-dark-custom: #38444D;
-  --color-text-primary: #FFFFFF;
+  --color-link: #4296FA;
+  --color-link-hover: #5AA3FA;
+  --color-text-muted: #818384;
+  --color-surface-dark: #1A1A1B;
+  --color-surface-dark-hover: #272729;
+  --color-border-dark-custom: #343536;
+  --color-text-primary: #D7DADC;
 
   /* Additional Dim Theme Colors */
-  --color-surface-dim: #15202B;
-  --color-surface-dim-hover: #1C2732;
-  --color-border-dim: #38444D;
-  --color-text-dim-primary: #FFFFFF;
-  --color-text-dim-muted: #8B98A5;
+  --color-surface-dim: #1A1A1B;
+  --color-surface-dim-hover: #272729;
+  --color-border-dim: #343536;
+  --color-text-dim-primary: #D7DADC;
+  --color-text-dim-muted: #818384;
 }
 
 
