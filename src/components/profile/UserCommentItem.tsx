@@ -32,7 +32,7 @@ const UserCommentItem: FC<UserCommentItemProps> = ({
   currentVote,
 }) => {
   return (
-    <div className='bg-[#1A1A1B] shadow-sm border border-[#343536] p-4 rounded-md'>
+    <div className='bg-surface shadow-sm border border-custom p-4 rounded-md'>
       <div className='flex items-center gap-2 mb-2'>
         <UserAvatar
           user={{
@@ -43,7 +43,7 @@ const UserCommentItem: FC<UserCommentItemProps> = ({
         />
         <Link 
           href={`/r/${comment.post.subreddit.name}`}
-          className='font-medium text-[#24A0ED] text-xs hover:text-[#3AABF0] hover:underline'
+          className='font-medium text-link text-xs hover:text-link-hover hover:underline'
         >
           r/{comment.post.subreddit.name}
         </Link>

@@ -98,7 +98,7 @@ const SubscribeLeaveToggle = ({
     <Button
       isLoading={isUnsubLoading}
       onClick={() => unsubscribe()}
-      className="w-full mt-1 mb-4 bg-[#2D2D2D] text-[#D7DADC] hover:bg-[#3D3D3D] border-transparent"
+      className="w-full mt-1 mb-4 bg-surface-dark text-primary hover:bg-surface-dark-hover border-transparent"
     >
       Leave community
     </Button>

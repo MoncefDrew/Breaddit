@@ -37,15 +37,15 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
 
       <DropdownMenuPortal>
         <DropdownMenuContent 
-          className="bg-[#1A1A1B] border border-[#343536] z-50"
+          className="bg-surface border border-custom z-50"
           align="end"
           sideOffset={5}
         >
           <div className="flex items-center justify-start gap-2 p-2">
             <div className="flex flex-col space-y-1 leading-none">
-              {user.name && <p className="font-medium text-[#D7DADC]">{user.name}</p>}
+              {user.name && <p className="font-medium text-primary">{user.name}</p>}
               {user.email && (
-                <p className="w-[200px] truncate text-sm text-[#818384]">
+                <p className="w-[200px] truncate text-sm text-muted">
                   {user.email}
                 </p>
               )}
@@ -54,20 +54,20 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
 
           <DropdownMenuSeparator className="bg-[#343536]" />
 
-          <DropdownMenuItem asChild className="focus:bg-[#272729] focus:text-[#D7DADC]">
-            <Link href={`/u/${user.username}`} className="text-[#D7DADC] hover:text-white">My Profile</Link>
+          <DropdownMenuItem asChild className="focus:bg-surface-dark focus:text-primary">
+            <Link href={`/u/${user.username}`} className="text-primary hover:text-white">My Profile</Link>
           </DropdownMenuItem>
 
-          <DropdownMenuItem asChild className="focus:bg-[#272729] focus:text-[#D7DADC]">
-            <Link href="/" className="text-[#D7DADC] hover:text-white">Feed</Link>
+          <DropdownMenuItem asChild className="focus:bg-surface-dark focus:text-primary">
+            <Link href="/" className="text-primary hover:text-white">Feed</Link>
           </DropdownMenuItem>
 
-          <DropdownMenuItem asChild className="focus:bg-[#272729] focus:text-[#D7DADC]">
-            <Link href="/r/create" className="text-[#D7DADC] hover:text-white">Create Community</Link>
+          <DropdownMenuItem asChild className="focus:bg-surface-dark focus:text-primary">
+            <Link href="/r/create" className="text-primary hover:text-white">Create Community</Link>
           </DropdownMenuItem>
 
-          <DropdownMenuItem asChild className="focus:bg-[#272729] focus:text-[#D7DADC]">
-            <Link href="/settings" className="text-[#D7DADC] hover:text-white">Settings</Link>
+          <DropdownMenuItem asChild className="focus:bg-surface-dark focus:text-primary">
+            <Link href="/settings" className="text-primary hover:text-white">Settings</Link>
           </DropdownMenuItem>
 
           <DropdownMenuSeparator className="bg-[#343536]" />
@@ -76,7 +76,7 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
             onClick={() => {
               signOut({ callbackUrl: `${window.location.origin}/sign-in` });
             }}
-            className="cursor-pointer text-[#D7DADC] hover:text-white focus:bg-[#272729] focus:text-[#D7DADC]"
+            className="cursor-pointer text-primary hover:text-white focus:bg-surface-dark focus:text-primary"
           >
             Sign out
           </DropdownMenuItem>

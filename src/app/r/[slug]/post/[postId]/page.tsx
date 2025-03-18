@@ -14,10 +14,13 @@ import { Post, User, Vote } from "@prisma/client";
 import { ArrowBigDown, ArrowBigUp, Loader2 } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
+import CommunityAboutCard from "@/components/community/CommunityAboutCard";
+import ToFeedButton from "@/components/ToFeedButton";
 
 interface SubRedditPostPageProps {
   params: {
     postId: string;
+    slug: string;
   };
 }
 
@@ -45,93 +48,183 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
 
   const session = await getAuthSession();
 
+  const community = (await db.subreddit.findFirstOrThrow({
+    where: { 
+      name: params.slug,
+      creatorId: { not: null }
+    },
+    select: {
+      id: true,
+      name: true,
+      createdAt: true,
+      creatorId: true,
+      description: true,
+      subscribers: true
+    }
+  })) as { id: string; name: string; createdAt: Date; creatorId: string; description: string | null; subscribers: { subredditId: string; userId: string; }[] };
+
   if (!post && !cachedPost) return notFound();
+  if (!community) return notFound();
+
+  const subscription = !session?.user ? undefined : await db.subscription.findFirst({
+    where: {
+      subreddit: {
+        name: params.slug,
+      },
+      user: {
+        id: session.user.id,
+      },
+    },
+  });
+
+  const isSubscribed = !!subscription;
+  const isModerator = session?.user?.id === community.creatorId;
 
   return (
-    <div className="bg-[#030303]">
-      <div className="h-full flex flex-col sm:flex-row items-center sm:items-start justify-between">
-        <Suspense fallback={<PostVoteShell />}>
-          {/* @ts-expect-error server component */}
-          <PostVoteServer
-            postId={post?.id ?? cachedPost.id}
-            getData={async () => {
-              return await db.post.findUnique({
-                where: {
-                  id: params.postId,
-                },
-                include: {
-                  votes: true,
-                },
-              });
-            }}
-          />
-        </Suspense>
-
-        <div className="sm:w-0 w-full flex-1 bg-[#1A1A1B] p-4 rounded-sm border border-[#343536]">
-          <div className="flex flex-1 flex-row justify-between">
-            <div className="flex flex-row items-center gap-2 md:gap-4">
-              <UserAvatar
-                user={{
-                  name: post?.author.username || cachedPost?.authorUsername || null,
-                  image: post?.author.image  || null,
+    <div className="bg-background m-5">
+      <div className="h-full flex flex-col items-start justify-between">
+        <ToFeedButton/>
+        
+        <div className="w-full flex flex-col md:flex-row">
+          {/* Vote buttons - visible only on medium+ screens */}
+          <div className="hidden md:block">
+            <Suspense fallback={<PostVoteShell />}>
+              {/* @ts-expect-error server component */}
+              <PostVoteServer
+                postId={post?.id ?? cachedPost.id}
+                getData={async () => {
+                  return await db.post.findUnique({
+                    where: {
+                      id: params.postId,
+                    },
+                    include: {
+                      votes: true,
+                    },
+                  });
                 }}
-                className="w-8 h-8"
               />
-              <div className="flex flex-col">
-                <p className="max-h-40 mt-1 truncate text-xs text-[#D7DADC]">
-                  Posted by u/
-                  {post?.author.username ?? cachedPost.authorUsername}
-                </p>
-                <p className="truncate text-xs text-[#818384]">
-                  {formatTimeToNow(
-                    new Date(post?.createdAt ?? cachedPost.createdAt)
-                  )}
-                </p>
+            </Suspense>
+          </div>
+
+          <div className="w-full flex-1 bg-surface p-4 rounded-sm border border-custom">
+            <div className="flex flex-1 flex-row justify-between">
+              <div className="flex flex-row items-center gap-2 md:gap-4">
+                <UserAvatar
+                  user={{
+                    name: post?.author.username || cachedPost?.authorUsername || null,
+                    image: post?.author.image  || null,
+                  }}
+                  className="w-8 h-8"
+                />
+                <div className="flex flex-col">
+                  <p className="max-h-40 mt-1 truncate text-xs text-primary">
+                    Posted by u/
+                    {post?.author.username ?? cachedPost.authorUsername}
+                  </p>
+                  <p className="truncate text-xs text-muted">
+                    {formatTimeToNow(
+                      new Date(post?.createdAt ?? cachedPost.createdAt)
+                    )}
+                  </p>
+                </div>
               </div>
             </div>
-          </div>
-          
-          <h1 className="text-xl font-semibold py-2 leading-6 text-[#D7DADC]">
-            {post?.title ?? cachedPost.title}
-          </h1>
+            
+            <h1 className="text-xl font-semibold py-2 leading-6 text-primary">
+              {post?.title ?? cachedPost.title}
+            </h1>
 
-          <EditorOutput content={post?.content ?? cachedPost.content} />
-          
-          {session?.user && (session?.user.id === post?.author.id) ? (
-            <div className="flex items-end justify-end gap-5">
-              <DeletePostButton postId={post?.id} />
-              {/* @ts-ignore */}
-              <EditPostButton post={post}/>
+            <EditorOutput content={post?.content ?? cachedPost.content} />
+            
+            {/* Vote buttons - visible only on small screens */}
+            <div className="md:hidden mt-4 mb-2 flex justify-center">
+              <Suspense fallback={<PostVoteShellHorizontal />}>
+                {/* @ts-expect-error server component */}
+                <PostVoteServer
+                  postId={post?.id ?? cachedPost.id}
+                  getData={async () => {
+                    return await db.post.findUnique({
+                      where: {
+                        id: params.postId,
+                      },
+                      include: {
+                        votes: true,
+                      },
+                    });
+                  }}
+                />
+              </Suspense>
             </div>
-          ) : null}
-          
-          <Suspense
-            fallback={
-              <Loader2 className="h-5 w-5 animate-spin text-[#818384]" />
-            }
-          >
-            {/* @ts-expect-error Server Component */}
-            <CommentsSection postId={post?.id ?? cachedPost.id} />
-          </Suspense>
+            
+            {session?.user && (session?.user.id === post?.author.id) ? (
+              <div className="flex items-end justify-end gap-5">
+                <DeletePostButton postId={post?.id} />
+                {/* @ts-ignore */}
+                <EditPostButton post={post}/>
+              </div>
+            ) : null}
+            
+            <Suspense
+              fallback={
+                <Loader2 className="h-5 w-5 animate-spin text-muted" />
+              }
+            >
+              {/* @ts-expect-error Server Component */}
+              <CommentsSection postId={post?.id ?? cachedPost.id} />
+            </Suspense>
+          </div>
+
+          {/* About Community Card */}
+          <div className="hidden lg:block w-[300px] ml-6">
+            <div className="sticky top-20">
+              <CommunityAboutCard
+                community={community}
+                memberCount={community.subscribers.length}
+                description={community.description}
+                isSubscribed={isSubscribed}
+                isModerator={isModerator}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
+// Horizontal vote shell for mobile view
+function PostVoteShellHorizontal() {
+  return (
+    <div className="flex items-center justify-center gap-8 w-full">
+      <div className={buttonVariants({ variant: "ghost", className: "px-3" })}>
+        <ArrowBigUp className="h-5 w-5 text-muted" />
+      </div>
+
+      <div className="text-center font-medium text-sm text-primary">
+        <Loader2 className="h-3 w-3 animate-spin" />
+      </div>
+
+      <div className={buttonVariants({ variant: "ghost", className: "px-3" })}>
+        <ArrowBigDown className="h-5 w-5 text-muted" />
+      </div>
+    </div>
+  );
+}
+
+// Original vertical vote shell for desktop view
 function PostVoteShell() {
   return (
     <div className="flex items-center flex-col pr-6 w-20">
       <div className={buttonVariants({ variant: "ghost" })}>
-        <ArrowBigUp className="h-5 w-5 text-[#818384]" />
+        <ArrowBigUp className="h-5 w-5 text-muted" />
       </div>
 
-      <div className="text-center py-2 font-medium text-sm text-[#D7DADC]">
+      <div className="text-center py-2 font-medium text-sm text-primary">
         <Loader2 className="h-3 w-3 animate-spin" />
       </div>
 
       <div className={buttonVariants({ variant: "ghost" })}>
-        <ArrowBigDown className="h-5 w-5 text-[#818384]" />
+        <ArrowBigDown className="h-5 w-5 text-muted" />
       </div>
     </div>
   );

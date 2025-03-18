@@ -23,17 +23,17 @@ export default function RootLayout({
 }) {
   return (
     <html
-    lang='en'
-    className={cn(
-      'bg-[#1A1A1B] text-gray-200 antialiased dark',
-      inter.className
-    )}>
-      <body className='min-h-screen bg-[#030303] antialiased'>
+      lang='en'
+      className={cn(
+        'bg-surface text-primary antialiased dark',
+        inter.className
+      )}>
+      <body className='min-h-screen bg-background antialiased'>
         <Providers>
           {/*@ts-expect-error server component*/}
           <Navbar />
           {authModal}
-          <div className='w-full max-w-7xl mx-auto h-full pt-6 md:pt-12  md:px-6'>
+          <div className='w-full max-w-7xl mx-auto h-full pt-6 md:pt-12 md:px-6'>
             {children}
           </div>
           <Toaster />

@@ -78,91 +78,90 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
     },
   })
 
-  // Add dark mode CSS to the document
+  // Update the dark mode CSS with theme variables
   useEffect(() => {
-    // Add custom CSS for dark mode editor
     const style = document.createElement('style');
     style.innerHTML = `
       .codex-editor {
-        color: #D7DADC !important;
+        color: var(--color-text-primary) !important;
       }
       .ce-block--selected .ce-block__content {
-        background: #272729 !important;
+        background: var(--color-surface-dark-hover) !important;
       }
       .ce-toolbar__plus, .ce-toolbar__settings-btn {
-        background-color: #272729 !important;
-        color: #D7DADC !important;
-        border-color: #343536 !important;
+        background-color: var(--color-surface-dark-hover) !important;
+        color: var(--color-text-primary) !important;
+        border-color: var(--color-border-dark-custom) !important;
       }
       .ce-toolbar__plus:hover, .ce-toolbar__settings-btn:hover {
-        background-color: #343536 !important;
+        background-color: var(--color-surface-dark-hover) !important;
       }
       .ce-popover {
-        background-color: #1A1A1B !important;
-        border-color: #343536 !important;
-        color: #D7DADC !important;
+        background-color: var(--color-surface-dark) !important;
+        border-color: var(--color-border-dark-custom) !important;
+        color: var(--color-text-primary) !important;
       }
       .ce-popover-item {
-        color: #D7DADC !important;
+        color: var(--color-text-primary) !important;
       }
       .ce-popover-item:hover {
-        background-color: #272729 !important;
+        background-color: var(--color-surface-dark-hover) !important;
       }
       .ce-popover-item__icon {
-        color: #818384 !important;
-        background-color: #272729 !important;
+        color: var(--color-text-muted) !important;
+        background-color: var(--color-surface-dark-hover) !important;
       }
       .ce-popover__search {
-        background-color: #272729 !important;
-        border-color: #343536 !important;
-        color: #D7DADC !important;
+        background-color: var(--color-surface-dark-hover) !important;
+        border-color: var(--color-border-dark-custom) !important;
+        color: var(--color-text-primary) !important;
       }
       .cdx-search-field {
-        background-color: #272729 !important;
-        border-color: #343536 !important;
-        color: #D7DADC !important;
+        background-color: var(--color-surface-dark-hover) !important;
+        border-color: var(--color-border-dark-custom) !important;
+        color: var(--color-text-primary) !important;
       }
       .ce-inline-tool {
-        color: #D7DADC !important;
+        color: var(--color-text-primary) !important;
       }
       .ce-inline-toolbar {
-        background-color: #1A1A1B !important;
-        border-color: #343536 !important;
+        background-color: var(--color-surface-dark) !important;
+        border-color: var(--color-border-dark-custom) !important;
       }
       .ce-conversion-toolbar {
-        background-color: #1A1A1B !important;
-        border-color: #343536 !important;
+        background-color: var(--color-surface-dark) !important;
+        border-color: var(--color-border-dark-custom) !important;
       }
       .ce-conversion-tool {
-        color: #D7DADC !important;
+        color: var(--color-text-primary) !important;
       }
       .ce-conversion-tool:hover {
-        background-color: #272729 !important;
+        background-color: var(--color-surface-dark-hover) !important;
       }
       .ce-conversion-tool__icon {
-        background-color: #272729 !important;
+        background-color: var(--color-surface-dark-hover) !important;
       }
       .cdx-settings-button {
-        color: #D7DADC !important;
+        color: var(--color-text-primary) !important;
       }
       .ce-toolbar__plus-close, .ce-toolbar__close {
-        color: #D7DADC !important;
+        color: var(--color-text-primary) !important;
       }
       .cdx-input {
-        background-color: #272729 !important;
-        border-color: #343536 !important;
-        color: #D7DADC !important;
+        background-color: var(--color-surface-dark-hover) !important;
+        border-color: var(--color-border-dark-custom) !important;
+        color: var(--color-text-primary) !important;
       }
       .ce-code__textarea {
-        background-color: #272729 !important;
-        color: #D7DADC !important;
-        border-color: #343536 !important;
+        background-color: var(--color-surface-dark-hover) !important;
+        color: var(--color-text-primary) !important;
+        border-color: var(--color-border-dark-custom) !important;
       }
       .cdx-list__item {
-        color: #D7DADC !important;
+        color: var(--color-text-primary) !important;
       }
       .cdx-block {
-        color: #D7DADC !important;
+        color: var(--color-text-primary) !important;
       }
     `;
     document.head.appendChild(style);
@@ -289,7 +288,7 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
 
   
   return (
-    <div className="w-full p-4 bg-[#1A1A1B]">
+    <div className="w-full p-4 bg-surface">
       <form
         id='subreddit-post-form'
         className='w-fit'
@@ -303,12 +302,12 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
             }}
             {...rest}
             placeholder='Title'
-            className='w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none text-[#D7DADC] placeholder:text-[#818384]'
+            className='w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none text-primary placeholder:text-muted'
           />
-          <div id='editor' className='min-h-[500px] text-[#D7DADC]' />
-          <p className='text-sm text-[#818384]'>
+          <div id='editor' className='min-h-[500px] text-primary' />
+          <p className='text-sm text-muted'>
             Use{' '}
-            <kbd className='rounded-md border border-[#343536] bg-[#272729] px-1 text-xs uppercase text-[#D7DADC]'>
+            <kbd className='rounded-md border border-custom bg-surface-dark-hover px-1 text-xs uppercase text-primary'>
               Tab
             </kbd>{' '}
             to open the command menu.

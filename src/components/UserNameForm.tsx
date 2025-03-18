@@ -77,24 +77,24 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
       className={cn(className)}
       onSubmit={handleSubmit((e) => updateUsername(e))}
       {...props}>
-      <Card className="bg-[#1A1A1B] border border-[#343536] shadow-md w-full overflow-hidden">
-        <div className="bg-[#272729] p-6 rounded-t-lg">
-          <h3 className="font-semibold tracking-tight text-[#D7DADC] text-lg sm:text-xl">Your username</h3>
-          <p className="text-[#818384] text-xs sm:text-sm mt-1.5">
+      <Card className="bg-surface border border-custom shadow-md w-full overflow-hidden">
+        <div className="bg-surface-dark p-6 rounded-t-lg">
+          <h3 className="font-semibold tracking-tight text-primary text-lg sm:text-xl">Your username</h3>
+          <p className="text-muted text-xs sm:text-sm mt-1.5">
             Please enter a display name you are comfortable with.
           </p>
         </div>
         <CardContent className="pt-6">
           <div className='relative grid gap-1'>
             <div className='absolute top-0 left-0 w-8 h-10 grid place-items-center'>
-              <span className='text-sm text-[#818384]'>u/</span>
+              <span className='text-sm text-muted'>u/</span>
             </div>
             <Label className='sr-only' htmlFor='name'>
               Name
             </Label>
             <Input
               id='name'
-              className='w-full sm:w-[400px] pl-6 bg-[#272729] border-[#343536] text-[#D7DADC] focus:ring-[#FF4500] focus:border-[#FF4500]'
+              className='w-full sm:w-[400px] pl-6 bg-surface-dark border-custom text-primary focus:ring-reddit focus:border-reddit'
               size={32}
               {...register('name')}
             />
@@ -106,7 +106,7 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
         <CardFooter className=" flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <Button 
             isLoading={isLoading}
-            className="bg-[#FF4500] hover:bg-[#FF5414] text-white w-full sm:w-auto"
+            className="bg-reddit hover:bg-reddit-hover text-white w-full sm:w-auto"
           >
             Change name
           </Button>

@@ -84,14 +84,14 @@ const CommentVotes: FC<CommentVotesProps> = ({
         variant='ghost'
         aria-label='upvote'>
         <ArrowBigUp
-          className={cn('h-5 w-5 text-[#818384]', {
-            'text-[#FF4500] fill-[#FF4500]': currentVote?.type === 'UP',
+          className={cn('h-5 w-5 text-muted', {
+            'text-upvote fill-upvote': currentVote?.type === 'UP',
           })}
         />
       </Button>
 
       {/* score */}
-      <p className='text-center py-2 px-1 font-medium text-xs text-[#D7DADC]'>
+      <p className='text-center py-2 px-1 font-medium text-xs text-primary'>
         {votesAmt}
       </p>
 
@@ -100,13 +100,13 @@ const CommentVotes: FC<CommentVotesProps> = ({
         onClick={() => vote('DOWN')}
         size='xs'
         className={cn({
-          'text-[#7193FF]': currentVote?.type === 'DOWN',
+          'text-downvote': currentVote?.type === 'DOWN',
         })}
         variant='ghost'
         aria-label='downvote'>
         <ArrowBigDown
-          className={cn('h-5 w-5 text-[#818384]', {
-            'text-[#7193FF] fill-[#7193FF]': currentVote?.type === 'DOWN',
+          className={cn('h-5 w-5 text-muted', {
+            'text-downvote fill-downvote': currentVote?.type === 'DOWN',
           })}
         />
       </Button>

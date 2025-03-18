@@ -120,12 +120,12 @@ const ProfileHeader = ({
             alt="Profile picture"
             width={80}
             height={80}
-            className="rounded-full object-cover w-20 h-20 border-2 border-[#343536] ring-1 ring-[#444444]"
+            className="rounded-full object-cover w-20 h-20 border-2 border-custom ring-1 ring-custom"
             style={{ objectFit: 'cover' }}
             priority
           />
         ) : (
-          <div className="w-20 h-20 rounded-full bg-[#272729] border-2 border-[#343536] ring-1 ring-[#444444]" />
+          <div className="w-20 h-20 rounded-full bg-surface-dark border-2 border-custom ring-1 ring-custom" />
         )}
         
         {isOwnProfile && (
@@ -135,7 +135,7 @@ const ProfileHeader = ({
                 onClick={() => setIsEditingPfp(!isEditingPfp)}
                 variant="ghost"
                 size="sm"
-                className="bg-[#272729] text-[#D7DADC] hover:bg-[#343536] rounded-full h-8 w-8 p-0"
+                className="bg-surface-dark text-primary hover:bg-surface-dark-hover rounded-full h-8 w-8 p-0"
               >
                 <Camera className="h-4 w-4" />
               </Button>
@@ -145,7 +145,7 @@ const ProfileHeader = ({
                   onClick={removeProfilePicture}
                   variant="ghost"
                   size="sm"
-                  className="bg-[#272729] text-[#D7DADC] hover:bg-[#343536] rounded-full h-8 w-8 p-0"
+                  className="bg-surface-dark text-primary hover:bg-surface-dark-hover rounded-full h-8 w-8 p-0"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -158,7 +158,7 @@ const ProfileHeader = ({
       <div>
         <h1 className="text-2xl font-bold">{username}</h1>
         <div className='flex gap-2 flex-row items-center'>
-          <p className="text-[#818384]">u/{username}</p>
+          <p className="text-muted">u/{username}</p>
           {isOwnProfile && (
             <Link href="/settings" >
                 <Pencil className="h-4 w-4 " />
@@ -171,14 +171,14 @@ const ProfileHeader = ({
 
       {isEditingPfp && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="bg-[#1A1A1B] p-6 rounded-md max-w-md w-full mx-4 border border-[#343536] shadow-xl">
+          <div className="bg-surface p-6 rounded-md max-w-md w-full mx-4 border border-custom shadow-xl">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium text-[#D7DADC]">Change profile picture</h3>
+              <h3 className="text-lg font-medium text-primary">Change profile picture</h3>
               <Button
                 onClick={() => setIsEditingPfp(false)}
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 rounded-full hover:bg-[#272729]"
+                className="h-8 w-8 p-0 rounded-full hover:bg-surface-dark"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -187,13 +187,13 @@ const ProfileHeader = ({
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              className="w-full text-sm text-[#D7DADC] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-[#272729] file:text-[#D7DADC] hover:file:bg-[#343536]"
+              className="w-full text-sm text-primary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-surface-dark file:text-primary hover:file:bg-surface-dark-hover"
             />
             <div className="flex justify-end mt-4">
               <Button
                 onClick={() => setIsEditingPfp(false)}
                 variant="ghost"
-                className="bg-[#272729] text-[#D7DADC] hover:bg-[#343536] rounded-md"
+                className="bg-surface-dark text-primary hover:bg-surface-dark-hover rounded-md"
               >
                 Cancel
               </Button>

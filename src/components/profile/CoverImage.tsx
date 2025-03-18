@@ -44,7 +44,7 @@ const CoverImage = ({ coverImage }: CoverImageProps) => {
   }
 
   return (
-    <div className="relative w-full h-48 md:h-64 bg-[#1A1A1B] rounded-t-md overflow-hidden">
+    <div className="relative w-full h-48 md:h-64 bg-surface rounded-t-md overflow-hidden">
       {imageUrl ? (
         <Image 
           src={imageUrl} 
@@ -61,7 +61,7 @@ const CoverImage = ({ coverImage }: CoverImageProps) => {
           onClick={() => setIsEditing(!isEditing)}
           variant="ghost"
           size="sm"
-          className="bg-[#272729] text-[#D7DADC] hover:bg-[#343536] rounded-full h-9 w-9 p-0"
+          className="bg-surface-dark text-primary hover:bg-surface-dark-hover rounded-full h-9 w-9 p-0"
         >
           <Camera className="h-5 w-5" />
         </Button>
@@ -71,7 +71,7 @@ const CoverImage = ({ coverImage }: CoverImageProps) => {
             onClick={removeCoverImage}
             variant="ghost"
             size="sm"
-            className="bg-[#272729] text-[#D7DADC] hover:bg-[#343536] rounded-full h-9 w-9 p-0"
+            className="bg-surface-dark text-primary hover:bg-surface-dark-hover rounded-full h-9 w-9 p-0"
           >
             <X className="h-5 w-5" />
           </Button>
@@ -80,19 +80,19 @@ const CoverImage = ({ coverImage }: CoverImageProps) => {
 
       {isEditing && (
         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-          <div className="bg-[#1A1A1B] p-6 rounded-md max-w-md w-full mx-4">
-            <h3 className="text-lg font-medium text-[#D7DADC] mb-4">Change cover image</h3>
+          <div className="bg-surface p-6 rounded-md max-w-md w-full mx-4">
+            <h3 className="text-lg font-medium text-primary mb-4">Change cover image</h3>
             <input
               type="file"
               accept="image/*"
               onChange={handleImageChange}
-              className="w-full text-sm text-[#D7DADC] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-[#272729] file:text-[#D7DADC] hover:file:bg-[#343536]"
+              className="w-full text-sm text-primary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-surface-dark file:text-primary hover:file:bg-surface-dark-hover"
             />
             <div className="flex justify-end mt-4 gap-2">
               <Button
                 onClick={() => setIsEditing(false)}
                 variant="ghost"
-                className="bg-transparent text-[#D7DADC] hover:bg-[#272729]"
+                className="bg-transparent text-primary hover:bg-surface-dark"
               >
                 Cancel
               </Button>

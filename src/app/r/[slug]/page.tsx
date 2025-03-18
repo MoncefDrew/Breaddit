@@ -3,7 +3,6 @@ import { INFINITE_SCROLL_PAGINATION_RESULTS } from '@/config'
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { notFound } from 'next/navigation'
-import { Prisma } from '@prisma/client'
 
 interface PageProps {
   params: {
@@ -64,16 +63,13 @@ const Page = async ({ params }: PageProps) => {
     isModerator = subreddit.creatorId === session.user.id
   }
 
-  // Default description (in case the model doesn't have a description field yet)
-  // This allows the app to work even before the database migration
-  const description = (subreddit as any).description || null
-
   return (
-    <div className='container mx-auto max-w-7xl '>
+    <div className='container mx-auto max-w-7xl'>
       <CommunityPage
         community={{
           id: subreddit.id,
           name: subreddit.name,
+          description: subreddit.description || null,
           createdAt: subreddit.createdAt,
           updatedAt: subreddit.updatedAt,
           creatorId: subreddit.creatorId || '',
@@ -81,7 +77,6 @@ const Page = async ({ params }: PageProps) => {
           profileImage: subreddit.image || null,
         }}
         memberCount={memberCount}
-        description={description}
         isSubscribed={isSubscribed}
         isModerator={isModerator}
         initialPosts={subreddit.posts}

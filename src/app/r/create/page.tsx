@@ -66,27 +66,27 @@ export default function Page() {
 
   return (
     <div className="container flex items-center h-full max-w-3xl mx-auto py-10">
-      <div className="relative bg-[#1A1A1B] w-full md:w-3/4 h-fit p-6 rounded-lg space-y-6 border border-[#343536] shadow-lg">
+      <div className="relative bg-surface w-full md:w-3/4 h-fit p-6 rounded-lg space-y-6 border border-custom shadow-lg">
         <div className="flex justify-between items-center">
-          <div className="text-xl font-semibold text-[#D7DADC]">Create a Community</div>
+          <div className="text-xl font-semibold text-primary">Create a Community</div>
         </div>
 
-        <hr className="border-[#343536] h-px" />
+        <hr className="border-custom h-px" />
 
         <div>
-          <p className="text-lg font-medium text-[#D7DADC]">Name</p>
-          <p className="text-xs pb-2 text-[#818384]">
+          <p className="text-lg font-medium text-primary">Name</p>
+          <p className="text-xs pb-2 text-muted">
             Community names including capitalization cannot be changed
           </p>
 
           <div className="relative mt-3">
-            <p className="absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-[#FF4500] font-medium">
+            <p className="absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-reddit font-medium">
               r/
             </p>
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              className="pl-6 bg-[#272729] border-[#343536] text-[#D7DADC] focus:ring-[#FF4500] focus:border-[#FF4500] focus:ring-1"
+              className="pl-6 bg-surface-dark-hover border-custom text-primary focus:ring-reddit focus:border-reddit focus:ring-1"
             />
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function Page() {
           <Button 
             variant="subtle" 
             onClick={() => router.back()}
-            className="bg-[#2D2D2F] text-[#D7DADC] hover:bg-[#343536]"
+            className="bg-surface-dark-hover text-primary hover:bg-surface-dark-hover"
           >
             Cancel
           </Button>
@@ -103,7 +103,7 @@ export default function Page() {
             isLoading={isLoading}
             disabled={input.length === 0}
             onClick={() => createCommunity()}
-            className="bg-[#FF4500] hover:bg-[#FF5414] text-white disabled:bg-[#FF4500]/50"
+            className="bg-reddit hover:bg-reddit text-white disabled:bg-reddit/50"
           >
             Create Community
           </Button>

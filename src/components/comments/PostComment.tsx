@@ -79,15 +79,15 @@ const PostComment: FC<PostCommentProps> = ({
           className='h-6 w-6'
         />
         <div className='ml-2 flex items-center gap-x-2'>
-          <p className='text-sm font-medium text-[#D7DADC]'>u/{comment.author.username}</p>
+          <p className='text-sm font-medium text-primary'>u/{comment.author.username}</p>
 
-          <p className='max-h-40 truncate text-xs text-[#818384]'>
+          <p className='max-h-40 truncate text-xs text-muted'>
             {formatTimeToNow(new Date(comment.createdAt))}
           </p>
         </div>
       </div>
 
-      <p className='text-sm text-[#D7DADC] mt-2'>{comment.text}</p>
+      <p className='text-sm text-primary mt-2'>{comment.text}</p>
 
       <div className='flex gap-2 items-center mt-1'>
         <CommentVotes
@@ -103,7 +103,7 @@ const PostComment: FC<PostCommentProps> = ({
           }}
           variant='ghost'
           size='xs'
-          className='text-[#818384] hover:text-[#D7DADC] hover:bg-[#272729]'>
+          className='text-muted hover:text-primary hover:bg-surface-dark-hover'>
           <MessageSquare className='h-4 w-4 mr-1.5' />
           Reply
         </Button>
@@ -111,7 +111,7 @@ const PostComment: FC<PostCommentProps> = ({
 
       {isReplying ? (
         <div className='grid w-full gap-1.5 mt-2'>
-          <Label htmlFor='comment' className='text-[#D7DADC]'>Your comment</Label>
+          <Label htmlFor='comment' className='text-primary'>Your comment</Label>
           <div className='mt-2'>
             <Textarea
               onFocus={(e) =>
@@ -126,7 +126,7 @@ const PostComment: FC<PostCommentProps> = ({
               onChange={(e) => setInput(e.target.value)}
               rows={1}
               placeholder='What are your thoughts?'
-              className='bg-[#272729] border-[#343536] text-[#D7DADC] placeholder:text-[#818384] focus:border-[#343536] focus:ring-0'
+              className='bg-surface-dark-hover border-custom text-primary placeholder:text-muted focus:border-custom focus:ring-0'
             />
 
             <div className='mt-2 flex justify-end gap-2'>
@@ -134,7 +134,7 @@ const PostComment: FC<PostCommentProps> = ({
                 tabIndex={-1}
                 variant='subtle'
                 onClick={() => setIsReplying(false)}
-                className='bg-[#2D2D2F] text-[#D7DADC] hover:bg-[#343536]'>
+                className='bg-surface-dark-hover text-primary hover:bg-surface-dark-hover'>
                 Cancel
               </Button>
               <Button
@@ -147,7 +147,7 @@ const PostComment: FC<PostCommentProps> = ({
                     replyToId: comment.replyToId ?? comment.id,
                   })
                 }}
-                className='bg-[#FF4500] hover:bg-[#FF5414] text-white'>
+                className='bg-reddit hover:bg-reddit text-white'>
                 Post
               </Button>
             </div>

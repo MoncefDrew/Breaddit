@@ -21,12 +21,11 @@ const EditPostButton: FC<EditPostButtonProps> = ({ post }) => {
       </button>
 
       {isEditing && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="fixed inset-0 p-4 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div
-            className="bg-white w-screen h-screen p-6 flex flex-col 
+            className=" w-screen h-screen flex flex-col 
                       md:w-3/4 md:max-w-2xl md:h-auto md:rounded-lg md:shadow-lg"
           >
-            <h2 className="text-xl font-bold mb-4">Edit Post</h2>
             <EditPostEditor
               initialTitle={post?.title}
               initialContent={post?.content}

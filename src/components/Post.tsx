@@ -32,7 +32,7 @@ const Post: FC<PostProps> = ({
   const pRef = useRef<HTMLParagraphElement>(null);
 
   return (
-    <div className="rounded-md bg-[#1A1A1B] shadow border border-[#343536] hover:border-[#4E4E50] transition-colors duration-200 mb-4">
+    <div className="rounded-md bg-surface shadow border border-custom hover:border-custom transition-colors duration-200 mb-4">
       <div className="px-6 py-4 flex justify-between gap-4">
         <PostVoteClient
           postId={post.id}
@@ -41,7 +41,7 @@ const Post: FC<PostProps> = ({
         />
 
         <div className="w-0 flex-1">
-          <div className="max-h-40 mt-1 text-xs text-[#818384] flex items-center flex-wrap">
+          <div className="max-h-40 mt-1 text-xs text-muted flex items-center flex-wrap">
             <UserAvatar
               user={{
                 name: post?.author.name || null,
@@ -53,7 +53,7 @@ const Post: FC<PostProps> = ({
             {subredditName ? (
               <>
                 <a
-                  className="font-medium text-[#24A0ED] text-sm hover:text-[#3AABF0] hover:underline"
+                  className="font-medium text-link text-sm hover:text-link-hover hover:underline"
                   href={`/r/${subredditName}`}
                 >
                   r/{subredditName}
@@ -62,7 +62,7 @@ const Post: FC<PostProps> = ({
               </>
             ) : null}
             <span>Posted by </span>
-            <Link href={`/u/${post.author.username}`} className="text-sm hover:text-[#e9ebec] hover:underline ml-1">
+            <Link href={`/u/${post.author.username}`} className="text-sm hover:text-primary hover:underline ml-1">
               u/{post.author.username}
             </Link>
             <span className="px-1">•</span>
@@ -70,28 +70,28 @@ const Post: FC<PostProps> = ({
           </div>
           
           <a href={`/r/${subredditName}/post/${post.id}`} className="block group">
-            <h1 className="text-lg font-semibold py-2 leading-6 text-[#D7DADC] group-hover:text-white transition-colors duration-200">
+            <h1 className="text-lg font-semibold py-2 leading-6 text-primary group-hover:text-white transition-colors duration-200">
               {post.title}
             </h1>
           </a>
 
           <div
-            className="relative text-sm max-h-40 w-full overflow-clip text-[#D7DADC]"
+            className="relative text-sm max-h-40 w-full overflow-clip text-primary"
             ref={pRef}
           >
             <EditorOutput content={post.content} />
             {pRef.current?.clientHeight === 160 ? (
               // blur bottom if content is too long
-              <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-[#1A1A1B] to-transparent"></div>
+              <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-surface to-transparent"></div>
             ) : null}
           </div>
         </div>
       </div>
 
-      <div className="bg-[#272729] z-20 text-sm px-4 py-3 sm:px-6 rounded-b-md">
+      <div className="bg-surface-dark-hover z-20 text-sm px-4 py-3 sm:px-6 rounded-b-md">
         <Link
           href={`/r/${subredditName}/post/${post.id}`}
-          className="w-fit flex items-center gap-2 text-[#818384] hover:text-[#D7DADC] transition-colors duration-200 py-1 px-2 rounded-full hover:bg-[#343536]"
+          className="w-fit flex items-center gap-2 text-muted hover:text-primary transition-colors duration-200 py-1 px-2 rounded-full hover:bg-surface-dark-hover"
         >
           <MessageSquare className="h-4 w-4" /> {commentAmt} {commentAmt === 1 ? 'comment' : 'comments'}
         </Link>

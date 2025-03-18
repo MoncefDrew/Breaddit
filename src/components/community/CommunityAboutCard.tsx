@@ -106,9 +106,9 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
   const displayDescription = onDescriptionUpdate ? description : localDescription
 
   return (
-    <Card className="bg-[#1A1A1B] border-[#343536] shadow-md mb-4 rounded-lg overflow-hidden">
-      <CardHeader className="bg-[#1A1A1B] border-b border-[#343536] pb-3">
-        <h2 className="text-[#D7DADC] text-base font-medium flex items-center">
+    <Card className="bg-surface border-custom shadow-md mb-4 rounded-lg overflow-hidden">
+      <CardHeader className="bg-surface border-b border-custom pb-3">
+        <h2 className="text-primary text-base font-medium flex items-center">
           About r/{community.name}
         </h2>
       </CardHeader>
@@ -120,7 +120,7 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
               value={descriptionText}
               onChange={(e) => setDescriptionText(e.target.value)}
               placeholder="Add a description to your community..."
-              className="resize-none h-24 bg-[#272729] border-[#343536] text-[#D7DADC] focus:ring-[#FF4500] focus:border-[#FF4500]"
+              className="resize-none h-24 bg-surface-dark-hover border-custom text-primary focus:ring-reddit focus:border-reddit"
             />
             <div className="flex gap-2 justify-end">
               <Button 
@@ -130,7 +130,7 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
                   setIsEditing(false)
                   setDescriptionText(displayDescription || '')
                 }}
-                className="bg-[#272729] text-[#D7DADC] hover:bg-[#343536]"
+                className="bg-surface-dark-hover text-primary hover:bg-surface-dark-hover"
               >
                 Cancel
               </Button>
@@ -138,7 +138,7 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
                 size="sm"
                 onClick={handleSaveDescription}
                 isLoading={isLoading}
-                className="bg-[#FF4500] text-white hover:bg-[#FF5414]"
+                className="bg-reddit text-white hover:bg-reddit"
               >
                 Save
               </Button>
@@ -147,9 +147,9 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
         ) : (
           <div>
             {displayDescription ? (
-              <p className="text-[#D7DADC] text-sm">{displayDescription}</p>
+              <p className="text-primary text-sm">{displayDescription}</p>
             ) : (
-              <p className="text-[#818384] text-sm italic">
+              <p className="text-muted text-sm italic">
                 {isModerator 
                   ? 'Add a description to your community...' 
                   : 'No description available.'}
@@ -161,7 +161,7 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
                 variant="ghost"
                 size="sm"
                 onClick={() => setIsEditing(true)}
-                className="mt-2 text-[#818384] hover:text-[#D7DADC] hover:bg-[#272729] p-1 h-auto"
+                className="mt-2 text-muted hover:text-primary hover:bg-surface-dark-hover p-1 h-auto"
               >
                 <Pencil className="h-3.5 w-3.5 mr-1" />
                 <span className="text-xs">Edit</span>
@@ -171,18 +171,18 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
         )}
 
         <div className="mt-4 space-y-3">
-          <div className="flex items-center text-[#818384] text-sm">
+          <div className="flex items-center text-muted text-sm">
             <CalendarDays className="h-4 w-4 mr-2" />
             <span>Created {format(new Date(community.createdAt), 'MMMM d, yyyy')}</span>
           </div>
           
-          <div className="flex items-center text-[#818384] text-sm">
+          <div className="flex items-center text-muted text-sm">
             <Users className="h-4 w-4 mr-2" />
             <span>{memberCount} {memberCount === 1 ? 'member' : 'members'}</span>
           </div>
 
           {isModerator && (
-            <div className="flex items-center text-[#818384] text-sm">
+            <div className="flex items-center text-muted text-sm">
               <Shield className="h-4 w-4 mr-2" />
               <span>You are a moderator of this community</span>
             </div>
@@ -192,9 +192,9 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
         {/* Rules Section */}
         {rules.length > 0 && (
           <div className="mt-6">
-            <Separator className="mb-3 bg-[#343536]" />
+            <Separator className="mb-3 bg-custom" />
             
-            <div className="flex items-center text-[#D7DADC] mb-3">
+            <div className="flex items-center text-primary mb-3">
               <BookOpen className="h-5 w-5 mr-2" />
               <h3 className="font-medium">Community Rules</h3>
             </div>
@@ -203,20 +203,20 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
               {rules.map((rule, index) => (
                 <div 
                   key={rule.id} 
-                  className="border border-[#343536] rounded-md overflow-hidden bg-[#1A1A1B]"
+                  className="border border-custom rounded-md overflow-hidden bg-surface"
                 >
                   <button
                     onClick={() => toggleRuleExpansion(rule.id)}
-                    className="w-full px-3 py-2 text-left flex items-center justify-between hover:bg-[#272729] transition-colors"
+                    className="w-full px-3 py-2 text-left flex items-center justify-between hover:bg-surface-dark-hover transition-colors"
                   >
-                    <div className="flex items-center text-[#D7DADC]">
+                    <div className="flex items-center text-primary">
                       <span className="mr-2 text-sm font-medium">{index + 1}.</span>
                       <span className="text-sm font-medium">{rule.title}</span>
                     </div>
                   </button>
                   
                   {expandedRules.includes(rule.id) && (
-                    <div className="px-3 py-2 border-t border-[#343536] text-sm text-[#818384]">
+                    <div className="px-3 py-2 border-t border-custom text-sm text-muted">
                       {rule.description}
                     </div>
                   )}
@@ -227,11 +227,11 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
         )}
       </CardContent>
       
-      <CardFooter className="border-t border-[#343536] pt-3 pb-3">
+      <CardFooter className="border-t border-custom pt-3 pb-3">
         <Button 
           variant="outline" 
           size="sm"
-          className="w-full bg-[#272729] text-[#D7DADC] hover:bg-[#343536] border-[#343536] hover:border-[#FF4500] transition-colors duration-200"
+          className="w-full bg-surface-dark-hover text-primary hover:bg-surface-dark-hover border-custom hover:border-reddit transition-colors duration-200"
           onClick={() => {
             window.location.href = `/r/${community.name}/submit`
           }}

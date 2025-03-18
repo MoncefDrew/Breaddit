@@ -9,8 +9,8 @@ const Layout = async ({
   params: { user: string };
 }) => {
   return (
-    <div className="sm:container max-w-7xl mx-auto  h-full pt-8 bg-[#030303]">
-      <div className="px-4 ">
+    <div className="sm:container max-w-7xl mx-auto h-full pt-8 bg-background">
+      <div className="px-4">
         {children}
       </div>
     </div>

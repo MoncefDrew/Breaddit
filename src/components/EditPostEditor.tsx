@@ -173,7 +173,7 @@ export const EditPostEditor: FC<EditPostEditorProps> = ({
   const { ref: titleRef, ...rest } = register("title");
 
   return (
-    <div className="w-full h-screen md:h-auto p-4 bg-zinc-50 rounded-lg border border-zinc-200 flex flex-col">
+    <div className="w-full h-screen md:h-auto p-4 bg-surface rounded-lg border border-custom flex flex-col">
       <form
         id="edit-post-form"
         className="flex-grow flex flex-col"
@@ -183,33 +183,30 @@ export const EditPostEditor: FC<EditPostEditorProps> = ({
           <TextareaAutosize
             ref={(e) => {
               titleRef(e);
-              if (e) _titleRef.current = e; // Assign only if e is not null
+              if (e) _titleRef.current = e;
             }}
             {...rest}
             placeholder="Title"
-            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none"
+            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none text-primary placeholder:text-muted"
           />
-          <div id="editor" className="min-h-[500px] flex-grow" />
-          <p className="text-sm text-gray-500">
+          <div id="editor" className="min-h-[500px] flex-grow text-primary" />
+          <p className="text-sm text-muted">
             Use{" "}
-            <kbd className="rounded-md border bg-muted px-1 text-xs uppercase">
+            <kbd className="rounded-md border border-custom bg-surface-dark-hover px-1 text-xs uppercase text-primary">
               Tab
             </kbd>{" "}
             to open the command menu.
           </p>
         </div>
 
-        {/* Buttons Container */}
         <div className="w-full flex justify-end mt-4 space-x-2">
-          {/* Cancel Button */}
-          <Button variant="outline" onClick={onCancel}>
+          <Button variant="outline" onClick={onCancel} className="bg-surface border-custom text-primary hover:bg-surface-dark-hover">
             Cancel
           </Button>
 
-          {/* Submit Button (Black) */}
           <Button
             type="submit"
-            className="bg-black text-white hover:bg-gray-900"
+            className="bg-reddit text-white hover:bg-reddit"
           >
             Update Post
           </Button>

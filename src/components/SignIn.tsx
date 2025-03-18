@@ -6,10 +6,10 @@ const SignIn = () => {
     
 return (
     <div className='container mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]'>
-        <div className='flex flex-col space-y-2 text-center bg-[#1A1A1B] p-6 gap-4 rounded-md '>
-            <Icons.logo className='mx-auto h-8 w-8 text-[#FF4500]'/>
-            <h1 className='text-2xl font-semibold tracking-tight text-[#D7DADC]'>Welcome back</h1>
-            <p className='text-sm max-w-xs mx-auto text-[#818384]'>
+        <div className='flex flex-col space-y-2 text-center bg-surface p-6 gap-4 rounded-md '>
+            <Icons.logo className='mx-auto h-8 w-8 text-reddit'/>
+            <h1 className='text-2xl font-semibold tracking-tight text-primary'>Welcome back</h1>
+            <p className='text-sm max-w-xs mx-auto text-muted'>
                 By continuing, you are setting up a Breaddit account and agree to
                 our User Agreement and Privacy Policy
             </p>
@@ -17,11 +17,11 @@ return (
             {/* SignIn form */}
             <UserAuthForm/>
             
-            <p className='px-8 text-center text-sm text-[#818384]'>
+            <p className='px-8 text-center text-sm text-muted'>
                 New to Breaddit?{' '}
                 <Link
                 href='/sign-up'
-                className='text-[#24A0ED] hover:text-[#3AABF0] text-sm underline underline-offset-4'>
+                className='text-link hover:text-link-hover text-sm underline underline-offset-4'>
                 Sign Up
                 </Link>
             </p>

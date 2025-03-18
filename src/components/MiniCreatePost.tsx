@@ -15,7 +15,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
   const pathname = usePathname();
 
   return (
-    <div className="rounded-md bg-[#1A1A1B] shadow border border-[#343536] hover:border-[#4E4E50] transition-colors duration-200 mb-4">
+    <div className="rounded-md bg-surface mb-4">
       <div className="px-6 py-4 flex items-center gap-4">
         {/* Avatar */}
         <UserAvatar
@@ -29,7 +29,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
         {/* Input Box (Read-only) */}
         <div
           onClick={() => router.push(pathname + "/submit")}
-          className="flex-1 text-sm bg-[#272729] border border-[#343536] px-4 py-2 rounded-full text-[#D7DADC] cursor-pointer hover:bg-[#2D2D2F] transition"
+          className="flex-1 text-sm bg-surface-dark border border-custom px-4 py-2 rounded-full text-primary cursor-pointer hover:bg-surface-dark-hover transition"
         >
           Create a post
         </div>
@@ -39,7 +39,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
           onClick={() => router.push(pathname + "/submit")}
           className="p-2 rounded-full hover:bg-[#343536] transition"
         >
-          <ImageIcon className="h-5 w-5 text-[#818384] hover:text-[#D7DADC]" />
+          <ImageIcon className="h-5 w-5 text-muted hover:text-primary" />
         </button>
 
         {/* Link Button */}
@@ -47,7 +47,7 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
           onClick={() => router.push(pathname + "/submit")}
           className="p-2 rounded-full hover:bg-[#343536] transition"
         >
-          <Link2 className="h-5 w-5 text-[#818384] hover:text-[#D7DADC]" />
+          <Link2 className="h-5 w-5 text-muted hover:text-primary" />
         </button>
       </div>
     </div>

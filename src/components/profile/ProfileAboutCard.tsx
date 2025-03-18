@@ -128,7 +128,7 @@ const ProfileAboutCard = ({
   };
 
   return (
-    <div className="bg-[#1A1A1B] rounded-md overflow-hidden border border-[#343536] mb-4">
+    <div className="bg-surface rounded-md overflow-hidden border border-custom mb-4">
       {/* Cover image */}
       <div className="relative group h-32">
         {imageUrl ? (
@@ -153,7 +153,7 @@ const ProfileAboutCard = ({
               onClick={() => setIsEditingCover(true)}
               variant="ghost"
               size="sm"
-              className="bg-[#272729] text-[#D7DADC] hover:bg-[#343536] rounded-full h-8 w-8 p-0"
+              className="bg-surface-dark text-primary hover:bg-surface-dark-hover rounded-full h-8 w-8 p-0"
             >
               <Camera className="h-4 w-4" />
             </Button>
@@ -163,7 +163,7 @@ const ProfileAboutCard = ({
                 onClick={removeCoverImage}
                 variant="ghost"
                 size="sm"
-                className="bg-[#272729] text-[#D7DADC] hover:bg-[#343536] rounded-full h-8 w-8 p-0"
+                className="bg-surface-dark text-primary hover:bg-surface-dark-hover rounded-full h-8 w-8 p-0"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -174,12 +174,12 @@ const ProfileAboutCard = ({
       </div>
       
       {/* Header with title */}
-      <div className="px-4 py-3 border-b border-[#343536] flex items-center justify-between">
-        <h2 className="text-[16px] font-medium text-[#D7DADC]">About u/{username}</h2>
+      <div className="px-4 py-3 border-b border-custom flex items-center justify-between">
+        <h2 className="text-[16px] font-medium text-primary">About u/{username}</h2>
         <div className="flex gap-2">
           <Button 
             variant="ghost" 
-            className="rounded-full h-8 w-8 p-0 bg-[#272729] text-[#D7DADC] hover:bg-[#343536]"
+            className="rounded-full h-8 w-8 p-0 bg-surface-dark text-primary hover:bg-surface-dark-hover"
           >
             <Share className="h-4 w-4" />
           </Button>
@@ -195,14 +195,14 @@ const ProfileAboutCard = ({
       />
       
       {/* Stats */}
-      <div className="p-4 border-b border-[#343536]">
+      <div className="p-4 border-b border-custom">
         <div className="flex items-center gap-2 py-2">
-          <div className="text-[#818384] text-sm">Karma</div>
-          <div className="text-[#D7DADC] text-sm font-medium ml-auto">{karma}</div>
+          <div className="text-muted text-sm">Karma</div>
+          <div className="text-primary text-sm font-medium ml-auto">{karma}</div>
         </div>
         <div className="flex items-center gap-2 py-2">
-          <div className="text-[#818384] text-sm">Cake day</div>
-          <div className="text-[#D7DADC] text-sm font-medium ml-auto">{cakeDay}</div>
+          <div className="text-muted text-sm">Cake day</div>
+          <div className="text-primary text-sm font-medium ml-auto">{cakeDay}</div>
         </div>
       </div>
       
@@ -210,7 +210,7 @@ const ProfileAboutCard = ({
       <div className="p-4">
         <Button 
           variant="ghost" 
-          className="w-full h-8 bg-[#272729] hover:bg-[#343536] text-[#D7DADC] text-sm rounded-full flex items-center justify-center gap-2"
+          className="w-full h-8 bg-surface-dark hover:bg-surface-dark-hover text-primary text-sm rounded-full flex items-center justify-center gap-2"
         >
           <LinkIcon className="h-4 w-4" />
           Add social link
@@ -220,14 +220,14 @@ const ProfileAboutCard = ({
       {/* Cover Image Upload Modal */}
       {isEditingCover && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="bg-[#1A1A1B] p-6 rounded-md max-w-md w-full mx-4 border border-[#343536] shadow-xl">
+          <div className="bg-surface p-6 rounded-md max-w-md w-full mx-4 border border-custom shadow-xl">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-medium text-[#D7DADC]">Change cover image</h3>
+              <h3 className="text-lg font-medium text-primary">Change cover image</h3>
               <Button
                 onClick={() => setIsEditingCover(false)}
                 variant="ghost"
                 size="sm"
-                className="h-8 w-8 p-0 rounded-full hover:bg-[#272729]"
+                className="h-8 w-8 p-0 rounded-full hover:bg-surface-dark"
               >
                 <X className="h-4 w-4" />
               </Button>
@@ -236,13 +236,13 @@ const ProfileAboutCard = ({
               type="file"
               accept="image/*"
               onChange={handleCoverImageChange}
-              className="w-full text-sm text-[#D7DADC] file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-[#272729] file:text-[#D7DADC] hover:file:bg-[#343536]"
+              className="w-full text-sm text-primary file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-surface-dark file:text-primary hover:file:bg-surface-dark-hover"
             />
             <div className="flex justify-end mt-4">
               <Button
                 onClick={() => setIsEditingCover(false)}
                 variant="ghost"
-                className="bg-[#272729] text-[#D7DADC] hover:bg-[#343536] rounded-md"
+                className="bg-surface-dark text-primary hover:bg-surface-dark-hover rounded-md"
               >
                 Cancel
               </Button>
