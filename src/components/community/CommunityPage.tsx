@@ -8,6 +8,7 @@ import { Cake, InfoIcon, Users } from 'lucide-react'
 import { format } from 'date-fns'
 import SubscribeLeaveToggle from '../SubscribeLeaveToggle'
 import CommunityAboutCard from './CommunityAboutCard'
+import { Dialog, DialogContent } from "@/components/ui/dialog"
 
 interface Rule {
   id: string
