@@ -8,17 +8,8 @@ import { Button } from '../ui/Button'
 import { Textarea } from '../ui/textarea'
 import { useToast } from '@/hooks/use-toast'
 import axios from 'axios'
-import Image from 'next/image'
 import { Separator } from '../ui/Separator'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import ImageUploader from '../upload/ImageUploader'
+
 
 interface Rule {
   id: string
@@ -46,8 +37,6 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
   community,
   memberCount,
   description,
-  profileImage,
-  isSubscribed,
   isModerator,
   onDescriptionUpdate,
   rules = []

@@ -81,7 +81,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
   const isModerator = session?.user?.id === community.creatorId;
 
   return (
-    <div className="bg-background m-5">
+    <div className="bg-zinc-950 m-5">
       <div className="h-full flex flex-col items-start justify-between">
         <ToFeedButton/>
         
