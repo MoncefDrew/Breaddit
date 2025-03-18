@@ -60,7 +60,7 @@ const UserPostFeed: FC<UserPostFeedProps> = ({ username, initialPosts }) => {
   }
 
   return (
-    <div className="space-y-4 ">
+    <div className="space-y-1 ">
       {posts.map((post, index) => {
         if (index === posts.length - 1) {
           return (

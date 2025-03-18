@@ -65,16 +65,20 @@ model User {
 }
 
 model Subreddit {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  posts     Post[]
+  id          String   @id @default(cuid())
+  name        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  posts       Post[]
+  description String?  @db.Text
+  rules       Rule[]
 
   creatorId   String?
   Creator     User?          @relation("CreatedBy", fields: [creatorId], references: [id])
   subscribers Subscription[]
 
+  cover String?
+  image String?
   @@index([name])
 }
 
@@ -136,4 +140,16 @@ model CommentVote {
   type      VoteType
 
   @@id([userId, commentId])
+}
+
+model Rule {
+  id          String    @id @default(cuid())
+  title       String
+  description String    @db.Text
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  subreddit   Subreddit @relation(fields: [subredditId], references: [id], onDelete: Cascade)
+  subredditId String
+
+  @@index([subredditId])
 }

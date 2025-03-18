@@ -47,7 +47,7 @@ const Post: FC<PostProps> = ({
                 name: post?.author.name || null,
                 image: post?.author.image || null,
               }}
-              className="h-6 w-6 mr-2"
+              className="size-9 mr-2 border-2 rounded-full border-zinc-500"
             />
             
             {subredditName ? (

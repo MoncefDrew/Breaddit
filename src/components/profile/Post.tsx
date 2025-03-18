@@ -18,7 +18,7 @@ const Post: FC<PostProps> = ({ post, subredditName }) => {
 
   return (
     <div className="bg-[#1A1A1B] shadow-sm mb-4 border-b border-[#343536]">
-      <div className="px-6 py-4 flex justify-between gap-4">
+      <div className="px-6 py-1 flex justify-between gap-4">
         <div className="w-0 flex-1">
           <div className="max-h-40 mt-1 text-xs text-[#818384] flex items-center flex-wrap">
             <UserAvatar
@@ -26,7 +26,7 @@ const Post: FC<PostProps> = ({ post, subredditName }) => {
                 name: post?.author.name || null,
                 image: post?.author.image || null,
               }}
-              className="h-6 w-6 mr-2"
+              className="size-9 mr-2 border-2 rounded-full border-zinc-500"
             />
             <div className="flex flex-col">
               {subredditName ? (

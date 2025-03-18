@@ -20,7 +20,7 @@ const Navbar = async () => {
         <SearchBar />
 
         {/* actions */}
-        <div className="relative z-50">
+        <div className="relative z-50 items-center justify-center">
           {session?.user ? (
             <UserAccountNav user={{
               name: session.user.name,
