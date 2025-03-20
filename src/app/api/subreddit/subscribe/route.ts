@@ -12,13 +12,13 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const { subredditName } = SubredditSubscriptionValidator.parse(body)
+    const { subredditId } = SubredditSubscriptionValidator.parse(body)
 
     // Check if user is already subscribed
     const subscription = await db.subscription.findFirst({
       where: {
         subreddit: {
-          name: subredditName,
+          name: subredditId,
         },
         user: {
           id: session.user.id,
@@ -35,7 +35,7 @@ export async function POST(req: Request) {
     // Check if subreddit exists
     const subreddit = await db.subreddit.findFirst({
       where: {
-        name: subredditName,
+        name: subredditId,
       },
     })
 
@@ -48,7 +48,7 @@ export async function POST(req: Request) {
       data: {
         subreddit: {
           connect: {
-            name: subredditName,
+            name: subredditId,
           },
         },
         user: {
@@ -59,7 +59,7 @@ export async function POST(req: Request) {
       },
     })
 
-    return new Response(subredditName)
+    return new Response(subredditId)
   } catch (error) {
     if (error instanceof z.ZodError) {
       return new Response('Invalid request data passed', { status: 422 })
