@@ -1,14 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  /* Old Reddit Colors 
-   * Main background: #1A1A1B (dark gray/black)
-   * Secondary background: #272729 (slightly lighter gray)
-   * Hover background: #343536 (medium gray)
-   * Primary text: #D7DADC (light gray/white)
-   * Secondary/muted text: #818384 (medium gray)
-   * Reddit orange: #FF4500
-   * Upvote: #FF4500 (orange)
-   * Downvote: #7193FF (blue)
-   * Primary border: #343536 (medium gray)
+  /* GitHub Dark Theme Colors 
+   * Main background: #0D1117 (GitHub dark background)
+   * Secondary background: #161B22 (GitHub secondary dark)
+   * Component background: #21262D (GitHub container dark)
+   * Hover background: #30363D (GitHub hover state)
+   * Primary text: #F0F6FC (GitHub text white)
+   * Secondary/muted text: #8B949E (GitHub text muted)
+   * Accent blue: #58A6FF (GitHub blue)
+   * Border: #30363D (GitHub border)
+   * Upvote: #FF4500 (keeping Reddit orange for brand consistency)
+   * Downvote: #0969DA (GitHub darker blue)
    */
   
   /* Brand Colors */
@@ -38,46 +43,47 @@
   --color-input-light: hsl(214.3 31.8% 91.4%);
   --color-ring-light: hsl(215 20.2% 65.1%);
   
-  /* Dark Theme Colors (Old Reddit Theme) */
-  --color-primary-dark: #D7DADC;
-  --color-primary-foreground-dark: #1A1A1B;
+  /* Dark Theme Colors (GitHub Dark Theme) */
+  --color-primary-dark: #F0F6FC; /* GitHub text white */
+  --color-primary-foreground-dark: #0D1117; /* GitHub dark background */
   
-  --color-secondary-dark: #272729;
-  --color-secondary-foreground-dark: #D7DADC;
+  --color-secondary-dark: #161B22; /* GitHub secondary dark */
+  --color-secondary-foreground-dark: #F0F6FC; /* GitHub text white */
   
-  --color-background-dark: #1A1A1B;
-  --color-foreground-dark: #D7DADC;
+  --color-background-dark: #0D1117; /* GitHub dark background */
+  --color-foreground-dark: #F0F6FC; /* GitHub text white */
   
-  --color-muted-dark: #1A1A1B;
-  --color-muted-foreground-dark: #818384;
+  --color-muted-dark: #0D1117; /* GitHub dark background */
+  --color-muted-foreground-dark: #8B949E; /* GitHub text muted */
   
-  --color-accent-dark: #272729;
-  --color-accent-foreground-dark: #D7DADC;
+  --color-accent-dark: #58A6FF; /* GitHub blue */
+  --color-accent-foreground-dark: #F0F6FC; /* GitHub text white */
   
-  --color-destructive-dark: hsl(0 63% 31%);
-  --color-destructive-foreground-dark: #D7DADC;
+  --color-destructive-dark: #F85149; /* GitHub red */
+  --color-destructive-foreground-dark: #F0F6FC; /* GitHub text white */
   
-  --color-border-dark: #343536;
-  --color-input-dark: #272729;
-  --color-ring-dark: #343536;
+  --color-border-dark: #30363D; /* GitHub border */
+  --color-input-dark: #0D1117; /* GitHub dark background */
+  --color-ring-dark: #30363D; /* GitHub border */
   
   /* Custom UI Colors */
-  --color-upvote: #FF4500;
-  --color-downvote: #7193FF;
-  --color-link: #4296FA;
-  --color-link-hover: #5AA3FA;
-  --color-text-muted: #818384;
-  --color-surface-dark: #1A1A1B;
-  --color-surface-dark-hover: #272729;
-  --color-border-dark-custom: #343536;
-  --color-text-primary: #D7DADC;
+  --color-upvote: #FF4500; /* Keep Reddit orange */
+  --color-downvote: #0969DA; /* GitHub darker blue */
+  --color-link: #58A6FF; /* GitHub blue */
+  --color-link-hover: #79C0FF; /* GitHub light blue */
+  --color-text-muted: #8B949E; /* GitHub text muted */
+  --color-surface-dark: #0D1117; /* GitHub dark background */
+  --color-surface-dark-hover: #161B22; /* GitHub secondary dark */
+  --color-border-dark-custom: #30363D; /* GitHub border */
+  --color-text-primary: #F0F6FC; /* GitHub text white */
+  --color-post-background: #21262D; /* GitHub container dark */
 
   /* Additional Dim Theme Colors */
-  --color-surface-dim: #1A1A1B;
-  --color-surface-dim-hover: #272729;
-  --color-border-dim: #343536;
-  --color-text-dim-primary: #D7DADC;
-  --color-text-dim-muted: #818384;
+  --color-surface-dim: #0D1117; /* GitHub dark background */
+  --color-surface-dim-hover: #161B22; /* GitHub secondary dark */
+  --color-border-dim: #30363D; /* GitHub border */
+  --color-text-dim-primary: #F0F6FC; /* GitHub text white */
+  --color-text-dim-muted: #8B949E; /* GitHub text muted */
 }
 
 
@@ -246,4 +252,97 @@
 .bg-zinc-400, .bg-zinc-500, .bg-zinc-600, .bg-zinc-700, 
 .bg-zinc-800, .bg-zinc-900 {
   background-color: var(--color-surface-dark-hover);
+}
+
+/* Breaddit Color System */
+
+/* Background Colors */
+.bg-surface {
+  background-color: #0D1117; /* GitHub dark background */
+}
+
+.bg-surface-dark {
+  background-color: #161B22; /* GitHub secondary dark */
+}
+
+.bg-surface-dark-hover {
+  background-color: #161B22; /* GitHub secondary dark */
+}
+
+.bg-post {
+  background-color: #21262D; /* GitHub container dark */
+}
+
+/* Border Colors */
+.border-custom {
+  border-color: #30363D; /* GitHub border */
+}
+
+.border-custom-hover {
+  border-color: #8B949E; /* GitHub text muted */
+}
+
+/* Text Colors */
+.text-primary {
+  color: #F0F6FC; /* GitHub text white */
+}
+
+.text-muted {
+  color: #8B949E; /* GitHub text muted */
+}
+
+.text-link {
+  color: #58A6FF; /* GitHub blue */
+}
+
+.text-link-hover {
+  color: #79C0FF; /* GitHub light blue */
+}
+
+.text-upvote {
+  color: #FF4500; /* Keep Reddit orange */
+}
+
+.text-downvote {
+  color: #0969DA; /* GitHub darker blue */
+}
+
+/* Fill Colors */
+.fill-upvote {
+  fill: #FF4500; /* Keep Reddit orange */
+}
+
+.fill-downvote {
+  fill: #0969DA; /* GitHub darker blue */
+}
+
+/* Brand Colors */
+.bg-reddit {
+  background-color: #FF4500;
+}
+
+.bg-reddit-hover {
+  background-color: #ea580c; /* orange-600 */
+}
+
+.text-reddit-orange {
+  color: #FF4500;
+}
+
+.text-reddit-blue {
+  color: #0969DA; /* GitHub darker blue */
+}
+
+/* Gradients */
+.bg-gradient-reddit {
+  background-image: linear-gradient(to right, #FF4500, #ea580c);
+}
+
+.bg-gradient-surface {
+  background-image: linear-gradient(to top, #0D1117, transparent);
+}
+
+/* Add this to make sure the layout background is darker */
+html, body {
+  background-color: #0D1117 !important; /* GitHub dark background */
 } 

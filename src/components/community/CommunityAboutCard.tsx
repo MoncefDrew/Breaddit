@@ -102,7 +102,7 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
         </h2>
       </CardHeader>
       
-      <CardContent className="pt-4 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-[#343536] scrollbar-track-transparent">
+      <CardContent className="pt-4">
         {isEditing ? (
           <div className="space-y-2">
             <Textarea 
@@ -215,19 +215,6 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
           </div>
         )}
       </CardContent>
-      
-      <CardFooter className="border-t border-custom pt-3 pb-3">
-        <Button 
-          variant="outline" 
-          size="sm"
-          className="w-full bg-surface-dark-hover text-primary hover:bg-surface-dark-hover border-custom hover:border-reddit transition-colors duration-200"
-          onClick={() => {
-            window.location.href = `/r/${community.name}/submit`
-          }}
-        >
-          Create Post
-        </Button>
-      </CardFooter>
     </Card>
   )
 }

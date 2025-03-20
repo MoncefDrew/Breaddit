@@ -1,4 +1,3 @@
-import { Subreddit } from './../../../../../node_modules/.prisma/client/index.d';
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { SubredditSubscriptionValidator } from '@/lib/validators/subreddit'

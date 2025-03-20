@@ -1,5 +1,6 @@
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { SubredditSubscriptionValidator } from '@/lib/validators/subreddit'
 import { z } from 'zod'
 
 export async function POST(req: Request) {
@@ -11,10 +12,27 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    
-    const { subredditName } = z.object({ subredditName: z.string() }).parse(body)
+    const { subredditName } = SubredditSubscriptionValidator.parse(body)
 
-    // Get the subreddit ID from name
+    // Check if user is already subscribed
+    const subscription = await db.subscription.findFirst({
+      where: {
+        subreddit: {
+          name: subredditName,
+        },
+        user: {
+          id: session.user.id,
+        },
+      },
+    })
+
+    if (subscription) {
+      return new Response("You're already subscribed to this subreddit", {
+        status: 400,
+      })
+    }
+
+    // Check if subreddit exists
     const subreddit = await db.subreddit.findFirst({
       where: {
         name: subredditName,
@@ -22,41 +40,31 @@ export async function POST(req: Request) {
     })
 
     if (!subreddit) {
-      return new Response('Subreddit not found', { status: 404 })
+      return new Response("This subreddit doesn't exist", { status: 404 })
     }
 
-    // check if user has already subscribed to subreddit
-    const subscriptionExists = await db.subscription.findFirst({
-      where: {
-        subredditId: subreddit.id,
-        userId: session.user.id,
-      },
-    })
-
-    if (subscriptionExists) {
-      return new Response("You've already subscribed to this subreddit", {
-        status: 400,
-      })
-    }
-
-    // create subreddit and associate it with the user
+    // Create subscription
     await db.subscription.create({
       data: {
-        subredditId: subreddit.id,
-        userId: session.user.id,
+        subreddit: {
+          connect: {
+            name: subredditName,
+          },
+        },
+        user: {
+          connect: {
+            id: session.user.id,
+          },
+        },
       },
     })
 
-    return new Response(subreddit.name)
+    return new Response(subredditName)
   } catch (error) {
-    (error)
     if (error instanceof z.ZodError) {
-      return new Response(error.message, { status: 400 })
+      return new Response('Invalid request data passed', { status: 422 })
     }
 
-    return new Response(
-      'Could not subscribe to subreddit at this time. Please try later',
-      { status: 500 }
-    )
+    return new Response('Could not subscribe to subreddit', { status: 500 })
   }
 }

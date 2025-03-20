@@ -81,11 +81,14 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
   const isModerator = session?.user?.id === community.creatorId;
 
   return (
-    <div className="bg-zinc-950 m-5">
+    <div className="bg-surface m-2 md:m-5">
       <div className="h-full flex flex-col items-start justify-between">
-        <ToFeedButton/>
         
-        <div className="w-full flex flex-col md:flex-row">
+        <div className="w-full flex flex-col md:flex-row md:gap-3">
+          <div className="mb-2 md:mb-0">
+            <ToFeedButton/>
+          </div>
+
           {/* Vote buttons - visible only on medium+ screens */}
           <div className="hidden md:block">
             <Suspense fallback={<PostVoteShell />}>
@@ -106,13 +109,13 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
             </Suspense>
           </div>
 
-          <div className="w-full flex-1 bg-surface p-4 rounded-sm border border-custom">
-            <div className="flex flex-1 flex-row justify-between">
+          <div className="w-full flex-1 bg-surface p-3 md:p-4 rounded-sm border border-custom">
+            <div className="flex flex-1 flex-col sm:flex-row justify-between">
               <div className="flex flex-row items-center gap-2 md:gap-4">
                 <UserAvatar
                   user={{
                     name: post?.author.username || cachedPost?.authorUsername || null,
-                    image: post?.author.image  || null,
+                    image: post?.author.image || null,
                   }}
                   className="w-8 h-8"
                 />
@@ -130,14 +133,16 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
               </div>
             </div>
             
-            <h1 className="text-xl font-semibold py-2 leading-6 text-primary">
+            <h1 className="text-lg md:text-xl font-semibold py-2 leading-6 text-primary">
               {post?.title ?? cachedPost.title}
             </h1>
 
-            <EditorOutput content={post?.content ?? cachedPost.content} />
+            <div className="max-w-full overflow-x-auto">
+              <EditorOutput content={post?.content ?? cachedPost.content} />
+            </div>
             
             {/* Vote buttons - visible only on small screens */}
-            <div className="md:hidden mt-4 mb-2 flex justify-center">
+            <div className="md:hidden mt-4 mb-4 flex items-center justify-center">
               <Suspense fallback={<PostVoteShellHorizontal />}>
                 {/* @ts-expect-error server component */}
                 <PostVoteServer
@@ -157,7 +162,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
             </div>
             
             {session?.user && (session?.user.id === post?.author.id) ? (
-              <div className="flex items-end justify-end gap-5">
+              <div className="flex items-end justify-end gap-3 mt-3">
                 <DeletePostButton postId={post?.id} />
                 {/* @ts-ignore */}
                 <EditPostButton post={post}/>
@@ -166,7 +171,9 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
             
             <Suspense
               fallback={
-                <Loader2 className="h-5 w-5 animate-spin text-muted" />
+                <div className="flex justify-center my-4">
+                  <Loader2 className="h-6 w-6 animate-spin text-muted" />
+                </div>
               }
             >
               {/* @ts-expect-error Server Component */}

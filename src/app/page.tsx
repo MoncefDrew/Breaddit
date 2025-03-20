@@ -37,7 +37,7 @@ export default async function Home() {
               
               <div className="space-y-2">
                 <h3 className="font-medium text-sm text-primary">Getting Started</h3>
-                <ul className="text-xs space-y-2 text-muted">
+                <ul className="text-sm space-y-2 text-muted">
                   <li className="flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-reddit" />
                     Create and join communities

@@ -43,8 +43,9 @@ const CommunityPage = ({
   // since it's handled in the layout
 
   return (
-    <div className="text-primary pb-3 mt-12">
+    <div className="text-primary pb-3 ">
       <CommunityHeader
+        id={community.id}
         name={community.name}
         memberCount={memberCount}
         isSubscribed={isSubscribed}

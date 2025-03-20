@@ -1,13 +1,12 @@
 import Navbar from '@/components/Navbar'
 import { cn } from '@/lib/utils'
-import { IBM_Plex_Sans } from 'next/font/google'
 import { Toaster } from '../components/ui/toaster'
 import '@/styles/globals.css'
 import Providers from '@/components/Providers'
 import { Inter } from 'next/font/google'
 import '@/styles/globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin-ext'] })
 
 export const metadata = {
   title: 'Breadit',
@@ -28,12 +27,12 @@ export default function RootLayout({
         'antialiased dark',
         inter.className
       )}>
-      <body className='min-h-screen bg-zinc-950 antialiased'>
+      <body className='min-h-screen bg-surface antialiased'>
         <Providers>
           {/*@ts-expect-error server component*/}
           <Navbar />
           {authModal}
-          <div className='w-full max-w-7xl mx-auto h-full pt-6 md:pt-12 md:px-6 bg-zinc-950'>
+          <div className='w-full max-w-7xl mx-auto h-full pt-6 md:pt-12 md:px-6 bg-surface'>
             {children}
           </div>
           <Toaster />

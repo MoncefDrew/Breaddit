@@ -78,23 +78,24 @@ const PostVoteClient = ({
   })
 
   return (
-    <div className='md:flex-col flex-row flex md:gap-0 gap-4 pr-2 md:w-20 pb-4 md:pb-0 items-center'>
+    <div className='flex items-center h-8'>
       {/* upvote */}
       <Button
         onClick={() => vote('UP')}
         size='sm'
         variant='ghost'
         aria-label='upvote'
-        className='hover:bg-surface-dark-hover'>
+        className='focus:outline-none active:outline-none rounded-full hover:bg-slate-600 h-8'>
         <ArrowBigUp
-          className={cn('h-5 w-5 text-muted', {
+          className={cn('h-6 w-6 hover:text-[#FF4500]', {
             'text-upvote fill-upvote': currentVote === 'UP',
           })}
+          style={{ color: currentVote === 'UP' ? '#FF4500' : 'zinc-100' }}
         />
       </Button>
 
       {/* score */}
-      <p className='text-center px-2 md:px-0 md:py-2 font-medium text-sm text-primary'>
+      <p className='text-center px-2 font-medium text-sm text-primary h-8 flex items-center'>
         {votesAmt}
       </p>
 
@@ -104,11 +105,12 @@ const PostVoteClient = ({
         size='sm'
         variant='ghost'
         aria-label='downvote'
-        className='hover:bg-surface-dark-hover'>
+        className='focus:outline-none active:outline-none rounded-full hover:bg-slate-600 h-8'>
         <ArrowBigDown
-          className={cn('h-5 w-5 text-muted', {
+          className={cn('h-6 w-6 hover:text-[#5c34c2]', {
             'text-downvote fill-downvote': currentVote === 'DOWN',
           })}
+          style={{ color: currentVote === 'DOWN' ? '#3c00d3' : 'zinc-100' }}
         />
       </Button>
     </div>

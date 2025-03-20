@@ -18,6 +18,7 @@ import {
 import ImageUploader from "../upload/ImageUploader";
 
 interface CommunityHeaderProps {
+  id:string;
   name: string;
   memberCount: number;
   isSubscribed: boolean;
@@ -27,6 +28,7 @@ interface CommunityHeaderProps {
 }
 
 const CommunityHeader: FC<CommunityHeaderProps> = ({
+  id,
   name,
   memberCount,
   isSubscribed,
@@ -52,7 +54,7 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
         ? `/api/subreddit/unsubscribe`
         : `/api/subreddit/subscribe`;
 
-      const response = await axios.post(url, { subredditName: name });
+      const response = await axios.post(url, { subredditId: id });
 
       if (response.status === 200) {
         setSubscribed(!subscribed);
@@ -147,7 +149,7 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
     <div className="flex flex-col items-center">
       <div className="relative w-full max-w-5xl mb-6">
         {/* Back button */}
-        <button 
+        <button
           onClick={handleBack}
           className="absolute top-4 left-4 z-10 bg-surface bg-opacity-70 p-2 rounded-full text-white hover:bg-opacity-90 transition-all"
           aria-label="Go back"
@@ -156,28 +158,29 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
         </button>
 
         {/* Cover Image - Full width with rounded corners */}
-        <div 
-          className="w-full bg-gradient-to-r from-surface to-surface-dark-hover overflow-hidden rounded-t-lg relative"
-        >
+        <div className="w-full bg-gradient-to-r from-surface to-surface-dark-hover overflow-hidden rounded-t-lg relative">
           {/* Cover image container */}
           <div className="h-32 sm:h-40 md:h-56 w-full relative">
             {localCoverImage ? (
-              <Image 
+              <Image
                 src={localCoverImage}
                 alt={`r/${name} banner`}
                 fill
-                style={{ objectFit: 'cover' }}
+                style={{ objectFit: "cover" }}
                 priority
                 className="rounded-t-lg"
               />
             ) : (
               <div className="w-full h-full bg-gradient-to-r from-reddit via-reddit to-reddit opacity-80 rounded-t-lg"></div>
             )}
-            
+
             {isModerator && (
-              <Dialog open={isUploadDialogOpen} onOpenChange={setIsUploadDialogOpen}>
+              <Dialog
+                open={isUploadDialogOpen}
+                onOpenChange={setIsUploadDialogOpen}
+              >
                 <DialogTrigger asChild>
-                  <button 
+                  <button
                     className="absolute right-4 bottom-4 p-2 rounded-full bg-surface-dark-hover text-primary hover:bg-surface-dark-hover disabled:opacity-50 shadow-md"
                     aria-label="Upload cover image"
                   >
@@ -192,7 +195,7 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
                     </DialogDescription>
                   </DialogHeader>
                   <div className="py-4">
-                    <ImageUploader 
+                    <ImageUploader
                       endpoint="coverImage"
                       onUploadComplete={handleCoverImageUpload}
                     />
@@ -201,27 +204,32 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
               </Dialog>
             )}
           </div>
-          
+
           {/* Community Info Section with Profile Image */}
           <div className="w-full bg-surface border border-custom rounded-b-lg relative pb-3">
             {/* Profile image positioned to overlap the cover image */}
             <div className="absolute -top-12 left-8 sm:left-10">
-              <Dialog open={isProfileUploadDialogOpen} onOpenChange={setIsProfileUploadDialogOpen}>
+              <Dialog
+                open={isProfileUploadDialogOpen}
+                onOpenChange={setIsProfileUploadDialogOpen}
+              >
                 <DialogTrigger asChild>
                   <div className="relative cursor-pointer group">
                     <div className="h-20 w-20 rounded-full overflow-hidden bg-surface border-4 border-surface shadow-lg">
                       {localProfileImage ? (
-                        <Image 
+                        <Image
                           src={localProfileImage}
                           alt={`r/${name} profile`}
                           fill
-                          style={{ objectFit: 'cover' }}
+                          style={{ objectFit: "cover" }}
                           priority
                           className="rounded-full border-2 bg-surface"
                         />
                       ) : (
                         <div className="flex items-center justify-center h-full w-full bg-gradient-to-br from-reddit to-reddit rounded-full border-2 border-reddit">
-                          <span className="text-xl font-bold text-white">r/</span>
+                          <span className="text-xl font-bold text-white">
+                            r/
+                          </span>
                         </div>
                       )}
                     </div>
@@ -232,7 +240,7 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
                     )}
                   </div>
                 </DialogTrigger>
-                
+
                 {isModerator && (
                   <DialogContent className="bg-surface border-custom text-primary">
                     <DialogHeader>
@@ -242,7 +250,7 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
                       </DialogDescription>
                     </DialogHeader>
                     <div className="py-4">
-                      <ImageUploader 
+                      <ImageUploader
                         endpoint="profileImage"
                         onUploadComplete={handleProfileImageUpload}
                       />
@@ -251,27 +259,38 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
                 )}
               </Dialog>
             </div>
-            
+
             {/* Info content positioned to account for profile image */}
             <div className="pl-32 sm:pl-36 pr-4 pt-3 flex flex-col sm:flex-row items-start sm:items-center justify-between">
               <div>
                 <h1 className="text-2xl font-bold text-primary">r/{name}</h1>
                 <p className="text-sm text-muted mt-1">
-                  {memberCount} {memberCount === 1 ? 'member' : 'members'}
+                  {memberCount} {memberCount === 1 ? "member" : "members"}
                 </p>
               </div>
-              
-              <div className="mt-3 sm:mt-0">
+
+              <div className="mt-3 sm:mt-0 flex flex-row gap-2 items-center">
                 <Button
+                  size="sm"
+                  className="w-full bg-transparent text-primary md:p-4  rounded-full border border-zinc-custom hover:border-zinc-300 hover:text-zinc-300 transition-colors duration-200"
+                  onClick={() => {
+                    window.location.href = `/r/${name}/submit`;
+                  }}
+                >
+                  <span className="mr-2">+</span>
+                  Create Post
+                </Button>
+                <Button
+                  size="sm"
                   onClick={handleSubscribe}
                   isLoading={isSubscriptionLoading}
                   className={
-                    subscribed 
-                      ? 'bg-surface-dark-hover text-primary hover:bg-surface-dark-hover border border-custom' 
-                      : 'bg-reddit text-white hover:bg-reddit'
+                    subscribed
+                      ? "bg-surface-dark-hover rounded-full md:p-4 text-primary hover:bg-surface-dark-hover border border-custom  hover:border-zinc-300 hover:text-zinc-300 transition-colors duration-200"
+                      : "bg-blue-500 md:px-5 px-4 text-white rounded-full hover:bg-blue-600 hover:border-zinc-300 hover:text-zinc-300 transition-colors duration-200"
                   }
                 >
-                  {subscribed ? 'Joined' : 'Join'}
+                  {subscribed ? "Joined" : "Join"}
                 </Button>
               </div>
             </div>
@@ -279,7 +298,7 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default CommunityHeader;
