@@ -8,7 +8,7 @@ const Layout = async ({
   params: { user: string };
 }) => {
   return (
-    <div className="sm:container max-w-7xl mx-auto h-full pt-8 bg-surface">
+    <div className="sm:container max-w-6xl mx-auto h-full pt-8 bg-surface">
       <div className="px-4">
         {children}
       </div>

@@ -12,7 +12,7 @@ export default async function Home() {
   return (
     <>
       <h1 className="font-bold text-3xl md:text-4xl text-zinc-200 mt-14 px-4">Your feed</h1>
-      <div className="grid grid-cols-1 px-4  md:grid-cols-3 gap-y-2 md:gap-x-4 py-6">
+      <div className="grid grid-cols-1 px-4 max-w-6xl md:grid-cols-3 gap-y-2 md:gap-x-4 py-6">
         {/*@ts-expect-error server compoennt */}
         
         {session ?  <CustomFeed/> : <GeneralFeed/>}
@@ -55,7 +55,7 @@ export default async function Home() {
 
               <Link
                 className={buttonVariants({
-                  className: "w-full bg-gradient-to-r from-reddit to-orange-500 hover:from-reddit-hover hover:to-orange-600 text-white font-medium shadow-sm transition-all duration-200",
+                  className: "w-full bg-[#0969DA] hover:bg-[#1f6feb] text-white font-medium shadow-sm transition-all duration-200",
                 })}
                 href="/r/create">
                 Create Community

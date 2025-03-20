@@ -64,7 +64,7 @@ const Page = async ({ params }: PageProps) => {
   }
 
   return (
-    <div className='container mx-auto max-w-7xl'>
+    <div className='container mx-auto max-w-5xl'>
       <CommunityPage
         community={{
           id: subreddit.id,

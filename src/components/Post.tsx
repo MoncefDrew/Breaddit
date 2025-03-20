@@ -11,6 +11,7 @@ import UserAvatar from "./UserAvatar";
 import { Button } from "./ui/Button";
 import { useCustomToast } from "@/hooks/use-custom-toast";
 import axios from "axios";
+import JoinButton from './JoinButton'
 
 type PartialVote = Pick<Vote, "type">;
 
@@ -50,6 +51,8 @@ const Post: FC<PostProps> = ({
       <div className="px-6 flex justify-between relative">
         <div className="w-0 flex-1">
           <div className="max-h-40 text-xs text-muted flex items-center flex-wrap">
+
+            {/* User avatar */}
             <UserAvatar
               user={{
                 name: post?.author.name || null,
@@ -58,6 +61,7 @@ const Post: FC<PostProps> = ({
               className="size-6 mr-2"
             />
 
+            {/* subreddit name */}
             {subredditName ? (
               <>
                 <a
@@ -73,18 +77,8 @@ const Post: FC<PostProps> = ({
           </div>
 
           {/* Join and More buttons */}
-          <div className="flex items-center gap-2 absolute top-3 right-6">
-            <Button
-              onClick={handleJoin}
-              className={`text-xs font-medium px-4 py-1 h-8 rounded-full ${
-                isJoined 
-                ? 'text-muted hover:bg-zinc-800 border border-zinc-700' 
-                : 'bg-[#D7DADC] hover:bg-[#C8CBCD] text-[#1A1A1B]'
-              }`}
-              variant="ghost"
-            >
-              {isJoined ? 'Joined' : 'Join'}
-            </Button>
+          <div className="flex items-center gap-2 absolute top-0 right-6">
+            <JoinButton subredditName={subredditName} />
             <Button
               variant="ghost"
               className="h-8 w-8 hover:bg-zinc-800 rounded-full p-0"
@@ -102,20 +96,20 @@ const Post: FC<PostProps> = ({
             </h1>
           </a>
 
-          <div
-            className="relative text-sm w-full overflow-hidden text-primary"
+          <div 
+            className="relative text-sm max-h-40 w-full overflow-hidden" 
             ref={pRef}
           >
             <EditorOutput content={post.content} />
-            {pRef.current?.clientHeight === 160 ? (
-              <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-surface to-transparent"></div>
-            ) : null}
+            {pRef.current && pRef.current.clientHeight >= 160 && (
+              <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-[#0D1117] via-[#0D1117]/70 to-transparent"></div>
+            )}
           </div>
         </div>
       </div>
 
       <div className="flex flex-row text-sm px-4 py-2 items-center gap-4 ">
-        <div className='flex items-center hover:border-[#556883] border-2 border-[#232b36] bg-[#232b36] rounded-3xl'>
+        <div className="flex items-center hover:border-[#556883] border-2 border-[#232b36] bg-[#232b36] rounded-3xl">
           <PostVoteClient
             postId={post.id}
             initialVotesAmt={_votesAmt}
@@ -127,12 +121,12 @@ const Post: FC<PostProps> = ({
           href={`/r/${subredditName}/post/${post.id}`}
           className="flex items-center gap-2  py-2 px-3 hover:border-[#556883] bg-[#232b36] border-2 border-[#232b36]  rounded-3xl"
         >
-          <MessageCircle className="h-4 w-4 " /> 
+          <MessageCircle className="h-4 w-4 " />
           <span className="text-xs font-medium ">{commentAmt}</span>
         </Link>
-        
+
         <button className="flex items-center gap-2  py-2 px-3 hover:border-[#556883] bg-[#232b36] border-2 border-[#232b36]  rounded-3xl">
-          <Share className="h-4 w-4  "/>
+          <Share className="h-4 w-4  " />
           <span className="text-xs font-medium ">Share</span>
         </button>
       </div>
