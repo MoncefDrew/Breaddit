@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import Image from "next/image";
-import { Camera, ChevronLeft, Loader2 } from "lucide-react";
+import { Camera, ChevronLeft } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -16,9 +16,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import ImageUploader from "../upload/ImageUploader";
+import JoinButton from "../JoinButton";
 
 interface CommunityHeaderProps {
-  id:string;
+  id: string;
   name: string;
   memberCount: number;
   isSubscribed: boolean;
@@ -36,8 +37,6 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
   coverImage,
   profileImage,
 }) => {
-  const [isSubscriptionLoading, setIsSubscriptionLoading] = useState(false);
-  const [subscribed, setSubscribed] = useState(isSubscribed);
   const [localCoverImage, setLocalCoverImage] = useState(coverImage);
   const [localProfileImage, setLocalProfileImage] = useState(profileImage);
   const [isUploadDialogOpen, setIsUploadDialogOpen] = useState(false);
@@ -46,37 +45,6 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
 
   const router = useRouter();
   const { toast } = useToast();
-
-  const handleSubscribe = async () => {
-    try {
-      setIsSubscriptionLoading(true);
-      const url = subscribed
-        ? `/api/subreddit/unsubscribe`
-        : `/api/subreddit/subscribe`;
-
-      const response = await axios.post(url, { subredditId: id });
-
-      if (response.status === 200) {
-        setSubscribed(!subscribed);
-        toast({
-          title: subscribed ? "Unsubscribed" : "Subscribed",
-          description: subscribed
-            ? `You have unsubscribed from r/${name}`
-            : `You have subscribed to r/${name}`,
-          variant: "default",
-        });
-        router.refresh();
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubscriptionLoading(false);
-    }
-  };
 
   // Update the cover image in the database after upload
   const handleCoverImageUpload = async (url: string) => {
@@ -280,18 +248,7 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
                   <span className="mr-2">+</span>
                   Create Post
                 </Button>
-                <Button
-                  size="sm"
-                  onClick={handleSubscribe}
-                  isLoading={isSubscriptionLoading}
-                  className={
-                    subscribed
-                      ? "bg-surface-dark-hover rounded-full md:p-4 text-primary hover:bg-surface-dark-hover border border-custom  hover:border-zinc-300 hover:text-zinc-300 transition-colors duration-200"
-                      : "bg-blue-500 md:px-5 px-4 text-white rounded-full hover:bg-blue-600 hover:border-zinc-300 hover:text-zinc-300 transition-colors duration-200"
-                  }
-                >
-                  {subscribed ? "Joined" : "Join"}
-                </Button>
+                <JoinButton subredditId={id} size="default" />
               </div>
             </div>
           </div>

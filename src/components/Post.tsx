@@ -78,7 +78,7 @@ const Post: FC<PostProps> = ({
 
           {/* Join and More buttons */}
           <div className="flex items-center gap-2 absolute top-0 right-6">
-            <JoinButton subredditName={subredditName} />
+            <JoinButton subredditId={post.subredditId} />
             <Button
               variant="ghost"
               className="h-8 w-8 hover:bg-zinc-800 rounded-full p-0"

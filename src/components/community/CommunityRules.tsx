@@ -17,10 +17,12 @@ interface Rule {
 
 interface CommunityRulesProps {
   communityName: string
+  rules?: Rule[]
+  isModerator?: boolean
 }
 
-const CommunityRules: FC<CommunityRulesProps> = ({ communityName }) => {
-  const [rules, setRules] = useState<Rule[]>([])
+const CommunityRules: FC<CommunityRulesProps> = ({ communityName, rules: initialRules, isModerator = false }) => {
+  const [rules, setRules] = useState<Rule[]>(initialRules || [])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isEditing, setIsEditing] = useState(false)
@@ -90,15 +92,6 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName }) => {
     }
   }
 
-  // Check if the current user is a moderator
-  const checkIsModerator = () => {
-    // This is a placeholder. In a real app, you would check if the user is a mod
-    // You'll need to implement proper moderator checking logic based on your app's auth
-    return true
-  }
-
-  const isModerator = checkIsModerator()
-
   if (isLoading) {
     return (
       <div className="flex justify-center py-8">
@@ -135,7 +128,7 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName }) => {
         {isModerator && (
           <Button 
             onClick={() => setIsEditing(true)}
-            className="mt-4 bg-reddit hover:bg-reddit text-white"
+            className="mt-4 bg-[#238636] hover:bg-[#2ea043] text-white"
           >
             <Plus className="h-4 w-4 mr-2" />
             Add Rules
@@ -163,14 +156,14 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName }) => {
           {isModerator && (
             <Button 
               onClick={() => setIsEditing(true)}
-              className="mt-4 bg-reddit hover:bg-reddit text-white"
+              className="mt-4 bg-[#238636] hover:bg-[#2ea043] text-white"
             >
               <Pencil className="h-4 w-4 mr-2" />
               Edit Rules
             </Button>
           )}
         </>
-      ) : (
+      ) : isModerator ? (
         <div className="space-y-4">
           <div className="space-y-4">
             {rules.map((rule, index) => (
@@ -225,7 +218,7 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName }) => {
             <Button
               onClick={handleAddRule}
               disabled={!newRule.title.trim()}
-              className="bg-reddit hover:bg-reddit text-white w-full"
+              className="bg-[#238636] hover:bg-[#2ea043] text-white w-full"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Rule
@@ -246,14 +239,14 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName }) => {
             <Button
               onClick={handleSaveRules}
               isLoading={isSaving}
-              className="bg-reddit hover:bg-reddit text-white"
+              className="bg-[#238636] hover:bg-[#2ea043] text-white"
             >
               <Save className="h-4 w-4 mr-2" />
               Save Rules
             </Button>
           </div>
         </div>
-      )}
+      ) : null}
     </div>
   )
 }

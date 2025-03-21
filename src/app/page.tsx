@@ -55,7 +55,7 @@ export default async function Home() {
 
               <Link
                 className={buttonVariants({
-                  className: "w-full bg-[#0969DA] hover:bg-[#1f6feb] text-white font-medium shadow-sm transition-all duration-200",
+                  className: "w-full bg-[#1a1a30] hover:bg-[#252539] text-white font-medium shadow-sm transition-all duration-200",
                 })}
                 href="/r/create">
                 Create Community
