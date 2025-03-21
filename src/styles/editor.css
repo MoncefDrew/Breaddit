@@ -62,4 +62,39 @@
 
 .codex-editor__redactor {
   padding-bottom: 0 !important;
+  color: var(--color-text-primary) !important;
+}
+
+.ce-block__content, 
+.ce-toolbar__content {
+  max-width: 100% !important;
+}
+
+.ce-paragraph {
+  color: var(--color-text-primary) !important;
+}
+
+.ce-header {
+  color: var(--color-text-primary) !important;
+}
+
+.ce-toolbar__plus {
+  color: var(--color-text-primary) !important;
+}
+
+.ce-toolbar__settings-btn {
+  color: var(--color-text-primary) !important;
+}
+
+.cdx-block {
+  color: var(--color-text-primary) !important;
+}
+
+.ce-toolbar__plus:hover,
+.ce-toolbar__settings-btn:hover {
+  background-color: var(--color-surface-dark-hover) !important;
+}
+
+.codex-editor--empty::before {
+  color: var(--color-text-muted) !important;
 }

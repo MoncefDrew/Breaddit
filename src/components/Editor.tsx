@@ -43,7 +43,7 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
   });
 
   const ref = useRef<EditorJS>();
-  const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [isMounted, SetIsMounted] = useState<boolean>(false);
   const _titleRef = useRef<HTMLTextAreaElement>(null)
   const router = useRouter()
   const pathname = usePathname();
@@ -228,18 +228,6 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
           table: Table,
           embed: Embed,
         },
-        theme: {
-          paragraph: {
-            text: {
-              color: '#F0F6FC',
-            },
-          },
-          header: {
-            text: {
-              color: '#F0F6FC',
-            },
-          },
-        },
       });
     }
   }, []);
@@ -247,7 +235,7 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setIsMounted(true);
+      SetIsMounted(true);
     }
   }, []);
 
