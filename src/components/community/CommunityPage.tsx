@@ -47,7 +47,6 @@ const CommunityPage = ({
       <CommunityHeader
         id={community.id}
         name={community.name}
-        memberCount={memberCount}
         isSubscribed={isSubscribed}
         isModerator={isModerator}
         coverImage={community.coverImage}

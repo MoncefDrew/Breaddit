@@ -14,8 +14,7 @@ interface CommunityTabsProps {
 
 const CommunityTabs = ({ communityName, initialPosts = [],session }: CommunityTabsProps) => {
   return (
-    <div className="bg-surface rounded-md shadow-md overflow-hidden border border-custom">
-      <MiniCreatePost session={session}/>
+    <div className=" overflow-hidden ">
       <Tabs defaultValue="posts" className="w-full">
         <div className="border-b border-custom">
           <TabsList className="bg-transparent h-12 px-4">

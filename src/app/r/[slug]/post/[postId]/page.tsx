@@ -16,6 +16,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import CommunityAboutCard from "@/components/community/CommunityAboutCard";
 import ToFeedButton from "@/components/ToFeedButton";
+import Link from "next/link";
 
 interface SubRedditPostPageProps {
   params: {
@@ -49,9 +50,9 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
   const session = await getAuthSession();
 
   const community = (await db.subreddit.findFirstOrThrow({
-    where: { 
+    where: {
       name: params.slug,
-      creatorId: { not: null }
+      creatorId: { not: null },
     },
     select: {
       id: true,
@@ -59,34 +60,42 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
       createdAt: true,
       creatorId: true,
       description: true,
-      subscribers: true
-    }
-  })) as { id: string; name: string; createdAt: Date; creatorId: string; description: string | null; subscribers: { subredditId: string; userId: string; }[] };
+      subscribers: true,
+    },
+  })) as {
+    id: string;
+    name: string;
+    createdAt: Date;
+    creatorId: string;
+    description: string | null;
+    subscribers: { subredditId: string; userId: string }[];
+  };
 
   if (!post && !cachedPost) return notFound();
   if (!community) return notFound();
 
-  const subscription = !session?.user ? undefined : await db.subscription.findFirst({
-    where: {
-      subreddit: {
-        name: params.slug,
-      },
-      user: {
-        id: session.user.id,
-      },
-    },
-  });
+  const subscription = !session?.user
+    ? undefined
+    : await db.subscription.findFirst({
+        where: {
+          subreddit: {
+            name: params.slug,
+          },
+          user: {
+            id: session.user.id,
+          },
+        },
+      });
 
   const isSubscribed = !!subscription;
   const isModerator = session?.user?.id === community.creatorId;
 
   return (
-    <div className="bg-surface m-2 md:m-5">
+    <div className="bg-[#0E1113] m-2 md:m-5">
       <div className="h-full flex flex-col items-start justify-between">
-        
         <div className="w-full flex flex-col md:flex-row md:gap-3">
           <div className="mb-2 md:mb-0">
-            <ToFeedButton/>
+            <ToFeedButton />
           </div>
 
           {/* Vote buttons - visible only on medium+ screens */}
@@ -109,12 +118,15 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
             </Suspense>
           </div>
 
-          <div className="w-full flex-1 bg-surface p-3 md:p-4 rounded-sm border border-custom">
+          <div className="w-full flex-1 bg-[#0E1113] p-3 md:p-4 rounded-sm ">
             <div className="flex flex-1 flex-col sm:flex-row justify-between">
               <div className="flex flex-row items-center gap-2 md:gap-4">
                 <UserAvatar
                   user={{
-                    name: post?.author.username || cachedPost?.authorUsername || null,
+                    name:
+                      post?.author.username ||
+                      cachedPost?.authorUsername ||
+                      null,
                     image: post?.author.image || null,
                   }}
                   className="w-8 h-8"
@@ -122,7 +134,11 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
                 <div className="flex flex-col">
                   <p className="max-h-40 mt-1 truncate text-xs text-primary">
                     Posted by u/
-                    {post?.author.username ?? cachedPost.authorUsername}
+                    <Link
+                      href={`/u/${post?.author.username ?? cachedPost.authorUsername}`}
+                    >
+                      {post?.author.username ?? cachedPost.authorUsername}
+                    </Link>
                   </p>
                   <p className="truncate text-xs text-muted">
                     {formatTimeToNow(
@@ -132,7 +148,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
                 </div>
               </div>
             </div>
-            
+
             <h1 className="text-lg md:text-xl font-semibold py-2 leading-6 text-primary">
               {post?.title ?? cachedPost.title}
             </h1>
@@ -140,7 +156,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
             <div className="max-w-full overflow-x-auto">
               <EditorOutput content={post?.content ?? cachedPost.content} />
             </div>
-            
+
             {/* Vote buttons - visible only on small screens */}
             <div className="md:hidden mt-4 mb-4 flex items-center justify-center">
               <Suspense fallback={<PostVoteShellHorizontal />}>
@@ -160,15 +176,15 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
                 />
               </Suspense>
             </div>
-            
-            {session?.user && (session?.user.id === post?.author.id) ? (
+
+            {session?.user && session?.user.id === post?.author.id ? (
               <div className="flex items-end justify-end gap-3 mt-3">
                 <DeletePostButton postId={post?.id} />
                 {/* @ts-ignore */}
-                <EditPostButton post={post}/>
+                <EditPostButton post={post} />
               </div>
             ) : null}
-            
+
             <Suspense
               fallback={
                 <div className="flex justify-center my-4">
@@ -182,17 +198,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
           </div>
 
           {/* About Community Card */}
-          <div className="hidden lg:block w-[300px] ml-6">
-            <div className="sticky top-20">
-              <CommunityAboutCard
-                community={community}
-                memberCount={community.subscribers.length}
-                description={community.description}
-                isSubscribed={isSubscribed}
-                isModerator={isModerator}
-              />
-            </div>
-          </div>
+          
         </div>
       </div>
     </div>

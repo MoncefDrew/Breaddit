@@ -1,222 +1,196 @@
-'use client'
+"use client";
 
-import { FC, useState } from 'react'
-import { Card, CardContent, CardFooter, CardHeader } from '../ui/Card'
-import { format } from 'date-fns'
-import { Pencil, CalendarDays, Users, BookOpen, Shield } from 'lucide-react'
-import { Button } from '../ui/Button'
-import { Textarea } from '../ui/textarea'
-import { useToast } from '@/hooks/use-toast'
-import axios from 'axios'
-import { Separator } from '../ui/Separator'
-
+import { FC, useState } from "react";
+import { format } from "date-fns";
+import {
+  Calendar,
+  Users,
+  Link2,
+  Globe,
+  Shield,
+  ChevronDown,
+  Cake,
+} from "lucide-react";
+import { Button } from "../ui/Button";
+import { Textarea } from "../ui/textarea";
+import { useToast } from "@/hooks/use-toast";
+import axios from "axios";
+import Link from "next/link";
 
 interface Rule {
-  id: string
-  title: string
-  description: string
+  id: string;
+  title: string;
+  description?: string;
 }
 
 interface CommunityAboutCardProps {
   community: {
-    id: string
-    name: string
-    createdAt: Date
-    creatorId: string
-  }
-  memberCount: number
-  description: string | null
-  profileImage?: string | null
-  isSubscribed: boolean
-  isModerator: boolean
-  onDescriptionUpdate?: (newDescription: string) => void
-  rules?: Rule[]
+    id: string;
+    name: string;
+    createdAt: Date;
+    creatorId: string;
+    description?: string;
+    bio?: string;
+  };
+  memberCount: number;
+  onlineCount?: number;
+  description: string | null;
+  profileImage?: string | null;
+  isSubscribed: boolean;
+  isModerator: boolean;
+  onbioUpdate?: (newDescription: string) => void;
+  rules?: Rule[];
 }
 
 const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
   community,
   memberCount,
+  onlineCount = 0,
   description,
   isModerator,
-  onDescriptionUpdate,
-  rules = []
+  onbioUpdate,
+  rules = [],
 }) => {
-  const [localDescription, setLocalDescription] = useState(description || '')
-  const [isEditing, setIsEditing] = useState(false)
-  const [descriptionText, setDescriptionText] = useState(description || '')
-  const [isLoading, setIsLoading] = useState(false)
-  const [expandedRules, setExpandedRules] = useState<string[]>([])
-  
-  const { toast } = useToast()
+  const [isEditing, setIsEditing] = useState(false);
+  const [descriptionText, setDescriptionText] = useState(description || "");
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleSaveDescription = async () => {
-    if (!isModerator) return
-    
-    setIsLoading(true)
+    if (!isModerator) return;
+
+    setIsLoading(true);
     try {
       const response = await axios.patch(`/api/subreddit/${community.name}`, {
-        description: descriptionText
-      })
+        description: descriptionText,
+      });
 
       if (response.status === 200) {
-        if (onDescriptionUpdate) {
-          onDescriptionUpdate(descriptionText)
-        } else {
-          // If no callback is provided, update the local state
-          setLocalDescription(descriptionText)
+        if (onbioUpdate) {
+          onbioUpdate(descriptionText);
         }
-        setIsEditing(false)
+        setIsEditing(false);
         toast({
-          title: 'Description updated',
-          description: 'Community description has been updated successfully.',
-          variant: 'default',
-        })
+          title: "Success",
+          description: "Community description updated.",
+          variant: "default",
+        });
       }
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Failed to update community description.',
-        variant: 'destructive',
-      })
+        title: "Error",
+        description: "Failed to update description.",
+        variant: "destructive",
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
-
-  const toggleRuleExpansion = (ruleId: string) => {
-    setExpandedRules(prev => 
-      prev.includes(ruleId) 
-        ? prev.filter(id => id !== ruleId) 
-        : [...prev, ruleId]
-    )
-  }
-
-  // Determine which description to display
-  const displayDescription = onDescriptionUpdate ? description : localDescription
+  };
 
   return (
-    <Card className="bg-surface border-custom shadow-md mb-4 rounded-lg overflow-hidden">
-      <CardHeader className="bg-surface border-b border-custom pb-3">
-        <h2 className="text-primary text-base font-medium flex items-center">
-          About r/{community.name}
-        </h2>
-      </CardHeader>
-      
-      <CardContent className="pt-4">
-        {isEditing ? (
-          <div className="space-y-2">
-            <Textarea 
-              value={descriptionText}
-              onChange={(e) => setDescriptionText(e.target.value)}
-              placeholder="Add a description to your community..."
-              className="resize-none h-24 bg-surface-dark-hover border-custom text-primary focus:ring-reddit focus:border-reddit"
-            />
-            <div className="flex gap-2 justify-end">
-              <Button 
-                variant="subtle" 
-                size="sm"
-                onClick={() => {
-                  setIsEditing(false)
-                  setDescriptionText(displayDescription || '')
-                }}
-                className="bg-surface-dark-hover text-primary hover:bg-surface-dark-hover"
-              >
-                Cancel
-              </Button>
-              <Button 
-                size="sm"
-                onClick={handleSaveDescription}
-                isLoading={isLoading}
-                className="bg-reddit text-white hover:bg-reddit"
-              >
-                Save
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <div>
-            {displayDescription ? (
-              <p className="text-primary text-sm">{displayDescription}</p>
-            ) : (
-              <p className="text-muted text-sm italic">
-                {isModerator 
-                  ? 'Add a description to your community...' 
-                  : 'No description available.'}
-              </p>
-            )}
-            
-            {isModerator && (
-              <Button 
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsEditing(true)}
-                className="mt-2 text-muted hover:text-primary hover:bg-surface-dark-hover p-1 h-auto"
-              >
-                <Pencil className="h-3.5 w-3.5 mr-1" />
-                <span className="text-xs">Edit</span>
-              </Button>
-            )}
-          </div>
-        )}
+    <div className="bg-[#040505] rounded-md overflow-hidden">
 
-        <div className="mt-4 space-y-3">
-          <div className="flex items-center text-muted text-sm">
-            <CalendarDays className="h-4 w-4 mr-2" />
-            <span>Created {format(new Date(community.createdAt), 'MMMM d, yyyy')}</span>
-          </div>
-          
-          <div className="flex items-center text-muted text-sm">
-            <Users className="h-4 w-4 mr-2" />
-            <span>{memberCount} {memberCount === 1 ? 'member' : 'members'}</span>
-          </div>
+      {/* Welcome Section */}
+      <div className="p-4 space-y-3 text-[#8aa3ad]">
+        <p className="text-base ">{community.name}!</p>
+        <p className="text-sm ">{community.bio}</p>
+        <p className="text-sm ">
+          r/{community.name} is moderated more heavily than most other subs on
+          reddit. Please consult the{" "}
+          <Link href="/rules" className="text-[#4FBCFF] hover:underline">
+            Rules
+          </Link>{" "}
+          before posting or commenting.
+        </p>
+      </div>
 
-          {isModerator && (
-            <div className="flex items-center text-muted text-sm">
-              <Shield className="h-4 w-4 mr-2" />
-              <span>You are a moderator of this community</span>
-            </div>
-          )}
+      {/* About Community Card */}
+      <div className="p-3">
+
+        {/* Created and Public info */}
+        <div className="flex items-start flex-col gap-2 mb-4">
+          <div className="flex items-start text-sm font-medium text-[#8aa3ad] ">
+            <Cake className="h-4 w-4 mr-2" />
+            <span>
+              Created {format(new Date(community.createdAt), "MMM d, yyyy")}
+            </span>
+          </div>
+          <div className="flex items-center text-sm font-medium text-[#8aa3ad]">
+            <Globe className="h-4 w-4 mr-2" />
+            <span>Public</span>
+          </div>
         </div>
 
-        {/* Rules Section */}
-        {rules.length > 0 && (
-          <div className="mt-6">
-            <Separator className="mb-3 bg-custom" />
-            
-            <div className="flex items-center text-primary mb-3">
-              <BookOpen className="h-5 w-5 mr-2" />
-              <h3 className="font-medium">Community Rules</h3>
+        {/* Stats row */}
+        <div className="flex gap-8 mb-2 items-end border-b pb-4 border-b-gray-500 ">
+          <div className="flex items-start flex-col">
+            <div className="text-[16px] font-medium text-[#D7DADC]">
+              {memberCount.toLocaleString()}
             </div>
-            
-            <div className="space-y-2">
-              {rules.map((rule, index) => (
-                <div 
-                  key={rule.id} 
-                  className="border border-custom rounded-md overflow-hidden bg-surface"
-                >
-                  <button
-                    onClick={() => toggleRuleExpansion(rule.id)}
-                    className="w-full px-3 py-2 text-left flex items-center justify-between hover:bg-surface-dark-hover transition-colors"
-                  >
-                    <div className="flex items-center text-primary">
-                      <span className="mr-2 text-sm font-medium">{index + 1}.</span>
-                      <span className="text-sm font-medium">{rule.title}</span>
-                    </div>
-                  </button>
-                  
-                  {expandedRules.includes(rule.id) && (
-                    <div className="px-3 py-2 border-t border-custom text-sm text-muted">
-                      {rule.description}
-                    </div>
-                  )}
-                </div>
-              ))}
+            <div className="text-xs font-medium text-[#8aa3ad]">Members</div>
+          </div>
+          <div className="flex flex-col">
+            <div className="flex items-center gap-1">
+              <span className="text-[16px] font-medium text-[#D7DADC]">
+                {onlineCount.toLocaleString()}
+              </span>
+            </div>
+            <div className="flex flex-row items-center gap-1 text-xs font-medium text-[#8aa3ad]">
+              <span className="flex h-2 w-2 bg-[#46D160] rounded-full" />
+              Online
             </div>
           </div>
-        )}
-      </CardContent>
-    </Card>
-  )
-}
+          <div>
+            <div className="flex items-center text-sm font-medium text-[#D7DADC]">
+              Top 1%
+              <Link2 className="h-4 w-4 ml-1 text-[#818384]" />
+            </div>
+            <div className="text-sm text-[#8aa3ad]">Rank by size</div>
+          </div>
+        </div>
+      </div>
 
-export default CommunityAboutCard 
+      {/* Rules Section */}
+      <div className="px-4 py-3">
+        <h2 className="text-xs font-bold tracking-[0.5px] uppercase text-[#7ba1ac]">
+          RULES
+        </h2>
+      </div>
+      <div>
+        {rules.map((rule, index) => (
+          <div
+            key={rule.id}
+            className="px-4 py-2 hover:bg-[#181C1F] cursor-pointer"
+          >
+            <div className="flex items-baseline text">
+              <span className="text-sm text-[#8aa3ad] mr-2">{index + 1}.</span>
+              <div className="flex-1">
+                <h3 className="text-sm text-[#8aa3ad]">{rule.title}</h3>
+              </div>
+              <ChevronDown className="h-4 w-4 text-[#818384] ml-2" />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Related Subreddits */}
+      <div className="px-4 py-3">
+        <h2 className="text-[10px] font-bold tracking-[0.5px] uppercase text-[#818384]">
+          RELATED SUBREDDITS
+        </h2>
+      </div>
+
+      <div className="p-4">
+        <div className="flex items-center gap-2">
+          <Globe className="h-4 w-4 text-[#818384]" />
+          <Link href="/r/LawSchool" className="text-[#4FBCFF] hover:underline">
+            r/LawSchool
+          </Link>
+          <span className="text-xs text-[#818384]">878,799 members</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CommunityAboutCard;

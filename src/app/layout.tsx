@@ -21,22 +21,18 @@ export default function RootLayout({
   authModal: React.ReactNode
 }) {
   return (
-    <html
-      lang='en'
-      className={cn(
-        'antialiased dark',
-        inter.className
-      )}>
-      <body className='min-h-screen bg-surface antialiased'>
-        <Providers>
-          {/*@ts-expect-error server component*/}
-          <Navbar />
-          {authModal}
-          <div className='w-full max-w-7xl mx-auto h-full pt-6 md:pt-12 md:px-6 bg-surface'>
-            {children}
+    <html lang="en" className="dark">
+      <body className={cn('min-h-screen bg-[#0E1113] antialiased', inter.className)}>
+        <div className="bg-[#0E1113] min-h-screen">
+          {/* @ts-ignore */}
+          <Navbar /> 
+          <div className="container max-w-[1400px] mx-auto pt-12 bg-[#0E1113]">
+            <Providers>
+              {children}
+            </Providers>
           </div>
           <Toaster />
-        </Providers>
+        </div>
       </body>
     </html>
   )

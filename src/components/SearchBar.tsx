@@ -16,7 +16,7 @@ import {
   CommandList,
 } from '@/components/ui/Command'
 import { useOnClickOutside } from '@/hooks/use-on-click-outside'
-import { Search, Users } from 'lucide-react'
+import { Users } from 'lucide-react'
 
 interface SearchBarProps {}
 
@@ -62,66 +62,42 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
   }, [pathname])
 
   return (
-    <div className="relative w-full max-w-lg">
-      <div className="rounded-full border border-custom w-full overflow-hidden bg-surface-dark-hover transition-all duration-200 hover:border-custom focus-within:border-custom shadow-sm">
-        <div className="flex items-center px-3">
-          <Search className="h-4 w-4 text-muted mr-2 flex-shrink-0" />
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value)
-              debounceRequest()
-            }}
-            className="w-full py-2 pr-3 bg-transparent text-primary placeholder:text-stone-400 outline-none border-none focus:outline-none focus:ring-0 focus:border-none"
-            placeholder="Search communities..."
-            style={{ boxShadow: 'none' }}
-          />
-        </div>
-      </div>
+    <Command
+      ref={commandRef}
+      className='relative rounded-lg border max-w-lg z-50 overflow-visible'>
+      <CommandInput
+        isLoading={isFetching}
+        onValueChange={(text) => {
+          setInput(text)
+          debounceRequest()
+        }}
+        value={input}
+        className='outline-none border-none focus:border-none focus:outline-none ring-0'
+        placeholder='Search communities...'
+      />
 
       {input.length > 0 && (
-        <div className="absolute bg-surface top-full inset-x-0 shadow-lg rounded-md border border-custom mt-1 overflow-hidden z-50 max-h-[300px] overflow-y-auto">
-          {isFetched && (!queryResults || queryResults.length === 0) && (
-            <div className="text-muted py-6 flex items-center justify-center">
-              <div className="text-center">
-                <p>No communities found</p>
-                <p className="text-xs mt-1">Try a different search term</p>
-              </div>
-            </div>
-          )}
+        <CommandList className='absolute bg-white top-full inset-x-0 shadow rounded-b-md'>
+          {isFetched && <CommandEmpty>No results found.</CommandEmpty>}
           {(queryResults?.length ?? 0) > 0 ? (
-            <div>
-              <div className="text-muted text-[10px] uppercase font-medium px-3 py-1.5 tracking-wider">
-                Communities
-              </div>
-              <div>
-                {queryResults?.map((subreddit) => (
-                  <div
-                    key={subreddit.id}
-                    className="px-4 py-3 cursor-pointer hover:bg-surface-dark-hover text-primary transition-colors duration-200"
-                    onClick={() => {
-                      router.push(`/r/${subreddit.name}`)
-                      router.refresh()
-                    }}
-                  >
-                    <div className="flex items-center">
-                      <div className="bg-reddit rounded-full p-1.5 mr-3">
-                        <Users className="h-4 w-4 text-white" />
-                      </div>
-                      <div>
-                        <p className="font-medium">r/{subreddit.name}</p>
-                        <p className="text-xs text-muted">{subreddit._count.posts} posts</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <CommandGroup heading='Communities'>
+              {queryResults?.map((subreddit) => (
+                <CommandItem
+                  onSelect={(e) => {
+                    router.push(`/r/${e}`)
+                    router.refresh()
+                  }}
+                  key={subreddit.id}
+                  value={subreddit.name}>
+                  <Users className='mr-2 h-4 w-4' />
+                  <a href={`/r/${subreddit.name}`}>r/{subreddit.name}</a>
+                </CommandItem>
+              ))}
+            </CommandGroup>
           ) : null}
-        </div>
+        </CommandList>
       )}
-    </div>
+    </Command>
   )
 }
 

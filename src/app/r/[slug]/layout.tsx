@@ -1,5 +1,4 @@
-import CommunityAboutCard from "@/components/community/CommunityAboutCard";
-import { getAuthSession } from "@/lib/auth";
+
 import { db } from "@/lib/db";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -31,7 +30,7 @@ const Layout = async ({
   if (!subreddit) return notFound();
 
   return (
-    <div className="w-full max-w-6xl mx-auto h-full pt-6 sm:pt-10 px-0 sm:px-2 md:px-4">
+    <div className="w-full  mx-auto h-full px-2 md:px-4">
       <div className="md:col-span-2">
         {children}
       </div>
