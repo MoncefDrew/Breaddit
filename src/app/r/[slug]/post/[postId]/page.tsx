@@ -198,7 +198,16 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
           </div>
 
           {/* About Community Card */}
-          
+          <div className="hidden lg:block w-[300px] ml-6">
+            <div className="sticky top-20">
+              <CommunityAboutCard
+                community={community}
+                memberCount={community.subscribers.length}
+                isSubscribed={isSubscribed}
+                isModerator={isModerator}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>

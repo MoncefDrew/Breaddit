@@ -28,13 +28,11 @@ interface CommunityAboutCardProps {
     id: string;
     name: string;
     createdAt: Date;
-    creatorId: string;
-    description?: string;
-    bio?: string;
+    creatorId: string | null;
+    description: string | null;
   };
   memberCount: number;
   onlineCount?: number;
-  description: string | null;
   profileImage?: string | null;
   isSubscribed: boolean;
   isModerator: boolean;
@@ -46,13 +44,12 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
   community,
   memberCount,
   onlineCount = 0,
-  description,
   isModerator,
   onbioUpdate,
   rules = [],
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [descriptionText, setDescriptionText] = useState(description || "");
+  const [descriptionText, setDescriptionText] = useState(community.description || "");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
@@ -93,7 +90,7 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
       {/* Welcome Section */}
       <div className="p-4 space-y-3 text-[#8aa3ad]">
         <p className="text-base ">{community.name}!</p>
-        <p className="text-sm ">{community.bio}</p>
+        <p className="text-sm ">{community.description}</p>
         <p className="text-sm ">
           r/{community.name} is moderated more heavily than most other subs on
           reddit. Please consult the{" "}

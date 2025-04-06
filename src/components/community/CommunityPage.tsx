@@ -72,9 +72,9 @@ const CommunityPage = ({
             name: community.name,
             createdAt: community.createdAt,
             creatorId: community.creatorId ?? "creator",
+            description: community.description
           }}
           memberCount={memberCount}
-          description={community.description || null}
           profileImage={community.profileImage}
           isSubscribed={isSubscribed}
           isModerator={isModerator}
