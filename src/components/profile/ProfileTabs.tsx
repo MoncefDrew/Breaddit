@@ -13,7 +13,7 @@ interface ProfileTabsProps {
 
 const ProfileTabs = ({ username, initialPosts = [], initialComments = [] }: ProfileTabsProps) => {
   return (
-    <div className="bg-surface rounded-md shadow-md overflow-hidden ">
+    <div className="bg-[#0E1113] rounded-md shadow-md overflow-hidden ">
       {/* Navigation Tabs */}
       <Tabs defaultValue="posts" className="w-full">
         <div className="border-b border-custom">

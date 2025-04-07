@@ -65,7 +65,7 @@ const Page = async ({ params }: PageProps) => {
   }
 
   return (
-    <div className="container bg-[#0E1113] md:mx-auto w-full flex-col md:w-full">
+    <div className="flex bg-[#0E1113] md:mx-auto w-full flex-col ">
       {/* Back button */}
 
 

@@ -29,9 +29,9 @@ export default async function Home() {
         {session ? <CustomFeed /> : <GeneralFeed />}
 
         {/* Subreddit info / Sidebar - STYLES TRANSFORMED BELOW */}
-        <div className="overflow-hidden rounded-lg h-fit bg-zinc-900 order-first md:order-last"> {/* Changed background, removed border */}
+        <div className="overflow-hidden rounded-lg h-fit bg-[#14181b] order-first md:order-last"> {/* Changed background, removed border */}
           {/* Header like "Ireland/Eire" */}
-          <div className="bg-zinc-800 px-6 py-4"> {/* Slightly different dark bg for header */}
+          <div className="bg-[#1c2226] px-6 py-4"> {/* Slightly different dark bg for header */}
             {/* Using HomeIcon and "Home" text as the title */}
             <p className="font-bold text-lg flex items-center gap-2 text-gray-100"> {/* Bolder, larger text, white/light gray */}
               <HomeIcon className="w-5 h-5 text-gray-300" /> {/* Icon color adjusted */}
@@ -69,7 +69,7 @@ export default async function Home() {
               {/* Link styled like the bookmark buttons */}
               <Link
                 // Using Tailwind classes directly for button styling to match the image
-                className="block w-full bg-zinc-700 hover:bg-zinc-600 text-gray-100 font-medium py-2 px-4 rounded-full text-center transition-colors duration-150 mt-2" // Button styles: dark bg, light text, rounded, full width
+                className="block w-full bg-[#2a3238] hover:bg-zinc-600 text-gray-100 font-medium py-2 px-4 rounded-full text-center transition-colors duration-150 mt-2" // Button styles: dark bg, light text, rounded, full width
                 href="/r/create"
               >
                 Create Community

@@ -17,7 +17,7 @@ const Post: FC<PostProps> = ({ post, subredditName }) => {
   const pRef = useRef<HTMLParagraphElement>(null);
 
   return (
-    <div className="bg-surface shadow-sm mb-4 border-b border-custom">
+    <div className="bg-[#0E1113] shadow-sm mb-4 border-b border-custom">
       <div className="px-6 py-1 flex justify-between gap-4">
         <div className="w-0 flex-1">
           <div className="max-h-40 mt-1 text-xs text-muted flex items-center flex-wrap">
@@ -58,10 +58,7 @@ const Post: FC<PostProps> = ({ post, subredditName }) => {
             ref={pRef}
           >
             <EditorOutput content={post.content} />
-            {pRef.current?.clientHeight === 160 ? (
-              // blur bottom if content is too long
-              <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-[#1A1A1B] to-transparent"></div>
-            ) : null}
+            
           </div>
         </div>
       </div>
