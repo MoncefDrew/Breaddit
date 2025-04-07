@@ -1,47 +1,37 @@
-
-"use client"
-
-import { authOptions } from "@/lib/auth";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { Icons } from "./Icons";
-import UserAccountNav from "./UserAccountNav";
-
+import { authOptions } from '@/lib/auth'
+import { getServerSession } from 'next-auth'
+import Link from 'next/link'
+import { Icons } from './Icons'
+import UserAccountNav from './UserAccountNav'
+import SearchBar from './SearchBar'
 
 const Navbar = async () => {
-  const { data: session } = useSession();
+  const session = await getServerSession(authOptions)
   return (
     <div className='fixed top-0 inset-x-0 h-fit bg-[#0E1113] border-b border-custom z-10 py-2'>
-
-      <div className='container w-full h-full flex items-center justify-between gap-2'>
-
+      <div className='container max-w-7xl h-full mx-auto flex items-center justify-between gap-2'>
         {/* logo */}
-        <Link href="/" className="flex gap-2 items-center">
-          <Icons.logo className="h-8 w-8 sm:h-6 sm:w-6 text-reddit" />
-          <p className="hidden text-gray-200 text-sm font-medium md:block">
-            Breadit
-          </p>
+        <Link href='/' className='flex gap-2 items-center'>
+          <Icons.logo className='h-8 w-8 sm:h-6 sm:w-6 text-reddit' />
+          <p className='hidden text-gray-200 text-sm font-medium md:block'>Breadit</p>
         </Link>
 
         {/* search bar */}
         <SearchBar />
 
-
         {/* actions */}
         <div className="relative z-50 items-center justify-center">
           {session?.user ? (
-            <UserAccountNav
-              user={{
-                name: session.user.name,
-                image: session.user.image,
-                email: session.user.email,
-                id: session.user.id,
-                username: session.user.username || "",
-              }}
-            />
+            <UserAccountNav user={{
+              name: session.user.name,
+              image: session.user.image,
+              email: session.user.email,
+              id: session.user.id,
+              username: session.user.username || ''
+            }} />
           ) : (
-            <Link
-              href="/sign-in"
+            <Link 
+              href='/sign-in' 
               className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-reddit focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-9 px-4 py-2 bg-reddit text-white border border-transparent hover:bg-reddit-hover active:border-white active:border-2 active:translate-y-0.5"
             >
               Sign In
@@ -50,7 +40,7 @@ const Navbar = async () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar
