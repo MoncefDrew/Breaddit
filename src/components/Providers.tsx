@@ -1,10 +1,6 @@
 'use client'
 
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from '@tanstack/react-query'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { SessionProvider } from 'next-auth/react'
 import { FC, ReactNode } from 'react'
 

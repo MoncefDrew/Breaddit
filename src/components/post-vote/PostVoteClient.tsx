@@ -110,7 +110,7 @@ const PostVoteClient = ({
           className={cn('h-6 w-6 text-[#b7c5da] hover:text-[#556883]', {
             'text-downvote fill-downvote': currentVote === 'DOWN',
           })}
-          style={{ color: currentVote === 'DOWN' ? '#7850de' : 'zinc-100' }}
+          style={{ color: currentVote === 'DOWN' ? '#997ce5' : 'zinc-100' }}
         />
       </Button>
     </div>
