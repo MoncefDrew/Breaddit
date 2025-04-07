@@ -1,139 +1,117 @@
-import { Editor } from '@/components/Editor'
-import { Button } from '@/components/ui/Button'
-import { db } from '@/lib/db'
-import { notFound } from 'next/navigation'
-import { AlertCircle, FileText, ImageIcon, Link2, PenLine } from 'lucide-react'
-import ToFeedButton from '@/components/ToFeedButton'
-import CommunityAboutCard from '@/components/community/CommunityAboutCard'
-import { getAuthSession } from '@/lib/auth'
-import UserAvatar from '@/components/UserAvatar'
-import CommunityRules from '@/components/community/CommunityRules'
+import { Editor } from "@/components/Editor";
+// Assuming Button is already styled appropriately or we won't use it directly here
+// import { Button } from "@/components/ui/Button";
+import { db } from "@/lib/db";
+import { notFound } from "next/navigation";
+import { AlertCircle } from "lucide-react"; // Removed unused icons
+import ToFeedButton from "@/components/ToFeedButton";
+import CommunityAboutCard from "@/components/community/CommunityAboutCard";
+import { getAuthSession } from "@/lib/auth";
+import UserAvatar from "@/components/UserAvatar";
+import CommunityRules from "@/components/community/CommunityRules";
 
 interface pageProps {
   params: {
-    slug: string
-  }
+    slug: string;
+  };
 }
 
-const page = async ({ params }: pageProps) => {
-  const session = await getAuthSession()
+const Page = async ({ params }: pageProps) => {
+  // Renamed component to Page (PascalCase)
+  const session = await getAuthSession();
 
+  // Authentication check remains the same
   if (!session?.user) {
-    return notFound()
+    // Consider redirecting to sign-in instead of just notFound
+    return notFound();
   }
-  
+
+  // Database fetching remains the same
   const subreddit = await db.subreddit.findFirst({
     where: {
       name: params.slug,
-      creatorId: { not: null }
+      // Removed creatorId check here as posts can be made by others
+      // creatorId: { not: null },
     },
     include: {
       subscribers: true,
-      posts: {
-        take: 1,
-        orderBy: {
-          createdAt: 'desc'
-        }
-      },
-      rules: true
-    }
-  })
+      // posts: { // Posts aren't directly used on this page
+      //   take: 1,
+      //   orderBy: {
+      //     createdAt: "desc",
+      //   },
+      // },
+      rules: true, // Keep rules for the sidebar
+    },
+  });
 
-  if (!subreddit) return notFound()
+  if (!subreddit) return notFound();
 
-  const isSubscribed = !!subreddit.subscribers.find(
+  // Subscription and moderator status calculation remains the same
+  const isSubscribed = subreddit.subscribers.some(
+    // Use .some for efficiency
     (sub) => sub.userId === session.user.id
-  )
-  
-  const isModerator = session.user.id === subreddit.creatorId
+  );
 
-  // Type assertion to handle the creatorId non-null constraint
+  const isModerator = session.user.id === subreddit.creatorId;
+
+  // Type assertion for CommunityAboutCard props
   const typedCommunity = {
     id: subreddit.id,
     name: subreddit.name,
     createdAt: subreddit.createdAt,
-    creatorId: subreddit.creatorId as string
-  }
+    // Ensure creatorId exists if needed by CommunityAboutCard, handle null case if possible
+    creatorId: subreddit.creatorId as string | null,
+    description: subreddit.description, // Pass description directly
+  };
 
   return (
-    <div className='max-w-7xl mx-auto text-primary pb-10 px-4'>
-      <div className='flex flex-col md:flex-row gap-6'>
-      <div className='mb-4'>
+    // Main container: Set very dark background, light text, adjust padding
+    <div className=" min-h-screen pt-10 md:pt-12">
+      <div className="max-w-5xl mx-auto text-zinc-100 pb-10 px-4">
+        {" "}
+        {/* Reduced max-width slightly for tighter feel */}
+        {/* Two-column layout */}
+        <div className="flex flex-col md:flex-row gap-x-6 gap-y-4">
+          {/* Optional: Back navigation - Style appropriately if kept */}
+          <div>
             <ToFeedButton />
           </div>
-        {/* Left column - Editor section */}
-        <div className='flex-1 order-2 md:order-1'>
-          {/* Navigation */}
-          
-
-          {/* Editor Container */}
-          <div className='bg-surface border rounded-lg border-custom rounded-b-lg'>
-            {/* User Info */}
-            <div className='p-4 border-b border-custom flex items-center gap-2'>
-              <UserAvatar
-                user={{
-                  name: session.user.name || null,
-                  image: session.user.image || null,
-                }}
-                className='h-8 w-8'
-              />
-              <span className='text-sm text-muted'>
-                Posting as <span className='text-primary font-medium'>{session.user.username}</span>
-              </span>
-            </div>
-
-            {/* Draft Rules */}
-            <div className='p-4 bg-surface-dark-hover border-b border-custom'>
-              <div className='flex items-center gap-2 text-sm text-muted'>
-                <AlertCircle className='h-4 w-4 text-reddit' />
-                <span>Draft your post carefully to comply with community rules</span>
-              </div>
-            </div>
-
-            {/* Editor */}
-            <div className='p-4'>
-              <Editor subredditId={subreddit.id} />
-            </div>
-
-            {/* Actions */}
-            <div className='p-4 border-t border-custom flex justify-between items-center'>
-              <div className='text-xs text-muted'>
-                * Required fields
-              </div>
-              <Button
-                type='submit'
-                className='px-6 py-1.5 bg-[#238636] hover:bg-[#2ea043] text-white font-medium rounded-md transition-colors'
-                form='subreddit-post-form'
-              >
-                Post
-              </Button>
-            </div>
+          {/* Left column - Editor section */}
+          <div className="flex-1 order-2 md:order-1">
+            <Editor subredditId={subreddit.id} />
           </div>
-        </div>
 
-        {/* Right column - Sidebar */}
-        <div className='w-full md:w-80 order-1 md:order-2'>
-          <div className='sticky top-20 space-y-4'>
-            <CommunityAboutCard
-              community={typedCommunity}
-              memberCount={subreddit.subscribers.length}
-              description={subreddit.description}
-              isSubscribed={isSubscribed}
-              isModerator={isModerator}
-            />
-
-            <CommunityRules
-              communityName={params.slug}
-              rules={subreddit.rules}
-              isModerator={isModerator}
-            />
-
-           
+          {/* Right column - Sidebar */}
+          <div className="w-full md:w-80 order-1 md:order-2">
+            <div className="sticky top-16 space-y-4">
+              {" "}
+              {/* Adjusted sticky top offset */}
+              {/* Community Info Card */}
+              {/* ASSUMPTION: CommunityAboutCard is styled internally for dark theme */}
+              <CommunityAboutCard
+                community={typedCommunity}
+                memberCount={subreddit.subscribers.length}
+                isSubscribed={isSubscribed}
+                isModerator={isModerator}
+                // Pass description here if not included in typedCommunity
+                // description={subreddit.description}
+              />
+              {/* Community Rules Card */}
+              {/* ASSUMPTION: CommunityRules is styled internally for dark theme */}
+              {subreddit.rules.length > 0 && ( // Conditionally render if rules exist
+                <CommunityRules
+                  communityName={params.slug}
+                  rules={subreddit.rules}
+                  isModerator={isModerator}
+                />
+              )}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page; // Use PascalCase for component name

@@ -3,255 +3,309 @@
 @tailwind utilities;
 
 :root {
-  /* GitHub Dark Theme Colors 
-   * Main background: #0D1117 (GitHub dark background)
-   * Secondary background: #161B22 (GitHub secondary dark)
-   * Component background: #21262D (GitHub container dark)
-   * Hover background: #30363D (GitHub hover state)
-   * Primary text: #F0F6FC (GitHub text white)
-   * Secondary/muted text: #8B949E (GitHub text muted)
-   * Accent blue: #58A6FF (GitHub blue)
-   * Border: #30363D (GitHub border)
-   * Upvote: #FF4500 (keeping Reddit orange for brand consistency)
-   * Downvote: #0969DA (GitHub darker blue)
-   */
-  
-  /* Brand Colors */
-  --color-reddit: #FF4500;
-  --color-reddit-hover: #FF5414;
-  
-  /* Light Theme Colors */
-  --color-primary-light: hsl(222.2 47.4% 11.2%);
-  --color-primary-foreground-light: hsl(210 40% 98%);
-  
-  --color-secondary-light: hsl(210 40% 96.1%);
-  --color-secondary-foreground-light: hsl(222.2 47.4% 11.2%);
-  
-  --color-background-light: hsl(0 0% 100%);
-  --color-foreground-light: hsl(222.2 47.4% 11.2%);
-  
-  --color-muted-light: hsl(210 40% 96.1%);
-  --color-muted-foreground-light: hsl(215.4 16.3% 46.9%);
-  
-  --color-accent-light: hsl(210 40% 96.1%);
-  --color-accent-foreground-light: hsl(222.2 47.4% 11.2%);
-  
-  --color-destructive-light: hsl(0 100% 50%);
-  --color-destructive-foreground-light: hsl(210 40% 98%);
-  
-  --color-border-light: hsl(214.3 31.8% 91.4%);
-  --color-input-light: hsl(214.3 31.8% 91.4%);
-  --color-ring-light: hsl(215 20.2% 65.1%);
-  
-  /* Dark Theme Colors (GitHub Dark Theme) */
-  --color-primary-dark: #F0F6FC; /* GitHub text white */
-  --color-primary-foreground-dark: #0D1117; /* GitHub dark background */
-  
-  --color-secondary-dark: #161B22; /* GitHub secondary dark */
-  --color-secondary-foreground-dark: #F0F6FC; /* GitHub text white */
-  
-  --color-background-dark: #0D1117; /* GitHub dark background */
-  --color-foreground-dark: #F0F6FC; /* GitHub text white */
-  
-  --color-muted-dark: #0D1117; /* GitHub dark background */
-  --color-muted-foreground-dark: #8B949E; /* GitHub text muted */
-  
-  --color-accent-dark: #58A6FF; /* GitHub blue */
-  --color-accent-foreground-dark: #F0F6FC; /* GitHub text white */
-  
-  --color-destructive-dark: #F85149; /* GitHub red */
-  --color-destructive-foreground-dark: #F0F6FC; /* GitHub text white */
-  
-  --color-border-dark: #30363D; /* GitHub border */
-  --color-input-dark: #0D1117; /* GitHub dark background */
-  --color-ring-dark: #30363D; /* GitHub border */
-  
-  /* Custom UI Colors */
-  --color-upvote: #FF4500; /* Keep Reddit orange */
-  --color-downvote: #0969DA; /* GitHub darker blue */
-  --color-link: #58A6FF; /* GitHub blue */
-  --color-link-hover: #79C0FF; /* GitHub light blue */
-  --color-text-muted: #8B949E; /* GitHub text muted */
-  --color-surface-dark: #0D1117; /* GitHub dark background */
-  --color-surface-dark-hover: #161B22; /* GitHub secondary dark */
-  --color-border-dark-custom: #30363D; /* GitHub border */
-  --color-text-primary: #F0F6FC; /* GitHub text white */
-  --color-post-background: #21262D; /* GitHub container dark */
-
-  /* Additional Dim Theme Colors */
-  --color-surface-dim: #0D1117; /* GitHub dark background */
-  --color-surface-dim-hover: #161B22; /* GitHub secondary dark */
-  --color-border-dim: #30363D; /* GitHub border */
-  --color-text-dim-primary: #F0F6FC; /* GitHub text white */
-  --color-text-dim-muted: #8B949E; /* GitHub text muted */
+  /* Base colors */
+  --background: #1A1A1B;
+  --surface: #1A1A1B;
+  --surface-hover: #272729;
+  --surface-dark-hover: #343536;
+  --custom: #343536;
+  --primary: #D7DADC;
+  --muted: #818384;
+  --reddit: #FF4500;
+  --reddit-hover: #FF5414;
+  --button-blue: #0079D3;
+  --button-blue-hover: #1484D7;
+  --error: #FF4343;
+  --success: #46D160;
+  --warning: #FFA62E;
+  --online-dot: #46D160;
+  --link-blue: #4FBCFF;
+  --link-blue-hover: #5CC2FF;
+  --divider: #343536;
+  --card-border: #343536;
+  --card-background: #1A1A1B;
+  --header-background: rgba(26, 26, 27, 0.8);
+  --text-header: #7C7C7C;
+  --text-primary: #D7DADC;
+  --text-secondary: #818384;
+  --text-link: #4887CE;
+  --background-darker: #030303;
 }
 
-
-/* Utility Classes */
-.text-reddit {
-  color: var(--color-reddit);
-}
-
-.bg-reddit {
-  background-color: var(--color-reddit);
-}
-
-.hover\:bg-reddit:hover {
-  background-color: var(--color-reddit-hover);
-}
-
-.text-link {
-  color: var(--color-link);
-}
-
-.hover\:text-link:hover {
-  color: var(--color-link-hover);
-}
-
-.text-muted {
-  color: var(--color-text-muted);
-}
-
-.text-primary {
-  color: var(--color-text-primary);
-}
-
-.bg-surface {
-  background-color: var(--color-surface-dark);
-}
-
-.hover\:bg-surface:hover {
-  background-color: var(--color-surface-dark-hover);
-}
-
-.border-custom {
-  border-color: var(--color-border-dark-custom);
-}
-
-.text-upvote {
-  color: var(--color-upvote);
-}
-
-.text-downvote {
-  color: var(--color-downvote);
-}
-
-/* Theme-aware classes */
-:root[class~="dark"] {
-  --color-primary: var(--color-primary-dark);
-  --color-primary-foreground: var(--color-primary-foreground-dark);
-  --color-secondary: var(--color-secondary-dark);
-  --color-secondary-foreground: var(--color-secondary-foreground-dark);
-  --color-background: var(--color-background-dark);
-  --color-foreground: var(--color-foreground-dark);
-  --color-muted: var(--color-muted-dark);
-  --color-muted-foreground: var(--color-muted-foreground-dark);
-  --color-accent: var(--color-accent-dark);
-  --color-accent-foreground: var(--color-accent-foreground-dark);
-  --color-destructive: var(--color-destructive-dark);
-  --color-destructive-foreground: var(--color-destructive-foreground-dark);
-  --color-border: var(--color-border-dark);
-  --color-input: var(--color-input-dark);
-  --color-ring: var(--color-ring-dark);
-  
-  /* Force all text to use our theme colors */
+/* Dark theme specific styles */
+.dark {
   color-scheme: dark;
-  color: var(--color-text-primary);
-  
-  /* Override any gray text with our muted color */
-  .text-gray-100, .text-gray-200, .text-gray-300, .text-gray-400, 
-  .text-gray-500, .text-gray-600, .text-gray-700, .text-gray-800, 
-  .text-gray-900, .text-zinc-100, .text-zinc-200, .text-zinc-300, 
-  .text-zinc-400, .text-zinc-500, .text-zinc-600, .text-zinc-700, 
-  .text-zinc-800, .text-zinc-900 {
-    color: var(--color-text-muted);
-  }
+  --background: rgb(14, 17, 19);
+  --surface: rgb(6, 8, 8);
+  --surface-hover: rgb(14, 17, 19);
+  --surface-dark-hover: rgb(14, 17, 19);
+  --custom: #343536;
+  --primary: #D7DADC;
+  --muted: #818384;
+  --reddit: #FF4500;
+  --reddit-hover: #FF5414;
+  --button-blue: #0079D3;
+  --button-blue-hover: #1484D7;
+  --error: #FF4343;
+  --success: #46D160;
+  --warning: #FFA62E;
+  --online-dot: #46D160;
+  --link-blue: #4FBCFF;
+  --link-blue-hover: #5CC2FF;
+  --divider: #343536;
+  --card-border: #343536;
+  --card-background: #1A1A1B;
+  --header-background: rgba(26, 26, 27, 0.8);
+  --text-header: #b7cbd5;
+  --text-primary: #eef1f3;
+  --text-secondary: #7c919a;
+  --text-link: #4887CE;
+  --background-darker: #030303;
 }
 
-:root:not([class~="dark"]) {
-  --color-primary: var(--color-primary-light);
-  --color-primary-foreground: var(--color-primary-foreground-light);
-  --color-secondary: var(--color-secondary-light);
-  --color-secondary-foreground: var(--color-secondary-foreground-light);
-  --color-background: var(--color-background-light);
-  --color-foreground: var(--color-foreground-light);
-  --color-muted: var(--color-muted-light);
-  --color-muted-foreground: var(--color-muted-foreground-light);
-  --color-accent: var(--color-accent-light);
-  --color-accent-foreground: var(--color-accent-foreground-light);
-  --color-destructive: var(--color-destructive-light);
-  --color-destructive-foreground: var(--color-destructive-foreground-light);
-  --color-border: var(--color-border-light);
-  --color-input: var(--color-input-light);
-  --color-ring: var(--color-ring-light);
+/* Utility classes */
+.bg-background { 
+  background-color: var(--background); 
 }
 
-/* Add more specific utility classes */
-.bg-surface-dark {
-  background-color: var(--color-surface-dark);
+.bg-surface { 
+  background-color: var(--surface); 
 }
 
-.bg-surface-dark-hover {
-  background-color: var(--color-surface-dark-hover);
+.bg-surface-hover { 
+  background-color: var(--surface-hover); 
 }
 
-.hover\:bg-surface-dark-hover:hover {
-  background-color: var(--color-surface-dark-hover);
+.bg-surface-dark-hover { 
+  background-color: var(--surface-dark-hover); 
 }
 
-.border-reddit {
-  border-color: var(--color-reddit);
+.bg-reddit { 
+  background-color: var(--reddit); 
 }
 
-.fill-upvote {
-  fill: var(--color-upvote);
+.bg-reddit-hover { 
+  background-color: var(--reddit-hover); 
 }
 
-.fill-downvote {
-  fill: var(--color-downvote);
+.bg-button-blue { 
+  background-color: var(--button-blue); 
 }
 
-/* Add these additional utility classes at the end of the file */
-.hover\:text-primary:hover {
-  color: var(--color-text-primary);
+.bg-button-blue-hover { 
+  background-color: var(--button-blue-hover); 
 }
 
-.hover\:border-custom-hover:hover {
-  border-color: var(--color-border-dark-custom);
+.text-primary { 
+  color: var(--primary); 
 }
 
-.text-white {
-  color: #FFFFFF !important;
+.text-muted { 
+  color: var(--muted); 
 }
 
-.hover\:text-white:hover {
-  color: #FFFFFF !important;
+.text-reddit { 
+  color: var(--reddit); 
 }
 
-/* Override utility classes to ensure they're applied with higher specificity */
+.text-error { 
+  color: var(--error); 
+}
+
+.text-success { 
+  color: var(--success); 
+}
+
+.text-warning { 
+  color: var(--warning); 
+}
+
+.border-custom { 
+  border-color: var(--custom); 
+}
+
+/* Button styles */
+.button-primary {
+  background-color: var(--button-blue);
+  color: white;
+  border-radius: 9999px;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.15s;
+}
+
+.button-primary:hover {
+  background-color: var(--button-blue-hover);
+}
+
+/* Link styles */
+.link-primary {
+  color: var(--link-blue);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.link-primary:hover {
+  color: var(--link-blue-hover);
+  text-decoration: underline;
+}
+
+/* Text styles */
 .text-primary {
-  color: var(--color-text-primary) !important;
+  color: var(--text-primary);
 }
 
 .text-muted {
-  color: var(--color-text-muted) !important;
+  color: var(--text-secondary);
+}
+
+.text-success {
+  color: var(--success);
+}
+
+/* Border styles */
+.border-custom {
+  border-color: var(--card-border);
+}
+
+.divide-custom > * + * {
+  border-color: var(--divider);
+}
+
+/* Override utility classes */
+.text-primary {
+  color: var(--text-primary) !important;
+}
+
+.text-muted {
+  color: var(--text-secondary) !important;
 }
 
 .hover\:text-primary:hover {
-  color: var(--color-text-primary) !important;
+  color: var(--text-primary) !important;
 }
 
 .hover\:text-muted:hover {
-  color: var(--color-text-muted) !important;
+  color: var(--text-secondary) !important;
 }
 
-/* Fix background colors too for consistency */
-.bg-gray-100, .bg-gray-200, .bg-gray-300, .bg-gray-400, 
-.bg-gray-500, .bg-gray-600, .bg-gray-700, .bg-gray-800, 
-.bg-gray-900, .bg-zinc-100, .bg-zinc-200, .bg-zinc-300, 
-.bg-zinc-400, .bg-zinc-500, .bg-zinc-600, .bg-zinc-700, 
-.bg-zinc-800, .bg-zinc-900 {
-  background-color: var(--color-surface-dark-hover);
+/* Dark theme overrides */
+:root[class~="dark"] {
+  color-scheme: dark;
+  background-color: var(--background);
+  color: var(--primary);
+}
+
+/* Gray scale overrides */
+.text-gray-500 { 
+  color: var(--muted); 
+}
+
+.text-gray-600 { 
+  color: var(--muted); 
+}
+
+.text-gray-700 { 
+  color: var(--muted); 
+}
+
+.text-gray-800 { 
+  color: var(--muted); 
+}
+
+.text-gray-900 { 
+  color: var(--muted); 
+}
+
+.bg-gray-500 { 
+  background-color: var(--surface-hover); 
+}
+
+.bg-gray-600 { 
+  background-color: var(--surface-hover); 
+}
+
+.bg-gray-700 { 
+  background-color: var(--surface-hover); 
+}
+
+.bg-gray-800 { 
+  background-color: var(--surface-hover); 
+}
+
+.bg-gray-900 { 
+  background-color: var(--surface-hover); 
+}
+
+/* Community specific styles */
+.community-header {
+  background-color: var(--surface);
+  backdrop-filter: blur(5px);
+}
+
+/* Button styles */
+.button-blue {
+  background-color: var(--button-blue);
+  color: white;
+  border-radius: 9999px;
+}
+
+.button-blue:hover {
+  background-color: var(--button-blue-hover);
+}
+
+/* Additional utility classes */
+.bg-surface-dark {
+  background-color: var(--surface-dark-hover);
+}
+
+.hover\:bg-surface-dark-hover:hover {
+  background-color: var(--surface-dark-hover);
+}
+
+.border-reddit {
+  border-color: var(--reddit);
+}
+
+.fill-upvote {
+  fill: var(--reddit);
+}
+
+.fill-downvote {
+  fill: var(--surface-hover);
+}
+
+/* Zinc scale overrides */
+.bg-zinc-400 { 
+  background-color: var(--surface-dark-hover); 
+}
+
+.bg-zinc-500 { 
+  background-color: var(--surface-dark-hover); 
+}
+
+.bg-zinc-600 { 
+  background-color: var(--surface-dark-hover); 
+}
+
+.bg-zinc-700 { 
+  background-color: var(--surface-dark-hover); 
+}
+
+.bg-zinc-800 { 
+  background-color: var(--surface-dark-hover); 
+}
+
+.bg-zinc-900 { 
+  background-color: var(--surface-dark-hover); 
+}
+
+/* Add these for the community highlight */
+.community-highlight {
+  background-color: var(--surface);
+  border: 1px solid var(--custom);
+  border-radius: 0.25rem;
+  padding: 1rem;
 }
 
 /* Breaddit Color System */
@@ -344,5 +398,5 @@
 
 /* Add this to make sure the layout background is darker */
 html, body {
-  background-color: #0D1117 !important; /* GitHub dark background */
+  background-color: var(--background-darker);
 } 

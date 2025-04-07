@@ -34,20 +34,11 @@ const Post: FC<PostProps> = ({
   commentAmt,
 }) => {
   const pRef = useRef<HTMLParagraphElement>(null);
-  const [isJoined, setIsJoined] = useState(false);
-  const { loginToast } = useCustomToast();
 
-  const handleJoin = async () => {
-    try {
-      await axios.post(`/api/subreddit/subscribe`, { subredditName });
-      setIsJoined(true);
-    } catch (error) {
-      loginToast();
-    }
-  };
+ 
 
   return (
-    <div className="hover:border-custom-hover border-b-[#232b36] border-b-2 transition-colors duration-200 mb-1">
+    <div className="hover:bg-[#131F23] pt-2 rounded-lg transition-colors duration-200 ">
       <div className="px-6 flex justify-between relative">
         <div className="w-0 flex-1">
           <div className="max-h-40 text-xs text-muted flex items-center flex-wrap">
@@ -91,25 +82,23 @@ const Post: FC<PostProps> = ({
             href={`/r/${subredditName}/post/${post.id}`}
             className="block group"
           >
-            <h1 className="text-lg font-semibold py-2 leading-6 text-primary group-hover:text-link-hover transition-colors duration-200">
+            <h1 className="text-lg font-semibold py-2 leading-6 text-[#EEF1F3] group-hover:text-link-hover transition-colors duration-200">
               {post.title}
             </h1>
           </a>
 
           <div 
-            className="relative text-sm max-h-40 w-full overflow-hidden" 
+            className="relative text-sm max-h-40 text-[#B7CAD4] w-full overflow-hidden" 
             ref={pRef}
           >
             <EditorOutput content={post.content} />
-            {pRef.current && pRef.current.clientHeight >= 160 && (
-              <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-[#0D1117] via-[#0D1117]/70 to-transparent"></div>
-            )}
+            
           </div>
         </div>
       </div>
 
-      <div className="flex flex-row text-sm px-4 py-2 items-center gap-4 ">
-        <div className="flex items-center hover:border-[#556883] border-2 border-[#232b36] bg-[#232b36] rounded-3xl">
+      <div className="flex flex-row text-sm px-4 pt-3 items-center gap-4 ">
+        <div className="flex items-center  bg-[#333D42] hover:bg-[#495362] py-0.5  rounded-3xl">
           <PostVoteClient
             postId={post.id}
             initialVotesAmt={_votesAmt}
@@ -119,17 +108,19 @@ const Post: FC<PostProps> = ({
 
         <Link
           href={`/r/${subredditName}/post/${post.id}`}
-          className="flex items-center gap-2  py-2 px-3 hover:border-[#556883] bg-[#232b36] border-2 border-[#232b36]  rounded-3xl"
+          className="flex items-center gap-2  bg-[#333D42] hover:bg-[#495362] px-2 py-2  rounded-3xl"
         >
           <MessageCircle className="h-4 w-4 " />
           <span className="text-xs font-medium ">{commentAmt}</span>
         </Link>
 
-        <button className="flex items-center gap-2  py-2 px-3 hover:border-[#556883] bg-[#232b36] border-2 border-[#232b36]  rounded-3xl">
+        <button className="flex items-center gap-2 bg-[#333D42] hover:bg-[#495362] px-2 py-2 rounded-3xl">
           <Share className="h-4 w-4  " />
           <span className="text-xs font-medium ">Share</span>
         </button>
       </div>
+
+      <div className="flex justify-end gap-3 my-2 border-t border-zinc-800"/>
     </div>
   );
 };

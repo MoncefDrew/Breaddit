@@ -60,7 +60,7 @@ const JoinButton = ({ subredditId, size = 'sm' }: JoinButtonProps) => {
   })
 
   const buttonClasses = size === 'default' 
-    ? 'px-4 py-0.5 text-sm font-medium rounded-full'
+    ? 'px-4  text-sm font-medium rounded-full'
     : 'text-xs font-medium px-4 py-0.5 h-6 rounded-full'
 
   if (isCheckingStatus) {
