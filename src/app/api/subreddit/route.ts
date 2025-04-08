@@ -1,33 +1,52 @@
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { NextResponse } from 'next/server'
+import { SubredditValidator } from '@/lib/validators/subreddit'
+import { z } from 'zod'
 
 export async function POST(req: Request) {
-  const session = await getAuthSession()
+  try {
+    const session = await getAuthSession()
 
-  if (!session) return new NextResponse('Unauthorized', { status: 401 })
+    if (!session?.user) {
+      return new Response('Unauthorized', { status: 401 })
+    }
 
-  const { subredditId } = await req.json()
+    const body = await req.json()
+    const { name } = SubredditValidator.parse(body)
 
-  if (!subredditId) return new NextResponse('Missing subreddit ID', { status: 400 })
+    // check if subreddit already exists
+    const subredditExists = await db.subreddit.findFirst({
+      where: {
+        name,
+      },
+    })
 
-  const subreddit = await db.subreddit.findUnique({
-    where: { id: subredditId },
-  })
+    if (subredditExists) {
+      return new Response('Subreddit already exists', { status: 409 })
+    }
 
-  if (!subreddit) return new NextResponse('Subreddit not found', { status: 404 })
+    // create subreddit and associate it with the user
+    const subreddit = await db.subreddit.create({
+      data: {
+        name,
+        creatorId: session.user.id,
+      },
+    })
 
-  const subscription = await db.subscription.findFirst({
-    where: {
-      subredditId,
-      userId: session.user.id,
-    },
-  })
+    // creator also has to be subscribed
+    await db.subscription.create({
+      data: {
+        userId: session.user.id,
+        subredditId: subreddit.id,
+      },
+    })
 
-  const isCreator = subreddit.creatorId === session.user.id
+    return new Response(subreddit.name)
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return new Response(error.message, { status: 422 })
+    }
 
-  return NextResponse.json({
-    isJoined: !!subscription,
-    isCreator,
-  })
+    return new Response('Could not create subreddit', { status: 500 })
+  }
 }
