@@ -1,5 +1,6 @@
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
+import { SubredditSubscriptionValidator } from '@/lib/validators/subreddit'
 import { z } from 'zod'
 
 export async function POST(req: Request) {
@@ -11,19 +12,12 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    
-    const { subredditId } = z.object({ subredditId: z.string() }).parse(body)
-
-    
-
-    if (!subredditId) {
-      return new Response('Subreddit not found', { status: 404 })
-    }
+    const { subredditId } = SubredditSubscriptionValidator.parse(body)
 
     // check if user has already subscribed to subreddit
     const subscriptionExists = await db.subscription.findFirst({
       where: {
-        subredditId: subredditId,
+        subredditId,
         userId: session.user.id,
       },
     })
@@ -37,12 +31,12 @@ export async function POST(req: Request) {
     // create subreddit and associate it with the user
     await db.subscription.create({
       data: {
-        subredditId: subredditId,
+        subredditId,
         userId: session.user.id,
       },
     })
 
-    return new Response('subreddit created',{status:201})
+    return new Response(subredditId)
   } catch (error) {
     (error)
     if (error instanceof z.ZodError) {
