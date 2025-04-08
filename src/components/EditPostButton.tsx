@@ -23,17 +23,16 @@ const EditPostButton: FC<EditPostButtonProps> = ({ post }) => {
       {isEditing && (
         <div className="fixed inset-0 p-4 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div
-            className=" w-screen h-screen flex flex-col 
-                      md:w-3/4 md:max-w-2xl md:h-auto md:rounded-lg md:shadow-lg"
+            className="w-screen max-h-screen py-4 flex flex-col 
+             md:w-3/4 md:max-w-2xl md:h-auto md:rounded-lg md:shadow-lg overflow-auto"
           >
             <EditPostEditor
               initialTitle={post?.title}
               initialContent={post?.content}
               postId={post?.id}
               onSuccess={() => setIsEditing(false)}
-              onCancel={()=> setIsEditing(false)}
+              onCancel={() => setIsEditing(false)}
             />
-            
           </div>
         </div>
       )}

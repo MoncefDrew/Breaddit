@@ -108,7 +108,7 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
 
   // Go back to previous page
   const handleBack = () => {
-    router.back();
+    router.push('/');
   };
 
   return (
@@ -152,7 +152,7 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
                     <Camera className="h-5 w-5" />
                   </button>
                 </DialogTrigger>
-                <DialogContent className="bg-[#] border-custom text-primary">
+                <DialogContent className="bg-[#0E1113] border-custom text-primary">
                   <DialogHeader>
                     <DialogTitle>Upload Cover Image</DialogTitle>
                     <DialogDescription className="text-muted">

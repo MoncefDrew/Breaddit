@@ -77,8 +77,8 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
       className={cn(className)}
       onSubmit={handleSubmit((e) => updateUsername(e))}
       {...props}>
-      <Card className="bg-surface border border-custom shadow-md w-full overflow-hidden">
-        <div className="bg-surface-dark p-6 rounded-t-lg">
+      <Card className="bg-[#0E1113]  w-full overflow-hidden">
+        <div className="bg-[#0E1113] p-6 rounded-t-lg">
           <h3 className="font-semibold tracking-tight text-primary text-lg sm:text-xl">Your username</h3>
           <p className="text-muted text-xs sm:text-sm mt-1.5">
             Please enter a display name you are comfortable with.

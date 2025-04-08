@@ -17,6 +17,7 @@ import { Suspense } from "react";
 import CommunityAboutCard from "@/components/community/CommunityAboutCard";
 import ToFeedButton from "@/components/ToFeedButton";
 import Link from "next/link";
+import PostActionsMenu from "@/components/PostActionsMenu";
 
 interface SubRedditPostPageProps {
   params: {
@@ -132,15 +133,18 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
                   className="w-8 h-8"
                 />
                 <div className="flex flex-col">
-                  <p className="max-h-40 mt-1 truncate text-xs text-primary">
+                  <p className="max-h-40 mt-1 truncate text-sm text-primary">
                     Posted by u/
                     <Link
-                      href={`/u/${post?.author.username ?? cachedPost.authorUsername}`}
+                      href={`/u/${
+                        post?.author.username ?? cachedPost.authorUsername
+                      }`}
+                      className="text-[#4FBCFF] hover:underline font-light"
                     >
                       {post?.author.username ?? cachedPost.authorUsername}
                     </Link>
                   </p>
-                  <p className="truncate text-xs text-muted">
+                  <p className="truncate text-sm text-muted">
                     {formatTimeToNow(
                       new Date(post?.createdAt ?? cachedPost.createdAt)
                     )}

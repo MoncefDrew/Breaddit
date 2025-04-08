@@ -17,6 +17,8 @@ import {
 } from '@/components/ui/Command'
 import { useOnClickOutside } from '@/hooks/use-on-click-outside'
 import { Search, Users } from 'lucide-react'
+import { Avatar } from './ui/Avatar'
+import UserAvatar from './UserAvatar'
 
 interface SearchBarProps {}
 
@@ -106,8 +108,8 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
                     }}
                   >
                     <div className="flex items-center">
-                      <div className="bg-reddit rounded-full p-1.5 mr-3">
-                        <Users className="h-4 w-4 text-white" />
+                      <div className=" rounded-full  mr-3">
+                        <UserAvatar className="h-7 w-7 text-white" user={subreddit} />
                       </div>
                       <div>
                         <p className="font-medium">r/{subreddit.name}</p>

@@ -19,7 +19,7 @@ export default async function Home() {
   return (
     <>
       {/* Feed Title - Kept outside the sidebar component */}
-      <h1 className="font-bold text-3xl md:text-4xl text-zinc-200 mt-14 px-4">
+      <h1 className="font-bold text-3xl md:text-4xl text-[#90a2ad] mt-14 px-4">
         Your feed
       </h1>
 

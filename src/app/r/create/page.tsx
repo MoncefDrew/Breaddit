@@ -14,7 +14,7 @@ import { AlertCircle, Info } from 'lucide-react';
 export default function Page() {
   const [input, setInput] = useState<string>("");
   const router = useRouter();
-  const { loginToast } = useCustomToast()
+  const { loginToast } = useCustomToast();
 
   const { mutate: createCommunity, isLoading } = useMutation({
     mutationFn: async () => {
@@ -58,30 +58,30 @@ export default function Page() {
 
   return (
     <div className="container flex items-center h-full max-w-3xl mx-auto py-10">
-      <div className="relative bg-surface w-full h-fit rounded-lg space-y-6 border border-custom shadow-lg">
+      <div className="relative w-full h-fit rounded-lg space-y-6">
         {/* Header */}
-        <div className="bg-surface-dark-hover px-6 py-4 rounded-t-lg border-b border-custom">
+        <div className="px-6 py-4 rounded-t-lg">
           <h1 className="text-xl font-semibold text-primary">Create a Community</h1>
         </div>
 
         <div className="px-6 py-4 space-y-6">
           {/* Guidelines Section */}
-          <div className="bg-surface-dark-hover rounded-md p-4 border border-custom">
+          <div className="bg-surface-dark rounded-md p-4">
             <div className="flex items-start gap-3">
-              <Info className="h-5 w-5 text-primary mt-0.5" />
+              <Info className="h-5 w-5 text-link mt-0.5" />
               <div>
                 <h2 className="text-sm font-medium text-primary mb-2">Community Guidelines</h2>
                 <ul className="text-sm space-y-2 text-muted">
                   <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#238636]" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-success" />
                     Names must be between 3-21 characters
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#238636]" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-success" />
                     Only letters, numbers, and underscores allowed
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#238636]" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-success" />
                     Cannot be changed once created
                   </li>
                 </ul>
@@ -94,7 +94,7 @@ export default function Page() {
             <div className="flex items-center gap-2 mb-2">
               <h2 className="text-lg font-medium text-primary">Community Name</h2>
               {input.length > 0 && (input.length < 3 || input.length > 21) && (
-                <div className="flex items-center gap-1 text-red-500 text-sm">
+                <div className="flex items-center gap-1 text-error text-sm">
                   <AlertCircle className="h-4 w-4" />
                   <span>Must be between 3-21 characters</span>
                 </div>
@@ -108,7 +108,7 @@ export default function Page() {
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="pl-6 bg-surface-dark-hover border-custom text-primary focus:ring-[#238636] focus:border-[#238636] focus:ring-1"
+                className="pl-6 bg-surface-dark text-primary focus:ring-link focus:border-link focus:ring-1"
                 placeholder="community-name"
               />
             </div>
@@ -116,11 +116,11 @@ export default function Page() {
         </div>
 
         {/* Actions */}
-        <div className="px-6 py-4 bg-surface-dark-hover rounded-b-lg border-t border-custom flex justify-end gap-4">
+        <div className="px-6 py-4 flex justify-end gap-4">
           <Button 
             variant="subtle" 
             onClick={() => router.back()}
-            className="bg-surface-dark text-primary hover:bg-surface-dark"
+            className="bg-surface-dark text-primary hover:bg-surface-dark-hover"
           >
             Cancel
           </Button>
@@ -128,7 +128,7 @@ export default function Page() {
             isLoading={isLoading}
             disabled={input.length < 3 || input.length > 21}
             onClick={() => createCommunity()}
-            className="bg-[#238636] hover:bg-[#2ea043] text-white disabled:bg-[#238636]/50"
+            className="bg-[#238636] hover:bg-[#2ea043] text-white disabled:bg-[#1f6c2e3a]"
           >
             Create Community
           </Button>
@@ -136,5 +136,4 @@ export default function Page() {
       </div>
     </div>
   );
-};
-
+}
