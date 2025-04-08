@@ -3,11 +3,9 @@
 import { FC, useState } from "react";
 import { format } from "date-fns";
 import {
-  Calendar,
-  Users,
+
   Link2,
   Globe,
-  Shield,
   ChevronDown,
   Cake,
   Edit, // Import the pen (edit) icon
@@ -17,7 +15,6 @@ import { Textarea } from "../ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import Link from "next/link";
-import useSocket from "@/hooks/useSocket";
 
 interface Rule {
   id: string;
