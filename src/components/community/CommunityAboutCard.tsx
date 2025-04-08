@@ -10,6 +10,7 @@ import {
   Shield,
   ChevronDown,
   Cake,
+  Edit,  // Import the pen (edit) icon
 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Textarea } from "../ui/textarea";
@@ -90,7 +91,50 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
       {/* Welcome Section */}
       <div className="p-4 space-y-3 text-[#8aa3ad]">
         <p className="text-base ">{community.name}!</p>
-        <p className="text-sm ">{community.description}</p>
+
+        {/* Editable Description */}
+        <div className="text-sm ">
+          {isEditing ? (
+            <Textarea
+              value={descriptionText}
+              onChange={(e) => setDescriptionText(e.target.value)}
+              rows={4}
+            />
+          ) : (
+            <p>{community.description}</p>
+          )}
+        </div>
+        
+        {isModerator && !isEditing && (
+          <div className="mt-2 flex items-center gap-2">
+            <Edit
+              onClick={() => setIsEditing(true)}
+              className="text-[#4FBCFF] cursor-pointer h-5 w-5"
+            />
+            <span className="text-xs text-[#8aa3ad]">Edit Bio</span>
+          </div>
+        )}
+        
+        {isEditing && (
+          <div className="flex gap-1 mt-2">
+            <Button
+              onClick={handleSaveDescription}
+              disabled={isLoading}
+              className="px-4 py-1.5 rounded-full text-sm font-semibold bg-[#4FBCFF] text-zinc-900 hover:bg-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed" // Primary post button style
+              variant="ghost"
+            >
+              Save
+            </Button>
+            <Button
+              onClick={() => setIsEditing(false)}
+              className="px-4 py-1.5 rounded-full text-sm font-semibold bg-zinc-700 text-zinc-100 hover:bg-zinc-600 disabled:opacity-50"
+              variant="ghost"
+            >
+              Cancel
+            </Button>
+          </div>
+        )}
+
         <p className="text-sm ">
           r/{community.name} is moderated more heavily than most other subs on
           reddit. Please consult the{" "}

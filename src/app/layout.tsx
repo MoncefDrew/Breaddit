@@ -29,6 +29,7 @@ export default function RootLayout({
           <Providers>
             {/* @ts-ignore */}
             <Navbar />
+            {authModal}
             <div className="container max-w-[1400px] mx-auto pt-12 bg-[#0E1113]">
               {children}
             </div>
