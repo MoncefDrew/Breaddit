@@ -1,6 +1,6 @@
 import { getAuthSession } from '@/lib/auth'
 import { db } from '@/lib/db'
-import { SubredditValidator } from '@/lib/validators/subreddit'
+import { SubredditSubscriptionValidator } from '@/lib/validators/subreddit'
 import { z } from 'zod'
 
 export async function POST(req: Request) {
@@ -12,41 +12,45 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json()
-    const { name } = SubredditValidator.parse(body)
+    const { subredditId } = SubredditSubscriptionValidator.parse(body)
 
-    // check if subreddit already exists
-    const subredditExists = await db.subreddit.findFirst({
+    // check if user has already subscribed or not
+    const subscriptionExists = await db.subscription.findFirst({
       where: {
-        name,
+        subredditId,
+        userId: session.user.id,
       },
     })
 
-    if (subredditExists) {
-      return new Response('Subreddit already exists', { status: 409 })
+    if (!subscriptionExists) {
+      return new Response(
+        "You've not been subscribed to this subreddit, yet.",
+        {
+          status: 400,
+        }
+      )
     }
 
     // create subreddit and associate it with the user
-    const subreddit = await db.subreddit.create({
-      data: {
-        name,
-        creatorId: session.user.id,
+    await db.subscription.delete({
+      where: {
+        userId_subredditId: {
+          subredditId,
+          userId: session.user.id,
+        },
       },
     })
 
-    // creator also has to be subscribed
-    await db.subscription.create({
-      data: {
-        userId: session.user.id,
-        subredditId: subreddit.id,
-      },
-    })
-
-    return new Response(subreddit.name)
+    return new Response(subredditId)
   } catch (error) {
+    (error)
     if (error instanceof z.ZodError) {
-      return new Response(error.message, { status: 422 })
+      return new Response(error.message, { status: 400 })
     }
 
-    return new Response('Could not create subreddit', { status: 500 })
+    return new Response(
+      'Could not unsubscribe from subreddit at this time. Please try later',
+      { status: 500 }
+    )
   }
 }
