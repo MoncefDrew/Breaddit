@@ -10,13 +10,14 @@ import {
   Shield,
   ChevronDown,
   Cake,
-  Edit,  // Import the pen (edit) icon
+  Edit, // Import the pen (edit) icon
 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Textarea } from "../ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import Link from "next/link";
+import useSocket from "@/hooks/useSocket";
 
 interface Rule {
   id: string;
@@ -39,20 +40,24 @@ interface CommunityAboutCardProps {
   isModerator: boolean;
   onbioUpdate?: (newDescription: string) => void;
   rules?: Rule[];
+  user?: string | null | undefined;
 }
 
 const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
   community,
   memberCount,
-  onlineCount = 0,
   isModerator,
   onbioUpdate,
   rules = [],
+  user,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
-  const [descriptionText, setDescriptionText] = useState(community.description || "");
+  const [descriptionText, setDescriptionText] = useState(
+    community.description || ""
+  );
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+
 
   const handleSaveDescription = async () => {
     if (!isModerator) return;
@@ -87,7 +92,6 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
 
   return (
     <div className="bg-[#040505] rounded-md overflow-hidden">
-
       {/* Welcome Section */}
       <div className="p-4 space-y-3 text-[#8aa3ad]">
         <p className="text-base ">{community.name}!</p>
@@ -104,7 +108,7 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
             <p>{community.description}</p>
           )}
         </div>
-        
+
         {isModerator && !isEditing && (
           <div className="mt-2 flex items-center gap-2">
             <Edit
@@ -114,7 +118,7 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
             <span className="text-xs text-[#8aa3ad]">Edit Bio</span>
           </div>
         )}
-        
+
         {isEditing && (
           <div className="flex gap-1 mt-2">
             <Button
@@ -147,7 +151,6 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
 
       {/* About Community Card */}
       <div className="p-3">
-
         {/* Created and Public info */}
         <div className="flex items-start flex-col gap-2 mb-4">
           <div className="flex items-start text-sm font-medium text-[#8aa3ad] ">
@@ -173,7 +176,7 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
           <div className="flex flex-col">
             <div className="flex items-center gap-1">
               <span className="text-[16px] font-medium text-[#D7DADC]">
-                {onlineCount.toLocaleString()}
+                0
               </span>
             </div>
             <div className="flex flex-row items-center gap-1 text-xs font-medium text-[#8aa3ad]">
@@ -194,7 +197,7 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
       {/* Rules Section */}
       <div className="px-4 py-3">
         <h2 className="text-xs font-bold tracking-[0.5px] uppercase text-[#7ba1ac]">
-          RULES
+          Rules
         </h2>
       </div>
       <div>
@@ -217,7 +220,7 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
       {/* Related Subreddits */}
       <div className="px-4 py-3">
         <h2 className="text-[10px] font-bold tracking-[0.5px] uppercase text-[#818384]">
-          RELATED SUBREDDITS
+          Related Subbreddits
         </h2>
       </div>
 

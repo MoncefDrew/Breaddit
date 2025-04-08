@@ -109,7 +109,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
                   >
                     <div className="flex items-center">
                       <div className=" rounded-full  mr-3">
-                        <UserAvatar className="h-7 w-7 text-white" user={subreddit} />
+                        <UserAvatar className="h-8 w-8 text-white" user={subreddit} />
                       </div>
                       <div>
                         <p className="font-medium">r/{subreddit.name}</p>

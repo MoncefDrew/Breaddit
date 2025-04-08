@@ -11,7 +11,7 @@ import UserAvatar from "./UserAvatar";
 import { Button } from "./ui/Button";
 import { useCustomToast } from "@/hooks/use-custom-toast";
 import axios from "axios";
-import JoinButton from './JoinButton'
+import JoinButton from "./JoinButton";
 
 type PartialVote = Pick<Vote, "type">;
 
@@ -35,14 +35,11 @@ const Post: FC<PostProps> = ({
 }) => {
   const pRef = useRef<HTMLParagraphElement>(null);
 
- 
-
   return (
-    <div className="hover:bg-[#131F23] pt-2 rounded-lg transition-colors duration-200 ">
-      <div className="px-6 flex justify-between relative">
+    <div className="hover:bg-[#131F23] pt-2 rounded-lg md:px-4 px-1 transition-colors duration-200 ">
+      <div className=" flex justify-between relative">
         <div className="w-0 flex-1">
           <div className="max-h-40 text-xs text-muted flex items-center flex-wrap">
-
             {/* User avatar */}
             <UserAvatar
               user={{
@@ -65,17 +62,17 @@ const Post: FC<PostProps> = ({
             ) : null}
             <span className="px-1">•</span>
             <span>{formatTimeToNow(new Date(post.createdAt))}</span>
-          </div>
 
-          {/* Join and More buttons */}
-          <div className="flex items-center gap-2 absolute top-0 right-6">
-            <JoinButton subredditId={post.subredditId} />
-            <Button
-              variant="ghost"
-              className="h-8 w-8 hover:bg-zinc-800 rounded-full p-0"
-            >
-              <MoreHorizontal className="h-4 w-4 text-muted" />
-            </Button>
+            {/* Join and More buttons */}
+            <div className="flex items-center gap-2 absolute top-0 right-6">
+              <JoinButton subredditId={post.subredditId} />
+              <Button
+                variant="ghost"
+                className="h-8 w-8 hover:bg-zinc-800 rounded-full p-0"
+              >
+                <MoreHorizontal className="h-4 w-4 text-muted" />
+              </Button>
+            </div>
           </div>
 
           <a
@@ -87,12 +84,11 @@ const Post: FC<PostProps> = ({
             </h1>
           </a>
 
-          <div 
-            className="relative text-sm max-h-40 text-[#B7CAD4] w-full overflow-hidden" 
+          <div
+            className="relative text-sm max-h-40 text-[#B7CAD4] w-full overflow-hidden"
             ref={pRef}
           >
             <EditorOutput content={post.content} />
-            
           </div>
         </div>
       </div>
@@ -120,7 +116,7 @@ const Post: FC<PostProps> = ({
         </button>
       </div>
 
-      <div className="flex justify-end gap-3 my-2 border-t border-zinc-800"/>
+      <div className="flex justify-end gap-3 my-2 border-t border-zinc-800" />
     </div>
   );
 };

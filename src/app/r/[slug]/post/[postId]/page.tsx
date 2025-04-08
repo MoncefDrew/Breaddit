@@ -17,7 +17,7 @@ import { Suspense } from "react";
 import CommunityAboutCard from "@/components/community/CommunityAboutCard";
 import ToFeedButton from "@/components/ToFeedButton";
 import Link from "next/link";
-import PostActionsMenu from "@/components/PostActionsMenu";
+
 
 interface SubRedditPostPageProps {
   params: {
@@ -119,6 +119,7 @@ const SubRedditPostPage = async ({ params }: SubRedditPostPageProps) => {
             </Suspense>
           </div>
 
+          {/* Post details */}
           <div className="w-full flex-1 bg-[#0E1113] p-3 md:p-4 rounded-sm ">
             <div className="flex flex-1 flex-col sm:flex-row justify-between">
               <div className="flex flex-row items-center gap-2 md:gap-4">

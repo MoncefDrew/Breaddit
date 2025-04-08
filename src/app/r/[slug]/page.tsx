@@ -86,6 +86,7 @@ const Page = async ({ params }: PageProps) => {
         initialPosts={subreddit.posts}
         session={session}
         rules={subreddit.rules}
+        user={session?.user.id}
       />
     </div>
   );

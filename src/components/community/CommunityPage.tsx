@@ -1,5 +1,3 @@
-"use client";
-
 import CommunityHeader from "./CommunityHeader";
 import CommunityTabs from "@/components/community/CommunityTabs";
 
@@ -28,6 +26,7 @@ interface CommunityPageProps {
   initialPosts: any[];
   session: any | null;
   rules: Rule[];
+  user:string | null | undefined;
 }
 
 const CommunityPage = ({
@@ -38,9 +37,8 @@ const CommunityPage = ({
   initialPosts = [],
   session,
   rules,
+  user,
 }: CommunityPageProps) => {
-  // We don't need to manage description state here anymore
-  // since it's handled in the layout
 
   return (
     <div className="text-primary pb-3 ">
@@ -79,6 +77,7 @@ const CommunityPage = ({
           isSubscribed={isSubscribed}
           isModerator={isModerator}
           rules={rules}
+          user={user}
         />
           </div>
         </div>
