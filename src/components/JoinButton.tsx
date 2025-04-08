@@ -15,38 +15,31 @@ const JoinButton = ({ subredditId, size = 'sm' }: JoinButtonProps) => {
   const { loginToast } = useCustomToast()
   const queryClient = useQueryClient()
 
-  const { data: isJoined, isLoading: isCheckingStatus } = useQuery({
+  const { data, isLoading: isCheckingStatus } = useQuery({
     queryKey: ['subreddit-joined', subredditId],
     queryFn: async () => {
-      try {
-        // Try to subscribe - if it fails with 400, we're already subscribed
-        await axios.post('/api/subreddit/subscribe', { subredditId })
-        return false
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          if (error.response?.status === 400) {
-            // If we get a 400, it means we're already subscribed
-            return true
-          }
-          if (error.response?.status === 401) {
-            return false
-          }
-        }
-        throw error
-      }
+      const res = await axios.post('/api/subreddit/status', { subredditId })
+      return res.data
     },
     enabled: !!subredditId,
-    retry: false, // Don't retry on failure since we're using errors for flow control
+    retry: false,
   })
+  
+  const isJoined = data?.isJoined
+  const isCreator = data?.isCreator
+  
+  
 
   const { mutate: handleJoin, isLoading: isUpdating } = useMutation({
     mutationFn: async () => {
       if (isJoined) {
+        if (isCreator) return // Do nothing if creator tries to unsubscribe
         await axios.post(`/api/subreddit/unsubscribe`, { subredditId })
       } else {
         await axios.post(`/api/subreddit/subscribe`, { subredditId })
       }
     },
+    
     onError: (err) => {
       if (err instanceof AxiosError) {
         if (err.response?.status === 401) {
