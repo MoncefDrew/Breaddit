@@ -51,7 +51,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
   const posts = data?.pages.flatMap((page) => page) ?? initialPosts
 
   return (
-    <ul className='flex flex-col col-span-2 '>
+    <ul className='flex flex-col col-span-2 space-y-3 bg-[#0E1113] rounded-md overflow-hidden'>
       {posts.map((post, index) => {
         const votesAmt = post.votes.reduce((acc, vote) => {
           if (vote.type === 'UP') return acc + 1
@@ -66,7 +66,7 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
         if (index === posts.length - 1) {
           // Add a ref to the last post in the list
           return (
-            <li key={post.id} ref={ref}>
+            <li key={post.id} ref={ref} className="last:border-b-0">
               <Post
                 post={post}
                 commentAmt={post.comments.length}
@@ -78,20 +78,21 @@ const PostFeed: FC<PostFeedProps> = ({ initialPosts, subredditName }) => {
           )
         } else {
           return (
-            <Post
-              key={post.id}
-              post={post}
-              commentAmt={post.comments.length}
-              subredditName={post.subreddit.name}
-              votesAmt={votesAmt}
-              currentVote={currentVote}
-            />
+            <li key={post.id} className="last:border-b-0">
+              <Post
+                post={post}
+                commentAmt={post.comments.length}
+                subredditName={post.subreddit.name}
+                votesAmt={votesAmt}
+                currentVote={currentVote}
+              />
+            </li>
           )
         }
       })}
 
       {isFetchingNextPage && (
-        <li className='flex justify-center'>
+        <li className='flex justify-center p-6'>
           <Loader2 className='w-6 h-6 text-zinc-500 animate-spin' />
         </li>
       )}

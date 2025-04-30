@@ -36,8 +36,8 @@ const Post: FC<PostProps> = ({
   const pRef = useRef<HTMLParagraphElement>(null);
 
   return (
-    <div className="hover:bg-[#131F23] pt-2 rounded-lg md:px-4 px-1 transition-colors duration-200 ">
-      <div className=" flex justify-between relative">
+    <div className="hover:bg-[#131F23] pt-2 rounded-lg md:px-4 px-1 transition-colors duration-200 border-b border-[#1c2226]">
+      <div className="flex justify-between relative">
         <div className="w-0 flex-1">
           <div className="max-h-40 text-xs text-muted flex items-center flex-wrap">
             {/* User avatar */}
@@ -58,10 +58,15 @@ const Post: FC<PostProps> = ({
                 >
                   r/{subredditName}
                 </a>
+                <span className="px-1 text-gray-500">•</span>
+                <span className="text-gray-500">Posted by</span>
+                <a className="hover:underline text-gray-500 ml-1" href={`/u/${post.author.username}`}>
+                  u/{post.author.username || post.author.name}
+                </a>
               </>
             ) : null}
-            <span className="px-1">•</span>
-            <span>{formatTimeToNow(new Date(post.createdAt))}</span>
+            <span className="px-1 text-gray-500">•</span>
+            <span className="text-gray-500">{formatTimeToNow(new Date(post.createdAt))}</span>
 
             {/* Join and More buttons */}
             <div className="flex items-center gap-2 absolute top-0 right-6">
@@ -93,8 +98,8 @@ const Post: FC<PostProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-row text-sm px-4 pt-3 items-center gap-4 ">
-        <div className="flex items-center  bg-[#333D42] hover:bg-[#495362] py-0.5  rounded-3xl">
+      <div className="flex flex-row text-sm  pt-3 pb-4 items-center gap-4">
+        <div className="flex items-center bg-[#333D42] hover:bg-[#495362] py-0.5 rounded-3xl">
           <PostVoteClient
             postId={post.id}
             initialVotesAmt={_votesAmt}
@@ -104,19 +109,17 @@ const Post: FC<PostProps> = ({
 
         <Link
           href={`/r/${subredditName}/post/${post.id}`}
-          className="flex items-center gap-2  bg-[#333D42] hover:bg-[#495362] px-2 py-2  rounded-3xl"
+          className="flex items-center gap-2 bg-[#333D42] hover:bg-[#495362] px-2 py-2 rounded-3xl"
         >
-          <MessageCircle className="h-4 w-4 " />
-          <span className="text-xs font-medium ">{commentAmt}</span>
+          <MessageCircle className="h-4 w-4" />
+          <span className="text-xs font-medium">{commentAmt}</span>
         </Link>
 
         <button className="flex items-center gap-2 bg-[#333D42] hover:bg-[#495362] px-2 py-2 rounded-3xl">
-          <Share className="h-4 w-4  " />
-          <span className="text-xs font-medium ">Share</span>
+          <Share className="h-4 w-4" />
+          <span className="text-xs font-medium">Share</span>
         </button>
       </div>
-
-      <div className="flex justify-end gap-3 my-2 border-t border-zinc-800" />
     </div>
   );
 };
