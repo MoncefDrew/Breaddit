@@ -67,7 +67,7 @@ cd reddit-clone</code></pre>
   <p><em>(Add screenshots here to showcase the UI and features)</em></p>
   
   ## 📚 Documentation
-  👉 [Frontend Features Ready for Implementation](docs/frontend-features.md)
+  👉 [Frontend Features Ready for Implementation](/frontend-features.md)
 
   <h2>📄 License</h2>
   <p>MIT License. Feel free to use and customize.</p>
