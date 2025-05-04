@@ -167,7 +167,7 @@ const CoverImage: FC<CoverImageProps> = ({
             <Button
               onClick={removeCoverImage}
               variant="destructive"
-              size="default"
+              size="lg"
               className="rounded-full p-2"
               disabled={isRemoving}
             >

@@ -3,7 +3,6 @@ import { getAuthSession } from "@/lib/auth";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
 import CustomFeed from "@/components/CustomFeed";
-import PremiumButton from "@/components/sidebar/PremiumButton";
 
 export default async function Home() {
   const session = await getAuthSession();
@@ -11,7 +10,7 @@ export default async function Home() {
   return (
     <div className="bg-gray-50 mx-auto max-w-7xl">
       {/* Feed Title */}
-      <h1 className="font-bold text-3xl md:text-4xl text-gray-800 mt-14 ">
+      <h1 className="font-bold text-3xl md:text-4xl text-gray-800 mt-7 ">
         Your feed
       </h1>
 

@@ -1,6 +1,3 @@
-'use client'
-
-import { Button } from '../ui/Button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/Tabs'
 import UserPostFeed from './UserPostFeed'
 import UserCommentFeed from './UserCommentFeed'

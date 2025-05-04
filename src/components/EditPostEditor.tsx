@@ -8,18 +8,19 @@ import { EditPostValidator } from "@/lib/validators/post";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
-import {  useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import axios from "axios";
 import { z } from "zod";
 import { uploadFiles } from "@/lib/uploadthing";
 import { Button } from "./ui/Button";
+import { Loader2 } from "lucide-react";
 
 interface EditPostEditorProps {
   postId: string | undefined;
   initialTitle: string | undefined;
   initialContent: any;
   onSuccess?: () => void;
-  onCancel?: () => void; // New Cancel function
+  onCancel?: () => void;
 }
 
 type FormData = z.infer<typeof EditPostValidator>;
@@ -29,7 +30,7 @@ export const EditPostEditor: FC<EditPostEditorProps> = ({
   initialTitle,
   initialContent,
   onSuccess,
-  onCancel, // Accept cancel function as prop
+  onCancel,
 }) => {
   const {
     register,
@@ -45,11 +46,13 @@ export const EditPostEditor: FC<EditPostEditorProps> = ({
 
   const ref = useRef<EditorJS>();
   const [isMounted, setIsMounted] = useState<boolean>(false);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const _titleRef = useRef<HTMLTextAreaElement | null>(null);
   const router = useRouter();
 
   const { mutate: updatePost } = useMutation({
     mutationFn: async ({ title, content }: FormData) => {
+      setIsSubmitting(true);
       return axios.patch(`/api/subreddit/post/edit`, {
         postId,
         title,
@@ -57,6 +60,7 @@ export const EditPostEditor: FC<EditPostEditorProps> = ({
       });
     },
     onError: () => {
+      setIsSubmitting(false);
       toast({
         title: "Something went wrong.",
         description: "Your post was not updated. Please try again.",
@@ -64,6 +68,7 @@ export const EditPostEditor: FC<EditPostEditorProps> = ({
       });
     },
     onSuccess: () => {
+      setIsSubmitting(false);
       router.refresh();
 
       toast({
@@ -173,13 +178,13 @@ export const EditPostEditor: FC<EditPostEditorProps> = ({
   const { ref: titleRef, ...rest } = register("title");
 
   return (
-    <div className="w-full h-screen md:h-auto p-4 bg-surface rounded-lg border border-custom flex flex-col">
+    <div className="w-full md:max-w-4xl mx-auto md:h-auto p-6 bg-white rounded-lg border border-gray-200 shadow-sm flex flex-col transition-all">
       <form
         id="edit-post-form"
         className="flex-grow flex flex-col"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className="prose prose-stone dark:prose-invert flex-grow">
+        <div className="prose prose-stone flex-grow max-w-none">
           <TextareaAutosize
             ref={(e) => {
               titleRef(e);
@@ -187,28 +192,54 @@ export const EditPostEditor: FC<EditPostEditorProps> = ({
             }}
             {...rest}
             placeholder="Title"
-            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none text-primary placeholder:text-muted"
+            className="w-full resize-none appearance-none overflow-hidden bg-transparent text-4xl md:text-5xl font-bold focus:outline-none text-gray-900 placeholder:text-gray-400 mb-4 transition-colors focus:border-b focus:border-gray-200 pb-2"
           />
-          <div id="editor" className="min-h-[500px] flex-grow text-primary" />
-          <p className="text-sm text-muted">
-            Use{" "}
-            <kbd className="rounded-md border border-custom bg-surface-dark-hover px-1 text-xs uppercase text-primary">
+          
+          <div className="h-px w-full bg-gray-100 mb-6" />
+          
+          <div 
+            id="editor" 
+            className="min-h-[300px] md:min-h-[500px] flex-grow text-gray-800 focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-200 rounded-md transition-all" 
+          />
+          
+          <div className="flex items-center gap-2 mt-4 text-sm text-gray-500 bg-gray-50 p-3 rounded-md border border-gray-100">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-lightbulb">
+              <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/>
+              <path d="M9 18h6"/>
+              <path d="M10 22h4"/>
+            </svg>
+            Press{" "}
+            <kbd className="rounded-md border border-gray-300 bg-white px-2 py-0.5 text-xs font-semibold text-gray-800 shadow-sm">
               Tab
             </kbd>{" "}
-            to open the command menu.
-          </p>
+            to open the command menu
+          </div>
         </div>
 
-        <div className="w-full flex justify-end mt-4 space-x-2">
-          <Button variant="outline" onClick={onCancel} className="bg-surface border-custom text-primary hover:bg-surface-dark-hover">
+        <div className="w-full flex justify-end mt-6 space-x-3">
+          <Button 
+            type="button"
+            variant="outline" 
+            onClick={onCancel} 
+            className="bg-white border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md font-medium transition-colors"
+            disabled={isSubmitting}
+          >
             Cancel
           </Button>
 
           <Button
             type="submit"
-            className="bg-reddit text-white hover:bg-reddit"
+            className="bg-blue-600 text-white hover:bg-blue-700 px-4 py-2 rounded-md font-medium flex items-center gap-2 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+            disabled={isSubmitting}
           >
-            Update Post
+            {isSubmitting ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Updating...
+              </>
+            ) : (
+              "Update Post"
+            )}
           </Button>
         </div>
       </form>
