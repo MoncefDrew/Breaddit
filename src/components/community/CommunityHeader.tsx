@@ -1,7 +1,7 @@
 "use client";
 
 import { FC, useState } from "react";
-import { Button } from "../ui/Button";
+import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
