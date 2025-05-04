@@ -21,16 +21,16 @@ export default function RootLayout({
   authModal: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className="light">
       <body
-        className={cn("min-h-screen bg-[#0E1113] antialiased", inter.className)}
+        className={cn("min-h-screen bg-[#f9fafb] antialiased", inter.className)}
       >
-        <div className="bg-[#0E1113] min-h-screen">
+        <div className="bg-[#f9fafb] min-h-screen">
           <Providers>
             {/* @ts-ignore */}
             <Navbar />
             {authModal}
-            <div className="container max-w-[1400px] mx-auto pt-12 bg-[#0E1113]">
+            <div className="md:container  w-full md:max-w-5xl md:mx-auto pt-12 bg-[#f9fafb]">
               {children}
             </div>
           </Providers>

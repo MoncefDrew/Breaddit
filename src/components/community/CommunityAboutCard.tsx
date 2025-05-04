@@ -3,18 +3,21 @@
 import { FC, useState } from "react";
 import { format } from "date-fns";
 import {
-
-  Link2,
-  Globe,
   ChevronDown,
   Cake,
-  Edit, // Import the pen (edit) icon
+  Edit,
+  Users,
+  Bell,
+  Shield,
+  Check,
+  LogOut
 } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Textarea } from "../ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface Rule {
   id: string;
@@ -38,23 +41,27 @@ interface CommunityAboutCardProps {
   onbioUpdate?: (newDescription: string) => void;
   rules?: Rule[];
   user?: string | null | undefined;
+  isLoggedIn?: any;
 }
 
 const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
   community,
   memberCount,
+  isSubscribed,
   isModerator,
   onbioUpdate,
   rules = [],
   user,
+  isLoggedIn,
 }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [descriptionText, setDescriptionText] = useState(
     community.description || ""
   );
   const [isLoading, setIsLoading] = useState(false);
+  const [expandedRules, setExpandedRules] = useState<string[]>([]);
   const { toast } = useToast();
-
+  const router = useRouter();
 
   const handleSaveDescription = async () => {
     if (!isModerator) return;
@@ -87,147 +94,299 @@ const CommunityAboutCard: FC<CommunityAboutCardProps> = ({
     }
   };
 
+  const toggleRuleExpansion = (ruleId: string) => {
+    setExpandedRules(prev => 
+      prev.includes(ruleId) 
+        ? prev.filter(id => id !== ruleId)
+        : [...prev, ruleId]
+    );
+  };
+
+  // Handle subscription toggle
+  const handleJoinToggle = async () => {
+    if (!user) {
+      router.push('/sign-in');
+      return;
+    }
+    
+    setIsLoading(true);
+    try {
+      const endpoint = isSubscribed ? '/api/subreddit/unsubscribe' : '/api/subreddit/subscribe';
+      const response = await axios.post(endpoint, {
+        subredditId: community.id,
+      });
+
+      if (response.status === 200) {
+        toast({
+          title: isSubscribed ? "Unsubscribed" : "Subscribed",
+          description: isSubscribed 
+            ? `You have left r/${community.name}`
+            : `You have joined r/${community.name}`,
+          variant: "default",
+        });
+        
+        router.refresh();
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update subscription. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  //To implement later
+  const handleModTools = () => {
+    router.push(`/r/${community.name}/mod`);
+  };
+
   return (
-    <div className="bg-[#040505] rounded-md overflow-hidden">
+    <div className="rounded-md border border-gray-300 overflow-hidden">
+      <div className="px-4 py-3 bg-gray-100">
+        <h3 className="text-sm font-medium">About r/{community.name}</h3>
+      </div>
+      
       {/* Welcome Section */}
-      <div className="p-4 space-y-3 text-[#8aa3ad]">
-        <p className="text-base ">{community.name}!</p>
+      <div className="p-4 space-y-3">
 
         {/* Editable Description */}
-        <div className="text-sm ">
+        <div className="text-sm text-gray-700">
           {isEditing ? (
             <Textarea
               value={descriptionText}
               onChange={(e) => setDescriptionText(e.target.value)}
               rows={4}
+              className="w-full p-2 border border-gray-300 rounded-md text-sm"
             />
           ) : (
-            <p>{community.description}</p>
+            <p>{community.description || "No description available."}</p>
           )}
         </div>
 
         {isModerator && !isEditing && (
           <div className="mt-2 flex items-center gap-2">
-            <Edit
+            <button
               onClick={() => setIsEditing(true)}
-              className="text-[#4FBCFF] cursor-pointer h-5 w-5"
-            />
-            <span className="text-xs text-[#8aa3ad]">Edit Bio</span>
+              className="flex items-center gap-1 text-xs text-gray-600 hover:text-gray-900"
+            >
+              <Edit className="h-3.5 w-3.5" />
+              <span>Edit Description</span>
+            </button>
           </div>
         )}
 
         {isEditing && (
-          <div className="flex gap-1 mt-2">
+          <div className="flex gap-2 mt-3">
             <Button
               onClick={handleSaveDescription}
               disabled={isLoading}
-              className="px-4 py-1.5 rounded-full text-sm font-semibold bg-[#4FBCFF] text-zinc-900 hover:bg-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed" // Primary post button style
-              variant="ghost"
+              variant="primary"
+              size="default"
+              isLoading={isLoading}
             >
               Save
             </Button>
             <Button
               onClick={() => setIsEditing(false)}
-              className="px-4 py-1.5 rounded-full text-sm font-semibold bg-zinc-700 text-zinc-100 hover:bg-zinc-600 disabled:opacity-50"
-              variant="ghost"
+              variant="subtle"
+              size="default"
+              disabled={isLoading}
             >
               Cancel
             </Button>
           </div>
         )}
-
-        <p className="text-sm ">
-          r/{community.name} is moderated more heavily than most other subs on
-          reddit. Please consult the{" "}
-          <Link href="/rules" className="text-[#4FBCFF] hover:underline">
-            Rules
-          </Link>{" "}
-          before posting or commenting.
-        </p>
       </div>
 
-      {/* About Community Card */}
-      <div className="p-3">
-        {/* Created and Public info */}
-        <div className="flex items-start flex-col gap-2 mb-4">
-          <div className="flex items-start text-sm font-medium text-[#8aa3ad] ">
-            <Cake className="h-4 w-4 mr-2" />
-            <span>
-              Created {format(new Date(community.createdAt), "MMM d, yyyy")}
-            </span>
-          </div>
-          <div className="flex items-center text-sm font-medium text-[#8aa3ad]">
-            <Globe className="h-4 w-4 mr-2" />
-            <span>Public</span>
-          </div>
-        </div>
-
-        {/* Stats row */}
-        <div className="flex gap-8 mb-2 items-end border-b pb-4 border-b-gray-500 ">
-          <div className="flex items-start flex-col">
-            <div className="text-[16px] font-medium text-[#D7DADC]">
-              {memberCount.toLocaleString()}
-            </div>
-            <div className="text-xs font-medium text-[#8aa3ad]">Members</div>
-          </div>
+      {/* Stats section */}
+      <div className="px-4 py-3 border-t border-gray-200">
+        <div className="flex justify-between items-center">
           <div className="flex flex-col">
+            <span className="text-md font-medium text-gray-900">{memberCount.toLocaleString()}</span>
+            <span className="text-xs text-gray-500">Members</span>
+          </div>
+          
+          <div className="flex flex-col items-center">
+            <span className="text-md font-medium text-gray-900">1</span>
             <div className="flex items-center gap-1">
-              <span className="text-[16px] font-medium text-[#D7DADC]">
-                0
-              </span>
-            </div>
-            <div className="flex flex-row items-center gap-1 text-xs font-medium text-[#8aa3ad]">
-              <span className="flex h-2 w-2 bg-[#46D160] rounded-full" />
-              Online
+              <span className="h-2 w-2 bg-green-500 rounded-full"></span>
+              <span className="text-xs text-gray-500">Online</span>
             </div>
           </div>
-          <div>
-            <div className="flex items-center text-sm font-medium text-[#D7DADC]">
-              Top 1%
-              <Link2 className="h-4 w-4 ml-1 text-[#818384]" />
-            </div>
-            <div className="text-sm text-[#8aa3ad]">Rank by size</div>
+          
+          <div className="flex flex-col">
+            <span className="text-sm font-medium text-gray-800">Top 1%</span>
+            <span className="text-xs text-gray-500">of communities</span>
           </div>
         </div>
+      </div>
+
+      {/* Created date */}
+      <div className="px-4 py-3 border-t border-gray-200">
+        <div className="flex items-center text-sm text-gray-600">
+          <Cake className="h-4 w-4 mr-2 text-gray-500" />
+          <span>Created {format(new Date(community.createdAt), "MMMM d, yyyy")}</span>
+        </div>
+      </div>
+      
+      {isModerator && (
+        <div className="px-4 py-3 border-t border-gray-200">
+          <div className="flex items-center text-sm text-gray-600">
+            <Shield className="h-4 w-4 mr-2 text-gray-500" />
+            <span>You are a moderator of this community</span>
+          </div>
+        </div>
+      )}
+
+      {/* Call to action buttons based on subscription status */}
+        {/* Manage community (Ready to Implement) */}
+      <div className="p-4 border-t border-gray-200 space-y-2">
+        {!isLoggedIn ? (
+          <Link href="/sign-in" className="w-full">
+            <Button 
+              variant="primary"
+              size="default"
+              className="w-full"
+            >
+              Log In To Join
+            </Button>
+          </Link>
+        ) : isModerator ? (
+          <div className="flex flex-col gap-2">
+            <Button 
+              variant="outline"
+              size="default"
+              className="w-full text-gray-700 bg-white border-gray-300"
+              onClick={handleModTools}
+            >
+              <Shield className="h-3.5 w-3.5 mr-2" />
+              Manage Community
+            </Button>
+          </div>
+        ) : isSubscribed ? (
+          <div className="space-y-2">
+            <div className="relative group">
+              <Button 
+                variant="default"
+                size="default"
+                className="w-full bg-gray-100 text-gray-800 border-gray-300 group-hover:hidden"
+              >
+                <Check className="h-3.5 w-3.5 mr-2 text-green-600" />
+                Joined
+              </Button>
+              <Button 
+                onClick={handleJoinToggle}
+                variant="default"
+                size="default"
+                isLoading={isLoading}
+                className="w-full bg-gray-100 text-red-600 border-gray-300 hidden group-hover:flex"
+              >
+                <LogOut className="h-3.5 w-3.5 mr-2" />
+                Leave
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <Button 
+            onClick={handleJoinToggle}
+            variant="primary"
+            size="default"
+            isLoading={isLoading}
+            className="w-full"
+          >
+            <Bell className="h-3.5 w-3.5 mr-2" />
+            Join
+          </Button>
+        )}
+
+        <Link
+          href={`/r/${community.name}/submit`}
+          className="block w-full"
+        >
+          <Button 
+            variant="outline"
+            size="default"
+            className="w-full border-gray-300 text-gray-800 bg-white hover:bg-gray-50"
+          >
+            Create Post
+          </Button>
+        </Link>
       </div>
 
       {/* Rules Section */}
-      <div className="px-4 py-3">
-        <h2 className="text-xs font-bold tracking-[0.5px] uppercase text-[#7ba1ac]">
-          Rules
-        </h2>
-      </div>
-      <div>
-        {rules.map((rule, index) => (
-          <div
-            key={rule.id}
-            className="px-4 py-2 hover:bg-[#181C1F] cursor-pointer"
-          >
-            <div className="flex items-baseline text">
-              <span className="text-sm text-[#8aa3ad] mr-2">{index + 1}.</span>
-              <div className="flex-1">
-                <h3 className="text-sm text-[#8aa3ad]">{rule.title}</h3>
-              </div>
-              <ChevronDown className="h-4 w-4 text-[#818384] ml-2" />
-            </div>
+      {rules.length > 0 && (
+        <div className="border-t border-gray-200">
+          <div className="px-4 py-3 bg-gray-50">
+            <h3 className="text-xs font-semibold tracking-wide uppercase text-gray-700">
+              r/{community.name} Rules
+            </h3>
           </div>
-        ))}
-      </div>
+          
+          <div className="divide-y divide-gray-200">
+            {rules.map((rule, index) => (
+              <div
+                key={rule.id}
+                className="px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors duration-150"
+              >
+                <div 
+                  className="flex items-center justify-between"
+                  onClick={() => toggleRuleExpansion(rule.id)}
+                >
+                  <div className="flex items-start">
+                    <span className="text-sm font-medium text-gray-700 mr-2">{index + 1}.</span>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-800">{rule.title}</h4>
+                      {rule.description && expandedRules.includes(rule.id) && (
+                        <p className="text-xs text-gray-600 mt-1">{rule.description}</p>
+                      )}
+                    </div>
+                  </div>
+                  <ChevronDown className={`h-4 w-4 text-gray-500 transition-transform ${
+                    expandedRules.includes(rule.id) ? 'rotate-180' : ''
+                  }`} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
-      {/* Related Subreddits */}
-      <div className="px-4 py-3">
-        <h2 className="text-[10px] font-bold tracking-[0.5px] uppercase text-[#818384]">
-          Related Subbreddits
-        </h2>
+      {/* Related Communities */}
+      <div className="border-t border-gray-200">
+        <div className="px-4 py-3 bg-gray-50">
+          <h3 className="text-xs font-semibold tracking-wide uppercase text-gray-700">
+            Related Communities
+          </h3>
+        </div>
+        
+        <div className="p-4 space-y-2">
+          <div className="flex items-center gap-2">
+            <Users className="h-4 w-4 text-gray-500" />
+            <Link href="/r/LawSchool" className="text-blue-600 hover:underline text-sm">
+              r/LawSchool
+            </Link>
+            <span className="text-xs text-gray-500">878,799 members</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Users className="h-4 w-4 text-gray-500" />
+            <Link href="/r/Legal" className="text-blue-600 hover:underline text-sm">
+              r/Legal
+            </Link>
+            <span className="text-xs text-gray-500">452,156 members</span>
+          </div>
+        </div>
       </div>
-
-      <div className="p-4">
-        <div className="flex items-center gap-2">
-          <Globe className="h-4 w-4 text-[#818384]" />
-          <Link href="/r/LawSchool" className="text-[#4FBCFF] hover:underline">
-            r/LawSchool
-          </Link>
-          <span className="text-xs text-[#818384]">878,799 members</span>
+      
+      {/* Footer */}
+      <div className="px-4 py-3 border-t border-gray-200 bg-gray-50">
+        <div className="flex justify-between text-xs text-gray-500">
+          <Link href="#" className="hover:underline">Community Options</Link>
+          {isModerator && (
+            <Link href={`/r/${community.name}/mod`} className="hover:underline">Moderation Tools</Link>
+          )}
         </div>
       </div>
     </div>

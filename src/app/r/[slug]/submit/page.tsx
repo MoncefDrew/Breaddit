@@ -60,17 +60,13 @@ const Page = async ({ params }: pageProps) => {
     id: subreddit.id,
     name: subreddit.name,
     createdAt: subreddit.createdAt,
-    // Ensure creatorId exists if needed by CommunityAboutCard, handle null case if possible
     creatorId: subreddit.creatorId as string | null,
-    description: subreddit.description, // Pass description directly
+    description: subreddit.description, 
   };
 
   return (
-    // Main container: Set very dark background, light text, adjust padding
-    <div className=" min-h-screen pt-10 md:pt-12">
-      <div className="max-w-5xl mx-auto text-zinc-100 pb-10 px-4">
-        {" "}
-        {/* Reduced max-width slightly for tighter feel */}
+    <div className=" min-h-screen pt-10 ">
+      <div className="max-w-5xl mx-auto text-zinc-100 pb-10">
         {/* Two-column layout */}
         <div className="flex flex-col md:flex-row gap-x-6 gap-y-4">
           {/* Optional: Back navigation - Style appropriately if kept */}
@@ -85,16 +81,13 @@ const Page = async ({ params }: pageProps) => {
           {/* Right column - Sidebar */}
           <div className="w-full md:w-80 order-1 md:order-2">
             <div className="sticky top-16 space-y-4">
-              {" "}
-              {/* Adjusted sticky top offset */}
               {/* Community Info Card */}
-              {/* ASSUMPTION: CommunityAboutCard is styled internally for dark theme */}
               <CommunityAboutCard
                 community={typedCommunity}
                 memberCount={subreddit.subscribers.length}
                 isSubscribed={isSubscribed}
                 isModerator={isModerator}
-                // Pass description here if not included in typedCommunity
+                isLoggedIn={!!session?.user}
                 // description={subreddit.description}
               />
               {/* Community Rules Card */}

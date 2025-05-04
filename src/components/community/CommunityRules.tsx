@@ -96,15 +96,15 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName, rules: initial
     return (
       <div className="flex justify-center py-8">
         <div className="animate-pulse flex space-x-4">
-          <div className="rounded-full bg-surface-dark-hover h-10 w-10"></div>
+          <div className="rounded-full bg-gray-200 h-10 w-10"></div>
           <div className="flex-1 space-y-6 py-1">
-            <div className="h-2 bg-surface-dark-hover rounded"></div>
+            <div className="h-2 bg-gray-200 rounded"></div>
             <div className="space-y-3">
               <div className="grid grid-cols-3 gap-4">
-                <div className="h-2 bg-surface-dark-hover rounded col-span-2"></div>
-                <div className="h-2 bg-surface-dark-hover rounded col-span-1"></div>
+                <div className="h-2 bg-gray-200 rounded col-span-2"></div>
+                <div className="h-2 bg-gray-200 rounded col-span-1"></div>
               </div>
-              <div className="h-2 bg-surface-dark-hover rounded"></div>
+              <div className="h-2 bg-gray-200 rounded"></div>
             </div>
           </div>
         </div>
@@ -114,7 +114,7 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName, rules: initial
 
   if (error) {
     return (
-      <div className="flex items-center justify-center py-8 text-primary">
+      <div className="flex items-center justify-center py-8 text-gray-900">
         <AlertCircle className="h-5 w-5 text-red-500 mr-2" />
         <p>{error}</p>
       </div>
@@ -124,11 +124,11 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName, rules: initial
   if (rules.length === 0 && !isEditing) {
     return (
       <div className="py-8 text-center">
-        <p className="text-muted">No rules have been set for this community yet.</p>
+        <p className="text-gray-500">No rules have been set for this community yet.</p>
         {isModerator && (
           <Button 
             onClick={() => setIsEditing(true)}
-            className="mt-4 bg-[#238636] hover:bg-[#2ea043] text-white"
+            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white"
           >
             <Plus className="h-4 w-4 mr-2" />
             Add Rules
@@ -144,10 +144,10 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName, rules: initial
         <>
           <div className="space-y-4">
             {rules.map((rule, index) => (
-              <div key={rule.id} className="bg-surface border border-custom rounded-md p-4">
-                <h3 className="text-primary font-medium text-sm">{index + 1}. {rule.title}</h3>
+              <div key={rule.id} className="bg-white border border-gray-200 rounded-md p-4 hover:border-gray-300 transition-colors">
+                <h3 className="text-gray-900 font-medium text-sm">{index + 1}. {rule.title}</h3>
                 {rule.description && (
-                  <p className="text-muted text-sm mt-1">{rule.description}</p>
+                  <p className="text-gray-600 text-sm mt-1">{rule.description}</p>
                 )}
               </div>
             ))}
@@ -156,7 +156,7 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName, rules: initial
           {isModerator && (
             <Button 
               onClick={() => setIsEditing(true)}
-              className="mt-4 bg-[#238636] hover:bg-[#2ea043] text-white"
+              className="mt-4 bg-blue-600 hover:bg-blue-700 text-white"
             >
               <Pencil className="h-4 w-4 mr-2" />
               Edit Rules
@@ -167,16 +167,16 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName, rules: initial
         <div className="space-y-4">
           <div className="space-y-4">
             {rules.map((rule, index) => (
-              <div key={rule.id} className="bg-surface-dark-hover border border-custom rounded-md p-4 relative">
+              <div key={rule.id} className="bg-white border border-gray-200 rounded-md p-4 relative">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={() => handleRemoveRule(rule.id)}
-                  className="absolute top-2 right-2 p-1 h-auto w-auto text-muted hover:text-red-500 hover:bg-transparent"
+                  className="absolute top-2 right-2 p-1 h-auto w-auto text-gray-500 hover:text-red-500 hover:bg-transparent"
                 >
                   <X className="h-4 w-4" />
                 </Button>
-                <p className="text-primary text-xs mb-2">Rule {index + 1}</p>
+                <p className="text-gray-700 text-xs mb-2">Rule {index + 1}</p>
                 <Input
                   value={rule.title}
                   onChange={(e) => {
@@ -185,7 +185,7 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName, rules: initial
                     setRules(updatedRules)
                   }}
                   placeholder="Rule title"
-                  className="mb-2 bg-surface border-custom text-primary"
+                  className="mb-2 bg-white border-gray-300 text-gray-900 focus:border-blue-300 focus:ring focus:ring-blue-100 focus:ring-opacity-50"
                 />
                 <Textarea
                   value={rule.description}
@@ -195,30 +195,30 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName, rules: initial
                     setRules(updatedRules)
                   }}
                   placeholder="Rule description (optional)"
-                  className="resize-none h-20 bg-surface border-custom text-primary"
+                  className="resize-none h-20 bg-white border-gray-300 text-gray-900 focus:border-blue-300 focus:ring focus:ring-blue-100 focus:ring-opacity-50"
                 />
               </div>
             ))}
           </div>
           
-          <div className="bg-surface-dark-hover border border-custom rounded-md p-4">
-            <p className="text-primary text-xs mb-2">New Rule</p>
+          <div className="bg-white border border-gray-200 rounded-md p-4">
+            <p className="text-gray-700 text-xs mb-2">New Rule</p>
             <Input
               value={newRule.title}
               onChange={(e) => setNewRule({ ...newRule, title: e.target.value })}
               placeholder="Rule title"
-              className="mb-2 bg-surface border-custom text-primary"
+              className="mb-2 bg-white border-gray-300 text-gray-900 focus:border-blue-300 focus:ring focus:ring-blue-100 focus:ring-opacity-50"
             />
             <Textarea
               value={newRule.description}
               onChange={(e) => setNewRule({ ...newRule, description: e.target.value })}
               placeholder="Rule description (optional)"
-              className="resize-none h-20 bg-surface border-custom text-primary mb-2"
+              className="resize-none h-20 bg-white border-gray-300 text-gray-900 focus:border-blue-300 focus:ring focus:ring-blue-100 focus:ring-opacity-50 mb-2"
             />
             <Button
               onClick={handleAddRule}
               disabled={!newRule.title.trim()}
-              className="bg-[#238636] hover:bg-[#2ea043] text-white w-full"
+              className="bg-blue-600 hover:bg-blue-700 text-white w-full"
             >
               <Plus className="h-4 w-4 mr-2" />
               Add Rule
@@ -232,14 +232,14 @@ const CommunityRules: FC<CommunityRulesProps> = ({ communityName, rules: initial
                 setIsEditing(false)
                 fetchRules() // Reload the original rules
               }}
-              className="bg-surface-dark-hover text-primary hover:bg-surface-dark-hover"
+              className="bg-gray-100 text-gray-700 hover:bg-gray-200"
             >
               Cancel
             </Button>
             <Button
               onClick={handleSaveRules}
               isLoading={isSaving}
-              className="bg-[#238636] hover:bg-[#2ea043] text-white"
+              className="bg-blue-600 hover:bg-blue-700 text-white"
             >
               <Save className="h-4 w-4 mr-2" />
               Save Rules

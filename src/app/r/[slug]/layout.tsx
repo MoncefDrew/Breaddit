@@ -26,7 +26,7 @@ const Layout = async ({
   if (!subreddit) return notFound();
 
   return (
-    <div className="flex bg-[#0E1113] w-full flex-col px-0 md:mx-auto md:px-4">
+    <div className="flex bg-[#f9fafb] w-full flex-col px-0 md:mx-auto ">
       <div className="md:col-span-2">{children}</div>
     </div>
   );

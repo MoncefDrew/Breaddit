@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import axios from "axios";
 import Image from "next/image";
-import { Camera, ChevronLeft, Plus } from "lucide-react";
+import { Camera, ChevronLeft, Plus, Shield } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -112,139 +112,154 @@ const CommunityHeader: FC<CommunityHeaderProps> = ({
   };
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="relative w-full max-w-5xl mb-6">
-        {/* Back button */}
+    <div className="w-full bg-white border-b border-gray-200">
+      {/* Back button */}
+      <div className="max-w-5xl mx-auto px-4 relative">
         <button
           onClick={handleBack}
-          className="absolute top-4 left-4 z-10 bg-[#] bg--2 rounded-full text-white hover:bg-opacity-90 transition-all"
+          className="absolute top-4 left-4 z-10 p-1 rounded-full text-gray-500 hover:bg-gray-100"
           aria-label="Go back"
         >
           <ChevronLeft className="h-5 w-5" />
         </button>
+      </div>
 
-        {/* Cover Image Container */}
-        <div className="w-full relative">
-          <div className="w-full h-32 md:h-48 overflow-hidden relative mt-4 rounded-xl">
-            {localCoverImage ? (
-              <Image
-                src={localCoverImage}
-                alt={`r/${name} banner`}
-                fill
-                style={{ objectFit: "cover" }}
-                priority
-                className="rounded-xl"
-              />
-            ) : (
-              <div className="w-full h-full bg-gradient-to-r from-reddit via-reddit to-reddit opacity-80 rounded-t-lg"></div>
-            )}
+      {/* Cover image */}
+      <div className="w-full overflow-hidden relative">
+        <div className="w-full h-56 overflow-hidden relative">
+          {localCoverImage ? (
+            <Image
+              src={localCoverImage}
+              alt={`r/${name} banner`}
+              fill
+              style={{ objectFit: "cover" }}
+              priority
+            />
+          ) : (
+            <div className="w-full h-full bg-gradient-to-r from-blue-100 to-blue-200"></div>
+          )}
 
-            {isModerator && (
+          {/* Cover image edit button */}
+          {isModerator && (
+            <Dialog
+              open={isUploadDialogOpen}
+              onOpenChange={setIsUploadDialogOpen}
+            >
+              <DialogTrigger asChild>
+                <button
+                  className="absolute right-4 bottom-4 p-1.5 rounded-full bg-white/80 text-gray-700 hover:bg-white"
+                  aria-label="Upload cover image"
+                >
+                  <Camera className="h-4 w-4" />
+                </button>
+              </DialogTrigger>
+              <DialogContent className="bg-white border border-gray-200">
+                <DialogHeader>
+                  <DialogTitle className="text-gray-900">Upload Cover Image</DialogTitle>
+                  <DialogDescription className="text-gray-500">
+                    Upload a new banner image for r/{name}
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="py-4">
+                  <ImageUploader
+                    endpoint="coverImage"
+                    onUploadComplete={handleCoverImageUpload}
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
+        </div>
+
+        {/* Profile and community info */}
+        <div className="max-w-5xl mx-auto px-4 md:pl-10">
+          <div className="flex items-start mt-2 mb-6">
+            {/* Profile image */}
+            <div className="relative -mt-10 mr-4">
               <Dialog
-                open={isUploadDialogOpen}
-                onOpenChange={setIsUploadDialogOpen}
+                open={isProfileUploadDialogOpen}
+                onOpenChange={setIsProfileUploadDialogOpen}
               >
                 <DialogTrigger asChild>
-                  <button
-                    className="absolute right-4 bottom-4 -2 rounded-full bg-black bg-opacity-50 text-white hover:bg-opacity-70 transition-all"
-                    aria-label="Upload cover image"
-                  >
-                    <Camera className="h-5 w-5" />
-                  </button>
-                </DialogTrigger>
-                <DialogContent className="bg-[#0E1113] border-custom text-primary">
-                  <DialogHeader>
-                    <DialogTitle>Upload Cover Image</DialogTitle>
-                    <DialogDescription className="text-muted">
-                      Upload a new banner image for r/{name}
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="py-4">
-                    <ImageUploader
-                      endpoint="coverImage"
-                      onUploadComplete={handleCoverImageUpload}
-                    />
-                  </div>
-                </DialogContent>
-              </Dialog>
-            )}
-          </div>
-
-          {/* Community Info Section - positioned below cover image */}
-          <div className=" w-full rounded-b-lg pt-3">
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-              {/* Left side with profile and name */}
-              <div className="flex items-center ml-4 gap-3">
-                {/* Profile image - positioned to overlap cover image */}
-                <div className="relative -mt-16">
-                  <Dialog
-                    open={isProfileUploadDialogOpen}
-                    onOpenChange={setIsProfileUploadDialogOpen}
-                  >
-                    <DialogTrigger asChild>
-                      <div className="relative cursor-pointer group">
-                        <div className="size-24 rounded-full overflow-hidden  shadow-lg">
-                          {localProfileImage ? (
-                            <Image
-                              src={localProfileImage}
-                              alt={`r/${name} profile`}
-                              fill
-                              style={{ objectFit: "cover" }}
-                              priority
-                              className="rounded-full border-4 border-[#0E1113] "
-                            />
-                          ) : (
-                            <div className="flex items-center justify-center h-full w-full bg-gradient-to-br from-reddit to-reddit rounded-full border-2 border-reddit">
-                              <span className="text-xl font-bold text-white">
-                                r/
-                              </span>
-                            </div>
-                          )}
+                  <div className="relative cursor-pointer group">
+                    <div className="h-20 w-20 rounded-full overflow-hidden border-4 border-white">
+                      {localProfileImage ? (
+                        <Image
+                          src={localProfileImage}
+                          alt={`r/${name} profile`}
+                          fill
+                          style={{ objectFit: "cover" }}
+                          priority
+                          className="rounded-full"
+                        />
+                      ) : (
+                        <div className="flex items-center justify-center h-full w-full bg-blue-100 rounded-full">
+                          <span className="text-lg font-bold text-blue-600">
+                            r/
+                          </span>
                         </div>
-                        {isModerator && (
-                          <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all flex items-center justify-center rounded-full">
-                            <Camera className="h-6 w-6 text-transparent group-hover:text-white" />
-                          </div>
-                        )}
-                      </div>
-                    </DialogTrigger>
-
+                      )}
+                    </div>
                     {isModerator && (
-                      <DialogContent className="bg-[#0E1113] border-custom text-primary">
-                        <DialogHeader>
-                          <DialogTitle>Upload Community Icon</DialogTitle>
-                          <DialogDescription className="text-muted">
-                            Upload a new profile image for r/{name}
-                          </DialogDescription>
-                        </DialogHeader>
-                        <div className="py-4">
-                          <ImageUploader
-                            endpoint="profileImage"
-                            onUploadComplete={handleProfileImageUpload}
-                          />
-                        </div>
-                      </DialogContent>
+                      <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all flex items-center justify-center rounded-full">
+                        <Camera className="h-5 w-5 text-transparent group-hover:text-white" />
+                      </div>
                     )}
-                  </Dialog>
+                  </div>
+                </DialogTrigger>
+
+                {isModerator && (
+                  <DialogContent className="bg-white border border-gray-200">
+                    <DialogHeader>
+                      <DialogTitle className="text-gray-900">Upload Community Icon</DialogTitle>
+                      <DialogDescription className="text-gray-500">
+                        Upload a new profile image for r/{name}
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div className="py-4">
+                      <ImageUploader
+                        endpoint="profileImage"
+                        onUploadComplete={handleProfileImageUpload}
+                      />
+                    </div>
+                  </DialogContent>
+                )}
+              </Dialog>
+            </div>
+
+            {/* Community info and actions */}
+            <div className="flex flex-col flex-grow">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h1 className="text-xl font-semibold text-gray-900">r/{name}</h1>
+                  <p className="text-xs text-gray-500 mt-0.5">r/{name}</p>
                 </div>
-
-                {/* Community name */}
-                <h1 className="text-2xl md:text-3xl font-bold text-primary">r/{name}</h1>
-              </div>
-
-              {/* Right side with action buttons */}
-              <div className="flex flex-row gap-2  items-center ml-auto sm:ml-0">
-                <Button
-                  size="sm"
-                  className="bg-transparent gap-1 px-3 py-0.5 text-zinc-400 rounded-full border border-zinc-custom hover:border-zinc-300 hover:text-zinc-300 transition-colors duration-200"
-                  onClick={() => {
-                    window.location.href = `/r/${name}/submit`;
-                  }}
-                >
-                  <span ><Plus/></span>
-                  Create Post
-                </Button>
-                <JoinButton subredditId={id} size="default" />
+                
+                <div className="flex items-center space-x-2">
+                  <Button
+                    onClick={() => router.push(`/r/${name}/submit`)}
+                    size="sm"
+                    variant="outline"
+                    className="hidden md:flex text-xs px-3 py-1 h-8 bg-white border border-gray-200 text-gray-800"
+                  >
+                    <Plus className="h-3.5 w-3.5 mr-1.5" />
+                    Create Post
+                  </Button>
+                  
+                  {isModerator ? (
+                    <Button
+                      onClick={() => router.push(`/r/${name}/mod`)}
+                      variant="ghost"
+                      size="sm"
+                      className="text-xs px-3 py-1 h-8 text-gray-700"
+                    >
+                      <Shield className="h-3.5 w-3.5 mr-1.5" />
+                      Mod Tools
+                    </Button>
+                  ) : (
+                    <JoinButton subredditId={id} size="sm" />
+                  )}
+                </div>
               </div>
             </div>
           </div>

@@ -53,25 +53,27 @@ const CreateComment: FC<CreateCommentProps> = ({ postId, replyToId }) => {
   })
 
   return (
-    <div className='grid w-full gap-1.5'>
-      <Label htmlFor='comment' className='text-primary'>Your comment</Label>
-      <div className='mt-2'>
+    <div className='grid w-full gap-2 bg-white rounded-lg'>
+      <Label htmlFor='comment' className='text-gray-700 font-medium text-sm'>Add a comment</Label>
+      <div className='mt-1'>
         <Textarea
           id='comment'
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          rows={1}
+          rows={3}
           placeholder='What are your thoughts?'
-          className='bg-surface-dark border-custom text-primary placeholder:text-gray-500 focus:border-custom focus:ring-0'
+          className='w-full bg-gray-50 border border-gray-200 text-gray-800 placeholder:text-gray-400 focus:border-blue-300 focus:ring focus:ring-blue-100 focus:ring-opacity-50 rounded-md resize-none py-2 px-3 transition duration-200'
         />
 
-        <div className='mt-2 flex justify-end'>
+        <div className='mt-3 flex justify-end'>
           <Button
             isLoading={isLoading}
             disabled={input.length === 0}
             onClick={() => comment({ postId, text: input, replyToId })}
-            className='bg-reddit hover:bg-reddit-hover text-white'>
-            Post
+            variant="primary"
+            size="default"
+            className='text-white'>
+            {replyToId ? 'Reply' : 'Comment'}
           </Button>
         </div>
       </div>

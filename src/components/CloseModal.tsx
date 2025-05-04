@@ -12,7 +12,7 @@ const CloseModal = () => {
     <Button
       onClick={()=> router.back()}
       variant="ghost"
-      className="h-6 w-6 p-0 rounded-md bg-transparent text-muted hover:bg-surface-dark hover:text-primary focus:ring-custom"
+      className="h-6 w-6 p-0 rounded-md bg-transparent text-zinc-600 hover:bg-surface-dark hover:text-primary focus:ring-custom"
       aria-label="close modal"
     >
       <X className="h-4 w-4" />

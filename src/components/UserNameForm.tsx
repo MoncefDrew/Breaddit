@@ -77,24 +77,24 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
       className={cn(className)}
       onSubmit={handleSubmit((e) => updateUsername(e))}
       {...props}>
-      <Card className="bg-[#0E1113]  w-full overflow-hidden">
-        <div className="bg-[#0E1113] p-6 rounded-t-lg">
-          <h3 className="font-semibold tracking-tight text-primary text-lg sm:text-xl">Your username</h3>
-          <p className="text-muted text-xs sm:text-sm mt-1.5">
+      <Card className="bg-white w-full overflow-hidden border border-[#e2e8f0] rounded-lg shadow-sm">
+        <div className="bg-white p-6 rounded-t-lg">
+          <h3 className="font-semibold tracking-tight text-[#1e293b] text-lg sm:text-xl">Your username</h3>
+          <p className="text-[#64748b] text-xs sm:text-sm mt-1.5">
             Please enter a display name you are comfortable with.
           </p>
         </div>
         <CardContent className="pt-6">
           <div className='relative grid gap-1'>
             <div className='absolute top-0 left-0 w-8 h-10 grid place-items-center'>
-              <span className='text-sm text-muted'>u/</span>
+              <span className='text-sm text-[#64748b]'>u/</span>
             </div>
             <Label className='sr-only' htmlFor='name'>
               Name
             </Label>
             <Input
               id='name'
-              className='w-full sm:w-[400px] pl-6 bg-surface-dark border-custom text-primary focus:ring-reddit focus:border-reddit'
+              className='w-full sm:w-[400px] pl-6 bg-[#f8fafc] border-[#e2e8f0] text-[#1e293b] focus:ring-[#3b82f6] focus:border-[#3b82f6]'
               size={32}
               {...register('name')}
             />
@@ -103,10 +103,10 @@ export function UserNameForm({ user, className, ...props }: UserNameFormProps) {
             )}
           </div>
         </CardContent>
-        <CardFooter className=" flex flex-col sm:flex-row items-start sm:items-center gap-4">
+        <CardFooter className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <Button 
             isLoading={isLoading}
-            className="bg-reddit hover:bg-reddit-hover text-white w-full sm:w-auto"
+            className="bg-[#ff4500] hover:bg-[#ff5722] text-white w-full sm:w-auto"
           >
             Change name
           </Button>

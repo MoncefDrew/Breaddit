@@ -65,9 +65,9 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
 
   return (
     <div className="relative w-full max-w-lg">
-      <div className="rounded-full border border-custom w-full overflow-hidden bg-surface-dark-hover transition-all duration-200 hover:border-custom focus-within:border-custom shadow-sm">
+      <div className="rounded-full border border-[#e2e8f0] w-full overflow-hidden bg-white transition-all duration-200 hover:border-[#cbd5e1] focus-within:border-[#94a3b8] shadow-sm">
         <div className="flex items-center px-3">
-          <Search className="h-4 w-4 text-muted mr-2 flex-shrink-0" />
+          <Search className="h-4 w-4 text-[#64748b] mr-2 flex-shrink-0" />
           <input
             type="text"
             value={input}
@@ -75,7 +75,7 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
               setInput(e.target.value)
               debounceRequest()
             }}
-            className="w-full py-2 pr-3 bg-transparent text-primary placeholder:text-stone-400 outline-none border-none focus:outline-none focus:ring-0 focus:border-none"
+            className="w-full py-2 pr-3 bg-transparent text-[#1e293b] placeholder:text-[#94a3b8] outline-none border-none focus:outline-none focus:ring-0 focus:border-none"
             placeholder="Search communities..."
             style={{ boxShadow: 'none' }}
           />
@@ -83,9 +83,9 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
       </div>
 
       {input.length > 0 && (
-        <div className="absolute bg-[#0E1113]  top-full inset-x-0 shadow-lg rounded-md border border-custom mt-1 overflow-hidden z-50 max-h-[300px] overflow-y-auto">
+        <div className="absolute bg-white top-full inset-x-0 shadow-lg rounded-md border border-[#e2e8f0] mt-1 overflow-hidden z-50 max-h-[300px] overflow-y-auto">
           {isFetched && (!queryResults || queryResults.length === 0) && (
-            <div className="text-muted py-6 flex items-center justify-center">
+            <div className="text-[#64748b] py-6 flex items-center justify-center">
               <div className="text-center">
                 <p>No communities found</p>
                 <p className="text-xs mt-1">Try a different search term</p>
@@ -94,26 +94,26 @@ const SearchBar: FC<SearchBarProps> = ({}) => {
           )}
           {(queryResults?.length ?? 0) > 0 ? (
             <div>
-              <div className="text-muted text-[10px] uppercase font-medium px-3 py-1.5 tracking-wider">
+              <div className="text-[#64748b] text-[10px] uppercase font-medium px-3 py-1.5 tracking-wider">
                 Communities
               </div>
               <div>
                 {queryResults?.map((subreddit) => (
                   <div
                     key={subreddit.id}
-                    className="px-4 py-3 cursor-pointer hover:bg-surface-dark-hover text-primary transition-colors duration-200"
+                    className="px-4 py-3 cursor-pointer hover:bg-[#f1f5f9] text-[#1e293b] transition-colors duration-200"
                     onClick={() => {
                       router.push(`/r/${subreddit.name}`)
                       router.refresh()
                     }}
                   >
                     <div className="flex items-center">
-                      <div className=" rounded-full  mr-3">
+                      <div className="rounded-full mr-3">
                         <UserAvatar className="h-8 w-8 text-white" user={subreddit} />
                       </div>
                       <div>
                         <p className="font-medium">r/{subreddit.name}</p>
-                        <p className="text-xs text-muted">{subreddit._count.posts} posts</p>
+                        <p className="text-xs text-[#64748b]">{subreddit._count.posts} posts</p>
                       </div>
                     </div>
                   </div>

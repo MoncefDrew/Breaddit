@@ -15,10 +15,10 @@ export default async function SettingsPage() {
   }
   
   return (
-    <div className='min-h-screen bg-[#0E1113] text-primary'>
+    <div className='min-h-screen bg-[#f9fafb] text-[#1e293b]'>
       <div className='max-w-4xl mx-auto py-6 sm:py-8 md:py-12 px-4 sm:px-6'>
         <div className='grid items-start gap-6 sm:gap-8'>
-          <h1 className='font-bold text-2xl sm:text-3xl md:text-4xl text-primary'>Settings</h1>
+          <h1 className='font-bold text-2xl sm:text-3xl md:text-4xl text-[#1e293b]'>Settings</h1>
             
               <div className="grid gap-6 sm:gap-10 w-full">
                 <UserNameForm

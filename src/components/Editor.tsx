@@ -12,6 +12,8 @@ import { useMutation } from "@tanstack/react-query";
 import { usePathname, useRouter } from "next/navigation";
 import axios from "axios";
 import { z } from "zod";
+import { Button } from "./ui/Button";
+import { Image, Code, Link2, Type, ListOrdered, Table, FilePlus2 } from "lucide-react";
 
 interface EditorProps {
   subredditId: string;
@@ -35,12 +37,12 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
 
   const ref = useRef<EditorJS>();
   const [isMounted, SetIsMounted] = useState<boolean>(false);
+  const [titleLength, setTitleLength] = useState<number>(0);
   const _titleRef = useRef<HTMLTextAreaElement>(null);
   const router = useRouter();
   const pathname = usePathname();
 
   const { mutate: createPost, isLoading: isPosting } = useMutation({
-    // Added isLoading
     mutationFn: async ({
       title,
       content,
@@ -51,7 +53,6 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
       return data;
     },
     onError: (err) => {
-      // Added error logging
       return toast({
         title: "Something went wrong.",
         description: "Your post was not published. Please try again.",
@@ -68,61 +69,61 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
     },
   });
 
-  // --- Dark Mode CSS Injection for EditorJS internals ---
-  // Updated dark theme with #0b0d0f background and appropriate text colors
+  // --- Light Mode CSS Injection for EditorJS internals ---
   useEffect(() => {
     const style = document.createElement("style");
-    // Add styles targeting EditorJS classes for dark mode with new color scheme
+    // Add styles targeting EditorJS classes for light mode
     style.innerHTML = `
     /* General Editor text color */
     .codex-editor__redactor {
       padding-bottom: 100px !important; /* Ensure space below content */
     }
     .ce-paragraph[data-placeholder]:empty::before {
-       color: #6B7280; /* Placeholder text color */
+       color: #9CA3AF; /* Placeholder text color */
        opacity: 1;
     }
      .codex-editor {
-       color: #E5E7EB !important; /* Default text - lighter for better contrast */
-       background-color: #0b0d0f !important; /* Updated editor background */
-       border: 1px solid #1F2937 !important; /* Editor border */
-       border-radius: 4px;
-       padding: 12px; /* Padding inside editor */
+       color: #374151 !important; /* Default text - darker for better contrast */
+       background-color: #F9FAFB !important; /* Editor background - very light gray */
+       border: 1px solid #E5E7EB !important; /* Editor border */
+       border-radius: 0.375rem;
+       padding: 1rem; /* Padding inside editor */
      }
 
      /* Selected block background */
      .ce-block--selected > .ce-block__content {
-       background: #111827 !important; /* Slightly lighter than background for selection */
+       background: #F3F4F6 !important; /* Slightly darker than background for selection */
      }
 
      /* Toolbar buttons (+, settings) */
      .ce-toolbar__plus, .ce-toolbar__settings-btn {
-       background-color: #1F2937 !important;
-       color: #9CA3AF !important; /* Default icon color */
-       border: 1px solid #374151 !important;
+       background-color: white !important;
+       color: #6B7280 !important; /* Default icon color */
+       border: 1px solid #E5E7EB !important;
+       box-shadow: 0 1px 2px rgba(0,0,0,0.05) !important;
      }
      .ce-toolbar__plus svg, .ce-toolbar__settings-btn svg {
         /* Ensure SVG inherits the color */
         fill: currentColor !important;
      }
      .ce-toolbar__plus:hover, .ce-toolbar__settings-btn:hover {
-       background-color: #2D3748 !important;
-       color: #F3F4F6 !important; /* Icon color brightens on hover */
+       background-color: #F9FAFB !important;
+       color: #111827 !important; /* Icon color darkens on hover */
      }
 
      /* Popovers (tool options), Conversion Toolbar, Inline Toolbar */
      .ce-popover, .ce-conversion-toolbar, .ce-inline-toolbar {
-       background-color: #0b0d0f !important;
-       border: 1px solid #1F2937 !important;
-       color: #E5E7EB !important; /* Default text inside */
-       box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+       background-color: white !important;
+       border: 1px solid #E5E7EB !important;
+       color: #374151 !important; /* Default text inside */
+       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
      }
      /* --- Inline Toolbar Specifics --- */
       .ce-inline-toolbar {
          padding: 4px 6px !important; /* Adjust padding if needed */
       }
       .ce-inline-tool {
-         color: #9CA3AF !important; /* Default icon color for inline tools */
+         color: #6B7280 !important; /* Default icon color for inline tools */
          margin: 0 2px !important; /* Spacing between inline tools */
          padding: 5px !important; /* Padding inside tool button */
          width: 28px !important; /* Fixed width */
@@ -136,24 +137,24 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
       }
        /* Active/Hover inline tool */
       .ce-inline-tool:hover {
-         background-color: #1F2937 !important;
-         color: #F3F4F6 !important; /* Brighten icon on hover */
+         background-color: #F3F4F6 !important;
+         color: #111827 !important; /* Darken icon on hover */
       }
       .ce-inline-tool--active {
-         background-color: #2D3748 !important; /* Keep background subtle */
-         color: #FFFFFF !important; /* Brightest color for active icon */
+         background-color: #F3F4F6 !important; /* Keep background subtle */
+         color: #2563EB !important; /* Blue for active icon */
       }
 
       /* --- Popover/Conversion Tool Specifics --- */
       .ce-popover-item, .ce-conversion-tool {
-        color: #E5E7EB !important; /* Tool text label */
+        color: #374151 !important; /* Tool text label */
         padding: 8px 12px !important; /* Adjust padding */
       }
       .ce-popover-item:hover, .ce-conversion-tool:hover {
-        background-color: #1F2937 !important;
+        background-color: #F3F4F6 !important;
       }
       .ce-popover-item__icon, .ce-conversion-tool__icon {
-        color: #9CA3AF !important; /* Icon next to text label */
+        color: #6B7280 !important; /* Icon next to text label */
         background-color: transparent !important; /* Ensure no background */
         margin-right: 8px !important; /* Space between icon and text */
         border: none !important; /* Remove potential borders */
@@ -168,28 +169,28 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
 
      /* Inputs within EditorJS (like link input) */
      .cdx-input {
-       background-color: #111827 !important;
-       border: 1px solid #1F2937 !important;
-       color: #E5E7EB !important;
+       background-color: #F9FAFB !important;
+       border: 1px solid #E5E7EB !important;
+       color: #374151 !important;
        padding: 8px 10px !important; /* Adjust padding */
-       border-radius: 4px !important;
+       border-radius: 0.375rem !important;
      }
 
      /* Code block styling */
     .ce-code__textarea {
-       background-color: #0D1117 !important; /* Slightly darker common code bg */
-       color: #E5E7EB !important;
-       border: 1px solid #1F2937 !important;
-       font-family: monospace;
+       background-color: #F3F4F6 !important; /* Light gray for code background */
+       color: #374151 !important;
+       border: 1px solid #E5E7EB !important;
+       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
        font-size: 0.9em;
        line-height: 1.5;
-       border-radius: 4px;
+       border-radius: 0.375rem;
        padding: 10px !important;
      }
 
      /* List item styling */
      .cdx-list__item {
-       color: #E5E7EB !important; /* Use primary text color */
+       color: #374151 !important; /* Use primary text color */
        padding: 2px 0 !important; /* Adjust vertical spacing */
      }
 
@@ -202,7 +203,7 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
           line-height: 1.2 !important;
           padding: 0 !important; /* Reset padding if needed */
           font-weight: 600 !important; /* Make headers bolder */
-          color: #F3F4F6 !important; /* Ensure header text color */
+          color: #111827 !important; /* Ensure header text color */
       }
   `;
     document.head.appendChild(style);
@@ -233,7 +234,7 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
         onReady() {
           ref.current = editor;
         },
-        placeholder: "Body", 
+        placeholder: "Share your thoughts...", 
         inlineToolbar: true, 
         data: { blocks: [] },
         tools: {
@@ -242,7 +243,7 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
             class: Header,
             inlineToolbar: true, 
             config: {
-              placeholder: "Header",
+              placeholder: "Heading",
               levels: [2, 3, 4],
               defaultLevel: 2,
             },
@@ -283,9 +284,7 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
             inlineToolbar: true, 
           },
           embed: Embed,
-
         },
-
       });
     }
   }, [isMounted]); 
@@ -343,84 +342,150 @@ export const Editor: FC<EditorProps> = ({ subredditId }) => {
   }
 
   return (
-    // Main container with updated dark background and padding
-    <div className="w-full max-w-7xl mx-auto p-4 rounded-lg my-6">
-      <h1 className="text-xl font-semibold text-[#B7CAD4] mb-4">Create post</h1>{" "}
+    // Main container with updated light background and padding
+    <div className="w-full max-w-4xl mx-auto bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
+      <div className="p-6">
+        <h1 className="text-xl font-semibold text-gray-900 mb-6">Create post</h1>{" "}
 
-      {/* Added Title */}
-      {/* Form wrapping the editor elements */}
-      <form id="subreddit-post-form" onSubmit={handleSubmit(onSubmit)}>
+        {/* Form wrapping the editor elements */}
+        <form id="subreddit-post-form" onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
-        {/* Community Selector Placeholder - Add your actual component here */}
-        <div className="mb-4">
-          <button
-            type="button"
-            className="flex items-center gap-2 rounded border border-zinc-700 bg-zinc-800 px-3 py-1.5 text-sm text-zinc-100 hover:border-zinc-600"
-          >
-            <span className="text-zinc-400">r/</span>
-            Select a community{" "}
-            {/* Replace with actual subreddit name/selector */}
-            
-          </button>
-        </div>
+          {/* Community Selector */}
+          <div className="mb-4">
+            <button
+              type="button"
+              className="flex items-center gap-2 rounded-md border border-gray-300 bg-white px-3 py-1.5 text-sm text-gray-700 hover:bg-gray-50"
+            >
+              <span className="text-gray-500">r/</span>
+              Select a community{" "}
+            </button>
+          </div>
 
+          {/* Formatting tools */}
+          <div className="flex gap-1 border-b border-gray-200 pb-2">
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+            >
+              <Type className="h-4 w-4 mr-1.5" />
+              Text
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+            >
+              <Image className="h-4 w-4 mr-1.5" />
+              Image
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+            >
+              <Link2 className="h-4 w-4 mr-1.5" />
+              Link
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+            >
+              <ListOrdered className="h-4 w-4 mr-1.5" />
+              List
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+            >
+              <Code className="h-4 w-4 mr-1.5" />
+              Code
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+            >
+              <Table className="h-4 w-4 mr-1.5" />
+              Table
+            </Button>
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded-md"
+            >
+              <FilePlus2 className="h-4 w-4 mr-1.5" />
+              More
+            </Button>
+          </div>
 
-        {/* Title Input */}
-        <div className="relative mb-4">
-          <TextareaAutosize
-            ref={(e) => {
-              titleRef(e); 
-              // @ts-ignore Assign to local ref
-              _titleRef.current = e;
-            }}
-            {...rest} 
-            placeholder="Title*"
-            className="w-full resize-none appearance-none overflow-hidden bg-[#0b0d0f] border border-zinc-700 rounded px-3 py-2 text-sm font-normal focus:outline-none focus:border-zinc-500 text-zinc-100 placeholder-zinc-500" // Updated styling
-            maxLength={300} // 
+          {/* Title Input */}
+          <div className="relative">
+            <TextareaAutosize
+              ref={(e) => {
+                titleRef(e); 
+                // @ts-ignore Assign to local ref
+                _titleRef.current = e;
+              }}
+              {...rest} 
+              placeholder="Title"
+              onChange={(e) => setTitleLength(e.target.value.length)}
+              className="w-full resize-none appearance-none overflow-hidden bg-gray-50 border border-gray-200 rounded-md px-3 py-3 text-base font-medium focus:outline-none focus:border-blue-300 focus:ring focus:ring-blue-100 focus:ring-opacity-50 text-gray-900 placeholder-gray-400" 
+              maxLength={300} 
+            />
+
+            {/* Character counter */}
+            <span className="absolute bottom-2 right-2 text-xs text-gray-400">
+              {titleLength}/300
+            </span>
+          </div>
+
+          {/* Tags button */}
+          <div>
+            <button
+              type="button"
+              className="text-xs font-medium text-gray-600 border border-gray-300 rounded-full px-3 py-1 hover:bg-gray-50"
+            >
+              Add tags
+            </button>
+          </div>
+
+          {/* EditorJS Container */}
+          <div
+            id="editor"
+            className="min-h-[200px] rounded-md"
           />
 
-          {/* Character counter (visual placeholder) */}
-          <span className="absolute bottom-2 right-2 text-xs text-zinc-500">
-            {/* Add state logic here to update count */} 0/300
-          </span>
-        </div>
-
-        {/* "Add tags" button placeholder */}
-        <div className="mb-4">
-          <button
-            type="button"
-            className="text-xs font-semibold text-zinc-400 border border-dashed border-zinc-600 rounded-full px-3 py-1 hover:border-zinc-500 hover:text-zinc-300"
-          >
-            Add tags
-          </button>
-        </div>
-
-        {/* EditorJS Container - Updated background color */}
-        <div
-          id="editor"
-          className="bg-[#0b0d0f] max-w-none"
-        />
-        {/* The 'prose' classes help with basic typography styling inside editor, adjust as needed */}
-
-        {/* Action Buttons Container */}
-        <div className="flex justify-end gap-3 mt-6 pt-4 border-t border-zinc-800">
-          <button
-            type="button" // Change to submit if implementing save draft
-            // Add onClick handler for saving draft logic
-            disabled={isPosting} // Disable while posting
-            className="px-4 py-1.5 rounded-full text-sm font-semibold bg-zinc-700 text-zinc-100 hover:bg-zinc-600 disabled:opacity-50"
-          >
-            Save Draft
-          </button>
-          <button
-            type="submit"
-            disabled={isPosting} // Disable while posting
-            className="px-4 py-1.5 rounded-full text-sm font-semibold bg-zinc-100 text-zinc-900 hover:bg-zinc-300 disabled:opacity-50 disabled:cursor-not-allowed" // Primary post button style
-          >
-            {isPosting ? "Posting..." : "Post"}
-          </button>
-        </div>
-      </form>
+          {/* Action Buttons Container */}
+          <div className="flex justify-end gap-3 pt-4 border-t border-gray-200">
+            <Button
+              type="button"
+              disabled={isPosting}
+              variant="outline"
+              className="text-gray-700"
+            >
+              Save Draft
+            </Button>
+            <Button
+              type="submit"
+              disabled={isPosting}
+              variant="primary"
+              isLoading={isPosting}
+            >
+              {isPosting ? "Posting..." : "Publish Post"}
+            </Button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

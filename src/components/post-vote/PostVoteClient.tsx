@@ -16,17 +16,22 @@ interface PostVoteClientProps {
   postId: string
   initialVotesAmt: number
   initialVote?: VoteType | null
+  vertical?: boolean
+  compact?: boolean
 }
 
 const PostVoteClient = ({
   postId,
   initialVotesAmt,
   initialVote,
+  vertical = false,
+  compact = false,
 }: PostVoteClientProps) => {
   const { loginToast } = useCustomToast()
   const [votesAmt, setVotesAmt] = useState<number>(initialVotesAmt)
   const [currentVote, setCurrentVote] = useState(initialVote)
   const prevVote = usePrevious(currentVote)
+  const [isVoting, setIsVoting] = useState(false)
 
   // ensure sync with server
   useEffect(() => {
@@ -35,6 +40,7 @@ const PostVoteClient = ({
 
   const { mutate: vote } = useMutation({
     mutationFn: async (type: VoteType) => {
+      setIsVoting(true)
       const payload: PostVoteRequest = {
         voteType: type,
         postId: postId,
@@ -48,6 +54,7 @@ const PostVoteClient = ({
 
       // reset current vote
       setCurrentVote(prevVote)
+      setIsVoting(false)
 
       if (err instanceof AxiosError) {
         if (err.response?.status === 401) {
@@ -75,42 +82,81 @@ const PostVoteClient = ({
           setVotesAmt((prev) => prev - (currentVote ? 2 : 1))
       }
     },
+    onSuccess: () => {
+      setIsVoting(false)
+    },
   })
 
+  // Different styles and layouts based on orientation and size
+  const getButtonSize = () => compact ? 'xs' : 'sm'
+  const getIconSize = () => compact ? 'h-4 w-4' : 'h-5 w-5'
+  const getContainerClass = () => {
+    if (vertical) {
+      return 'flex flex-col items-center gap-1'
+    }
+    return 'flex items-center gap-2 px-1'
+  }
+
   return (
-    <div className='flex items-center h-7 gap-2 px-1'>
+    <div className={getContainerClass()}>
       {/* upvote */}
       <Button
-        onClick={() => vote('UP')}
-        size='sm'
+        onClick={() => !isVoting && vote('UP')}
+        size={getButtonSize()}
         variant='ghost'
         aria-label='upvote'
-        className='focus:outline-none active:outline-none rounded-full hover:bg-slate-400 h-7'>
+        disabled={isVoting}
+        className={cn(
+          'p-0 h-auto flex items-center justify-center rounded-full hover:bg-gray-100',
+          vertical ? 'h-8 w-8' : 'h-8 w-8',
+          compact ? 'h-6 w-6' : '',
+          {
+            'bg-orange-50': currentVote === 'UP',
+          }
+        )}>
         <ArrowBigUp
-          className={cn('h-6 w-6 font- text-[#b7c5da] hover:text-[#556883]', {
-            'text-upvote fill-upvote': currentVote === 'UP',
+          className={cn(getIconSize(), 'text-gray-400 hover:text-gray-600', {
+            'text-orange-500 fill-orange-500': currentVote === 'UP',
           })}
-          style={{ color: currentVote === 'UP' ? '#FF4500' : 'zinc-100' }}
         />
       </Button>
 
       {/* score */}
-      <p className='text-center font-medium text-xs text-primary h-7 flex items-center'>
-        {votesAmt}
+      <p 
+        className={cn(
+          'font-medium text-xs flex items-center justify-center', 
+          vertical ? 'text-center py-0.5' : '',
+          compact ? 'text-xs' : 'text-xs',
+          {
+            'text-orange-500 font-normal': currentVote === 'UP',
+            'text-indigo-500 font-normal': currentVote === 'DOWN',
+            'text-gray-700': !currentVote,
+          }
+        )}>
+        {votesAmt === 0 ? 'Vote' : Math.abs(votesAmt) > 999 
+          ? `${(Math.abs(votesAmt) / 1000).toFixed(1)}k` 
+          : votesAmt}
       </p>
 
       {/* downvote */}
       <Button
-        onClick={() => vote('DOWN')}
-        size='sm'
+        onClick={() => !isVoting && vote('DOWN')}
+        size={getButtonSize()}
         variant='ghost'
         aria-label='downvote'
-        className='focus:outline-none active:outline-none rounded-full hover:bg-slate-400 h-7'>
+        disabled={isVoting}
+        className={cn(
+          'p-0 h-auto flex items-center justify-center rounded-full hover:bg-gray-100',
+          vertical ? 'h-8 w-8' : 'h-8 w-8',
+          compact ? 'h-6 w-6' : '',
+          {
+            'bg-indigo-50': currentVote === 'DOWN',
+          }
+        )}>
         <ArrowBigDown
-          className={cn('h-6 w-6 text-[#b7c5da] hover:text-[#556883]', {
-            'text-downvote fill-downvote': currentVote === 'DOWN',
+          className={cn(getIconSize(), 'text-gray-400 hover:text-gray-600', {
+            'text-indigo-500 fill-indigo-500': currentVote === 'DOWN',
           })}
-          style={{ color: currentVote === 'DOWN' ? '#997ce5' : 'zinc-100' }}
         />
       </Button>
     </div>

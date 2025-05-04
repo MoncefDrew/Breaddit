@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/Button'
 import { useCustomToast } from '@/hooks/use-custom-toast'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Bell, Check, LogOut } from 'lucide-react'
 
 interface JoinButtonProps {
   subredditId: string
@@ -28,8 +28,6 @@ const JoinButton = ({ subredditId, size = 'sm' }: JoinButtonProps) => {
   const isJoined = data?.isJoined
   const isCreator = data?.isCreator
   
-  
-
   const { mutate: handleJoin, isLoading: isUpdating } = useMutation({
     mutationFn: async () => {
       if (isJoined) {
@@ -52,39 +50,71 @@ const JoinButton = ({ subredditId, size = 'sm' }: JoinButtonProps) => {
     },
   })
 
-  const buttonClasses = size === 'default' 
-    ? 'px-4  text-sm font-medium rounded-full'
-    : 'text-xs font-medium px-4 py-0.5 h-6 rounded-full'
+  const getButtonText = () => {
+    if (isJoined) return 'Joined'
+    return 'Join'
+  }
+
+  const getButtonIcon = () => {
+    if (isJoined) return <Check className="h-3.5 w-3.5 mr-1" />
+    return <Bell className="h-3.5 w-3.5 mr-1" />
+  }
 
   if (isCheckingStatus) {
     return (
       <Button
-        className={`${buttonClasses} bg-transparent`}
+        className="text-xs font-medium px-3 py-1 h-7 rounded-full bg-gray-100 text-gray-500"
         variant="ghost"
+        size="sm"
         disabled
       >
-        <Loader2 className={`${size === 'default' ? 'h-5 w-5' : 'h-4 w-4'} animate-spin`} />
+        <Loader2 className="h-3.5 w-3.5 animate-spin" />
       </Button>
     )
   }
 
   return (
-    <Button
-      onClick={() => handleJoin()}
-      className={`${buttonClasses} ${
-        isJoined
-          ? 'text-muted hover:bg-zinc-800 border border-zinc-700'
-          : 'bg-[#0969DA] hover:bg-[#1f6feb] text-white'
-      }`}
-      variant="ghost"
-      disabled={isUpdating}
-    >
-      {isUpdating ? (
-        <Loader2 className={`${size === 'default' ? 'h-5 w-5' : 'h-4 w-4'} animate-spin`} />
-      ) : (
-        isJoined ? 'Joined' : 'Join'
+    <div className="relative group">
+      <Button
+        onClick={() => handleJoin()}
+        className={`text-xs font-medium px-3 py-1 h-7 rounded-full ${
+          isJoined
+            ? 'bg-gray-100 text-gray-800 border border-gray-300 group-hover:hidden'
+            : 'bg-blue-500 hover:bg-blue-600 text-white'
+        }`}
+        variant={isJoined ? "outline" : "default"}
+        size="sm"
+        disabled={isUpdating || isCreator}
+      >
+        {isUpdating ? (
+          <Loader2 className="h-3.5 w-3.5 animate-spin" />
+        ) : (
+          <>
+            {getButtonIcon()}
+            {getButtonText()}
+          </>
+        )}
+      </Button>
+      
+      {isJoined && !isCreator && (
+        <Button
+          onClick={() => handleJoin()}
+          className="hidden group-hover:flex text-xs font-medium px-3 py-1 h-7 rounded-full bg-gray-100 text-red-600 border border-gray-300"
+          variant="outline"
+          size="sm"
+          disabled={isUpdating}
+        >
+          {isUpdating ? (
+            <Loader2 className="h-3.5 w-3.5 animate-spin" />
+          ) : (
+            <>
+              <LogOut className="h-3.5 w-3.5 mr-1" />
+              Leave
+            </>
+          )}
+        </Button>
       )}
-    </Button>
+    </div>
   )
 }
 

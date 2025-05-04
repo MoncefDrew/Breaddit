@@ -21,14 +21,23 @@ const ProfileBio = ({
 }: ProfileBioProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const [bioText, setBioText] = useState(bio || '');
+  const [charCount, setCharCount] = useState(bioText.length);
+  const MAX_CHARS = 300;
   const { toast } = useToast();
   
   // Update local state when prop changes
   useEffect(() => {
     setBioText(bio || '');
+    setCharCount((bio || '').length);
   }, [bio]);
 
- 
+  const handleBioChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const text = e.target.value;
+    if (text.length <= MAX_CHARS) {
+      setBioText(text);
+      setCharCount(text.length);
+    }
+  };
 
   const updateBio = async () => {
     try {
@@ -49,6 +58,7 @@ const ProfileBio = ({
           toast({
             title: 'Bio updated',
             description: 'Your bio has been updated successfully.',
+            variant: 'default'
           })
         }
       } else {
@@ -65,56 +75,74 @@ const ProfileBio = ({
 
   const cancelEdit = () => {
     setBioText(bio || '');
+    setCharCount((bio || '').length);
     setIsEditing(false);
   };
 
   return (
-    <div className="p-4 border-b border-[#343536]">
+    <div className="p-4 border-b border-gray-200">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="text-sm font-medium text-[#D7DADC]">Bio</h3>
+        <h3 className="text-sm font-medium text-gray-700">Bio</h3>
         {isOwnProfile && !isEditing && (
           <Button
             onClick={() => setIsEditing(true)}
             variant="ghost"
             size="sm"
-            className="h-6 w-6 p-0 rounded-full hover:bg-[#272729]"
+            className="h-7 w-7 p-0 rounded-full hover:bg-gray-100 text-gray-500"
           >
-            <Pencil className="h-4 w-4 text-white" />
+            <Pencil className="h-4 w-4" />
           </Button>
         )}
       </div>
       
       {isEditing ? (
         <div className="mt-2">
-          <textarea
-            value={bioText}
-            onChange={(e) => setBioText(e.target.value)}
-            className="w-full h-24 p-3 text-sm text-[#D7DADC] bg-[#1A1A1B] border border-[#343536] rounded-md focus:outline-none focus:ring-1 focus:ring-[#D7DADC] resize-none"
-            placeholder="Write something about yourself..."
-          />
-          <div className="flex justify-end mt-2 gap-2">
+          <div className="relative">
+            <textarea
+              value={bioText}
+              onChange={handleBioChange}
+              className="w-full h-28 p-3 text-sm text-gray-700 bg-white border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+              placeholder="Write something about yourself..."
+            />
+            <div className="absolute bottom-2 right-2 text-xs text-gray-500 bg-white px-1.5 py-0.5 rounded-full border border-gray-200">
+              {charCount}/{MAX_CHARS}
+            </div>
+          </div>
+          <div className="flex justify-end mt-3 gap-2">
             <Button
               onClick={cancelEdit}
-              variant="ghost"
+              variant="outline"
               size="sm"
-              className="h-8 w-8 p-0 rounded-full bg-[#272729] hover:bg-[#343536]"
+              className="h-8 px-3 py-1 rounded-md text-sm border-gray-300 text-gray-700 hover:bg-gray-50"
             >
-              <X className="h-4 w-4 text-red-500" />
+              <X className="h-3.5 w-3.5 mr-1.5" />
+              Cancel
             </Button>
             <Button
               onClick={updateBio}
-              variant="ghost"
+              variant="primary"
               size="sm"
-              className="h-8 w-8 p-0 rounded-full bg-[#272729] hover:bg-[#343536]"
+              className="h-8 px-3 py-1 rounded-md text-sm"
             >
-              <Check className="h-4 w-4 text-green-300" />
+              <Check className="h-3.5 w-3.5 mr-1.5" />
+              Save
             </Button>
           </div>
         </div>
       ) : (
-        <p className="text-sm text-[#D7DADC] whitespace-pre-wrap">
-          {bioText || 'No bio yet.'}
-        </p>
+        <div className="bg-gray-50 p-4 rounded-md">
+          {bioText ? (
+            <p className="text-sm text-gray-700 whitespace-pre-wrap leading-relaxed">
+              {bioText}
+            </p>
+          ) : (
+            <p className="text-sm text-gray-500 italic">
+              {isOwnProfile 
+                ? "Add a bio to tell the community about yourself." 
+                : "This user hasn't written a bio yet."}
+            </p>
+          )}
+        </div>
       )}
     </div>
   );

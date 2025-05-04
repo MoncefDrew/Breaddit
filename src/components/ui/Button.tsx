@@ -4,31 +4,33 @@ import { Loader2 } from 'lucide-react'
 import * as React from 'react'
 
 const buttonVariants = cva(
-  'active:scale-95 inline-flex items-center justify-center rounded-md text-sm font-medium transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none border border-transparent active:border-white active:border-2 active:translate-y-0.5',
+  'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-offset-1 disabled:pointer-events-none disabled:opacity-50 border',
   {
     variants: {
       variant: {
         default:
-          'bg-zinc-900 text-zinc-100 hover:bg-zinc-800 focus:ring-zinc-600',
+          'border-gray-300 bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-400 focus-visible:ring-gray-400',
+        primary:
+          'border-blue-600 bg-blue-600 text-white hover:bg-blue-700 hover:border-blue-700 focus-visible:ring-blue-600',
         destructive: 
-          'bg-red-500 text-white hover:bg-red-600 focus:ring-red-500',
+          'border-red-500 bg-white text-red-500 hover:bg-red-50 hover:border-red-600 focus-visible:ring-red-500',
         outline:
-          'bg-zinc-100 text-zinc-900 hover:bg-zinc-200 outline outline-1 outline-zinc-300 focus:ring-zinc-400',
+          'border-gray-300 bg-transparent text-gray-700 hover:bg-gray-50 hover:border-gray-400 focus-visible:ring-gray-400',
         subtle:
-          'hover:bg-zinc-200 bg-zinc-100 text-zinc-900 focus:ring-zinc-400',
+          'border-transparent bg-gray-100 text-gray-700 hover:bg-gray-200 focus-visible:ring-gray-400',
         ghost:
-          'bg-transparent hover:bg-zinc-100 text-zinc-800 data-[state=open]:bg-transparent data-[state=open]:bg-transparent focus:ring-zinc-400',
+          'border-transparent bg-transparent text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus-visible:ring-gray-400',
         link: 
-          'bg-transparent underline-offset-4 hover:underline text-slate-900 dark:text-slate-100 hover:bg-transparent focus:ring-slate-500',
+          'border-transparent bg-transparent text-blue-600 hover:text-blue-700 hover:underline underline-offset-4 hover:bg-transparent focus-visible:ring-blue-600',
         reddit:
-          'bg-[#FF4500] text-white hover:bg-[#FF5414] focus:ring-[#FF4500]',
+          'border-orange-500 bg-orange-500 text-white hover:bg-orange-600 hover:border-orange-600 focus-visible:ring-orange-500',
       },
       size: {
-        md:'h-20 rounded-full',
-        default: 'h-10 py-2 px-4',
-        sm: 'h-9 rounded-md',
-        xs: 'h-8 px-1.5 rounded-sm',
-        lg: 'h-11 px-8 rounded-md',
+        md: 'h-20 rounded-full px-6',
+        default: 'h-8 py-1 px-3 text-xs',
+        sm: 'h-7 py-0.5 px-2.5 text-xs',
+        xs: 'h-6 px-2 text-xs rounded-md',
+        lg: 'h-10 py-2 px-5 text-base',
       },
     },
     defaultVariants: {
@@ -50,9 +52,9 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <button
         className={cn(buttonVariants({ variant, size, className }))}
         ref={ref}
-        disabled={isLoading}
+        disabled={isLoading || props.disabled}
         {...props}>
-        {isLoading ? <Loader2 className='mr-2 h-4 w-4 animate-spin' /> : null}
+        {isLoading ? <Loader2 className='mr-1.5 h-3 w-3 animate-spin' /> : null}
         {children}
       </button>
     )

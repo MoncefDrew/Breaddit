@@ -4,29 +4,34 @@ import UserAuthForm from "./UserAuthForm";
 
 const SignUp = () => {
   return (
-    <div className="container mx-auto flex w-full flex-col justify-center items-center space-y-2 ">
-      <div className="flex flex-col space-y-2 text-center bg-surface py-6 gap-4 rounded-md ">
-        <Icons.logo className="mx-auto h-8 w-8 text-reddit" />
-        <h1 className="text-2xl font-semibold tracking-tight text-primary">
-          Sign Up
-        </h1>
-        <p className="text-sm max-w-xs mx-auto text-muted">
-          By continuing, you are setting up a Breaddit account and agree to our
-          User Agreement and Privacy Policy
-        </p>
+    <div className="container mx-auto flex w-full flex-col justify-center items-center">
+      <div className="flex flex-col space-y-5 text-center bg-white rounded-lg w-full max-w-md">
+        <Icons.logo className="mx-auto h-10 w-10 text-orange-500 mt-6" />
+        
+        <div className="space-y-2">
+          <h1 className="text-xl font-semibold tracking-tight text-gray-800">
+            Create your account
+          </h1>
+          <p className="text-xs text-gray-500 max-w-sm mx-auto px-6">
+            By continuing, you are setting up a Breaddit account and agree to 
+            our <Link href="#" className="text-gray-600 hover:underline">User Agreement</Link> and <Link href="#" className="text-gray-600 hover:underline">Privacy Policy</Link>
+          </p>
+        </div>
 
         {/* SignUp form */}
         <UserAuthForm />
 
-        <p className="px-8 text-center text-sm text-muted">
-          Already a Bredditor?{" "}
-          <Link
-            href="/sign-in"
-            className="text-link   hover:text-link-hover text-sm underline underline-offset-4"
-          >
-            Sign in
-          </Link>
-        </p>
+        <div className="pb-6">
+          <p className="text-center text-xs text-gray-500">
+            Already a Bredditor?{" "}
+            <Link
+              href="/sign-in"
+              className="text-orange-500 hover:text-orange-600 font-medium"
+            >
+              Sign in
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );

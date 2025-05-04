@@ -15,8 +15,8 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
   const pathname = usePathname();
 
   return (
-    <div className="rounded-md bg-surface mb-4">
-      <div className="px-6 py-4 flex items-center gap-4">
+    <div className="rounded-md bg-white border border-gray-300">
+      <div className="flex items-center p-2 gap-2">
         {/* Avatar */}
         <UserAvatar
           user={{
@@ -26,10 +26,10 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
           className="h-8 w-8"
         />
 
-        {/* Input Box (Read-only) */}
+        {/* Input Box */}
         <div
           onClick={() => router.push(pathname + "/submit")}
-          className="flex-1 text-sm bg-surface-dark border border-custom px-4 py-2 rounded-full text-primary cursor-pointer hover:bg-surface-dark-hover transition"
+          className="flex-1 text-sm bg-gray-100 border border-gray-200 px-4 py-2 rounded-full text-gray-500 cursor-pointer hover:bg-gray-200 transition"
         >
           Create a post
         </div>
@@ -37,17 +37,19 @@ const MiniCreatePost: FC<MiniCreatePostProps> = ({ session }) => {
         {/* Image Button */}
         <button
           onClick={() => router.push(pathname + "/submit")}
-          className="p-2 rounded-full hover:bg-[#343536] transition"
+          className="p-2 rounded-full hover:bg-gray-100 transition text-gray-500"
+          aria-label="Create image post"
         >
-          <ImageIcon className="h-5 w-5 text-muted hover:text-primary" />
+          <ImageIcon className="h-5 w-5" />
         </button>
 
         {/* Link Button */}
         <button
           onClick={() => router.push(pathname + "/submit")}
-          className="p-2 rounded-full hover:bg-[#343536] transition"
+          className="p-2 rounded-full hover:bg-gray-100 transition text-gray-500"
+          aria-label="Create link post"
         >
-          <Link2 className="h-5 w-5 text-muted hover:text-primary" />
+          <Link2 className="h-5 w-5" />
         </button>
       </div>
     </div>

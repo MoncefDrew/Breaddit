@@ -3,12 +3,12 @@
 import { useIntersection } from '@mantine/hooks'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import axios from "axios"
-import { Loader2 } from "lucide-react"
-import { Button } from "../ui/Button"
+import { Loader2, MessageSquare } from "lucide-react"
 import { INFINITE_SCROLL_PAGINATION_RESULTS } from '@/config'
 import { FC, useEffect, useRef } from 'react'
 import { useSession } from 'next-auth/react'
 import UserCommentItem from './UserCommentItem'
+import Link from 'next/link'
 
 interface CommentVote {
   type: 'UP' | 'DOWN'
@@ -55,9 +55,13 @@ const UserCommentFeed: FC<UserCommentFeedProps> = ({ username, initialComments =
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <h3 className="text-lg font-medium text-[#D7DADC] mb-2">
+          <MessageSquare className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-700 mb-2">
             u/{username} hasn&apos;t commented yet
           </h3>
+          <p className="text-sm text-gray-500 max-w-md mx-auto">
+            When this user comments on posts, their comments will appear here.
+          </p>
         </div>
       </div>
     )
@@ -99,8 +103,8 @@ const UserCommentFeed: FC<UserCommentFeedProps> = ({ username, initialComments =
       })}
 
       {isFetchingNextPage && (
-        <div className='flex justify-center'>
-          <Loader2 className='w-6 h-6 text-zinc-500 animate-spin' />
+        <div className='flex justify-center p-4'>
+          <Loader2 className='w-6 h-6 text-gray-500 animate-spin' />
         </div>
       )}
     </div>

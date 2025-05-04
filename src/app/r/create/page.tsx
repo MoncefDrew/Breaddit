@@ -57,31 +57,31 @@ export default function Page() {
   });
 
   return (
-    <div className="container flex items-center h-full max-w-3xl mx-auto py-10">
-      <div className="relative w-full h-fit rounded-lg space-y-6">
+    <div className="container flex items-center h-full max-w-2xl mx-auto py-10">
+      <div className="w-full h-fit bg-white rounded-lg border border-gray-200 shadow-sm">
         {/* Header */}
-        <div className="px-6 py-4 rounded-t-lg">
-          <h1 className="text-xl font-semibold text-primary">Create a Community</h1>
+        <div className="px-6 py-4 border-b border-gray-200">
+          <h1 className="text-xl font-semibold text-gray-800">Create a Community</h1>
         </div>
 
-        <div className="px-6 py-4 space-y-6">
+        <div className="px-6 py-5 space-y-6">
           {/* Guidelines Section */}
-          <div className="bg-surface-dark rounded-md p-4">
+          <div className="bg-gray-50 rounded-md p-4 border border-gray-200">
             <div className="flex items-start gap-3">
-              <Info className="h-5 w-5 text-link mt-0.5" />
+              <Info className="h-5 w-5 text-gray-500 mt-0.5" />
               <div>
-                <h2 className="text-sm font-medium text-primary mb-2">Community Guidelines</h2>
-                <ul className="text-sm space-y-2 text-muted">
+                <h2 className="text-sm font-medium text-gray-800 mb-2">Community Guidelines</h2>
+                <ul className="text-sm space-y-2 text-gray-600">
                   <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-success" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-gray-400" />
                     Names must be between 3-21 characters
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-success" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-gray-400" />
                     Only letters, numbers, and underscores allowed
                   </li>
                   <li className="flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-success" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-gray-400" />
                     Cannot be changed once created
                   </li>
                 </ul>
@@ -92,23 +92,23 @@ export default function Page() {
           {/* Name Input Section */}
           <div>
             <div className="flex items-center gap-2 mb-2">
-              <h2 className="text-lg font-medium text-primary">Community Name</h2>
+              <h2 className="text-sm font-medium text-gray-700">Community Name</h2>
               {input.length > 0 && (input.length < 3 || input.length > 21) && (
-                <div className="flex items-center gap-1 text-error text-sm">
-                  <AlertCircle className="h-4 w-4" />
+                <div className="flex items-center gap-1 text-red-500 text-xs">
+                  <AlertCircle className="h-3.5 w-3.5" />
                   <span>Must be between 3-21 characters</span>
                 </div>
               )}
             </div>
 
             <div className="relative">
-              <p className="absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-primary font-medium">
+              <p className="absolute text-sm left-0 w-8 inset-y-0 grid place-items-center text-gray-600 font-medium">
                 r/
               </p>
               <Input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="pl-6 bg-surface-dark text-primary focus:ring-link focus:border-link focus:ring-1"
+                className="pl-6 bg-white border-gray-300 text-gray-800 focus:ring-orange-200 focus:border-orange-300 focus:ring-1"
                 placeholder="community-name"
               />
             </div>
@@ -116,22 +116,20 @@ export default function Page() {
         </div>
 
         {/* Actions */}
-        <div className="px-6 py-4 flex justify-end gap-4">
-          <Button 
-            variant="subtle" 
+        <div className="px-6 py-4 flex justify-end gap-4 border-t border-gray-200 bg-gray-50 rounded-b-lg">
+          <button 
             onClick={() => router.back()}
-            className="bg-surface-dark text-primary hover:bg-surface-dark-hover"
+            className="px-4 py-1.5 border border-gray-300 text-gray-700 text-xs rounded-md hover:bg-gray-50 transition-colors duration-150"
           >
             Cancel
-          </Button>
-          <Button
-            isLoading={isLoading}
-            disabled={input.length < 3 || input.length > 21}
+          </button>
+          <button
+            disabled={input.length < 3 || input.length > 21 || isLoading}
             onClick={() => createCommunity()}
-            className="bg-[#238636] hover:bg-[#2ea043] text-white disabled:bg-[#1f6c2e3a]"
+            className="px-4 py-1.5 border border-orange-300 text-orange-500 text-xs rounded-md hover:bg-orange-50 transition-colors duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Create Community
-          </Button>
+            {isLoading ? 'Creating...' : 'Create Community'}
+          </button>
         </div>
       </div>
     </div>

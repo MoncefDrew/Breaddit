@@ -34,7 +34,7 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
     <DropdownMenu>
       <DropdownMenuTrigger className="focus:outline-none">
         <UserAvatar
-          className="h-9 w-9 border-2 rounded-full border-zinc-500"
+          className="h-9 w-9 border-2 rounded-full border-gray-200"
           user={{
             name: user.name || null,
             image: user.image || null,
@@ -44,77 +44,77 @@ const UserAccountNav: FC<UserAccountNavProps> = ({ user }) => {
 
       <DropdownMenuPortal>
         <DropdownMenuContent
-          className="bg-[#13171a] border border-custom z-50"
+          className="bg-white border border-gray-200 shadow-md z-50"
           align="end"
           sideOffset={5}
         >
           <div className="flex items-center justify-start gap-2 p-2">
             <div className="flex flex-col space-y-1 leading-none">
               {user.name && (
-                <p className="font-medium text-primary">{user.name}</p>
+                <p className="font-medium text-gray-900">{user.name}</p>
               )}
               {user.email && (
-                <p className="w-[200px] truncate text-sm text-muted">
+                <p className="w-[200px] truncate text-sm text-gray-500">
                   {user.email}
                 </p>
               )}
             </div>
           </div>
 
-          <DropdownMenuSeparator className="bg-[#343536]" />
+          <DropdownMenuSeparator className="bg-gray-200" />
 
           <DropdownMenuItem
             asChild
-            className="focus:bg-surface-dark focus:text-primary"
+            className="focus:bg-gray-100 focus:text-gray-900"
           >
             <Link
               href={`/u/${user.username}`}
-              className="text-primary hover:text-white flex items-center gap-2"
+              className="text-gray-700 hover:text-gray-900 flex items-center gap-2"
             >
-              <User className="h-4 w-4 text-muted" />
+              <User className="h-4 w-4 text-gray-500" />
               My Profile
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem
             asChild
-            className="focus:bg-surface-dark focus:text-primary"
+            className="focus:bg-gray-100 focus:text-gray-900"
           >
-            <Link href="/" className="text-primary hover:text-white flex items-center gap-2">
-              <Home className="h-4 w-4 text-muted" />
+            <Link href="/" className="text-gray-700 hover:text-gray-900 flex items-center gap-2">
+              <Home className="h-4 w-4 text-gray-500" />
               Feed
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem
             asChild
-            className="focus:bg-surface-dark focus:text-primary"
+            className="focus:bg-gray-100 focus:text-gray-900"
           >
-            <Link href="/r/create" className="text-primary hover:text-white flex items-center gap-2">
-              <Plus className="h-4 w-4 text-muted" />
+            <Link href="/r/create" className="text-gray-700 hover:text-gray-900 flex items-center gap-2">
+              <Plus className="h-4 w-4 text-gray-500" />
               Create Community
             </Link>
           </DropdownMenuItem>
 
           <DropdownMenuItem
             asChild
-            className="focus:bg-surface-dark focus:text-primary"
+            className="focus:bg-gray-100 focus:text-gray-900"
           >
-            <Link href="/settings" className="text-primary hover:text-white flex items-center gap-2">
-              <Settings className="h-4 w-4 text-muted" />
+            <Link href="/settings" className="text-gray-700 hover:text-gray-900 flex items-center gap-2">
+              <Settings className="h-4 w-4 text-gray-500" />
               Settings
             </Link>
           </DropdownMenuItem>
 
-          <DropdownMenuSeparator className="bg-[#343536]" />
+          <DropdownMenuSeparator className="bg-gray-200" />
 
           <DropdownMenuItem
             onClick={() => {
               signOut({ callbackUrl: `${window.location.origin}/sign-in` });
             }}
-            className="cursor-pointer text-primary hover:text-white focus:bg-surface-dark focus:text-primary flex items-center gap-2"
+            className="cursor-pointer text-gray-700 hover:text-gray-900 focus:bg-gray-100 focus:text-gray-900 flex items-center gap-2"
           >
-            <LogOut className="h-4 w-4 text-muted" />
+            <LogOut className="h-4 w-4 text-gray-500" />
             Sign out
           </DropdownMenuItem>
         </DropdownMenuContent>

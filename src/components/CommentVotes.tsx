@@ -76,7 +76,7 @@ const CommentVotes: FC<CommentVotesProps> = ({
   })
 
   return (
-    <div className='flex gap-1'>
+    <div className='flex gap-1 items-center'>
       {/* upvote */}
       <Button
         onClick={() => vote('UP')}

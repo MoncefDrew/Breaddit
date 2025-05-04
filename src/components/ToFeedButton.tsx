@@ -15,9 +15,11 @@ const ToFeedButton = () => {
   return (
     <Link 
       href={subredditPath} 
-      className="inline-flex items-center text-sm font-medium text-primary  hover:bg-surface-dark transition-colors cursor-pointer
-            bg-surface  hover:bg-surface-dark-hover border border-custom rounded-full px-2 py-2  gap-2  w-fit" >
-      <ChevronLeft className="h-4 w-4 mr-1 text-primary" />
+      className="inline-flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 
+            transition-colors cursor-pointer bg-white border border-gray-200 rounded-md 
+            px-3 py-1.5 shadow-sm hover:bg-gray-50" >
+      <ChevronLeft className="h-4 w-4 mr-1" />
+      <span>Back</span>
     </Link>
   )
 }
