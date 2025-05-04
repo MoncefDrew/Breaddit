@@ -64,8 +64,12 @@ cd reddit-clone</code></pre>
   </ol>
 
   <h2>📸 Screenshots</h2>
-  <p><em>(Add screenshots here to showcase the UI and features)</em></p>
-  
+<img src="https://raw.githubusercontent.com/MoncefDrew/Breaddit/Master/public/Screenshot%20from%202025-05-04%2023-12-14.png" alt="Breaddit Screenshot" width="1200"/>
+<img src="https://github.com/MoncefDrew/Breaddit/blob/Master/public/Screenshot%20from%202025-05-04%2023-14-22.png" alt="Breaddit Screenshot" width="1200"/>
+<img src="https://github.com/MoncefDrew/Breaddit/blob/Master/public/Screenshot%20from%202025-05-04%2023-14-40.png" alt="Breaddit Screenshot" width="1200"/>
+<img src="https://github.com/MoncefDrew/Breaddit/blob/Master/public/Screenshot%20from%202025-05-04%2023-14-52.png" width="1200"/>
+<img src="https://github.com/MoncefDrew/Breaddit/blob/Master/public/Screenshot%20from%202025-05-04%2023-15-13.png" alt="Breaddit Screenshot" width="1200"/>
+
   ## 📚 Documentation
   👉 [Frontend Features Ready for Implementation](/frontend-features.md)
 
